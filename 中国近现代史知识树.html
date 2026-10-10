@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中国近现代史 · 知识树 & 分阶段精读</title>
+<style>
+:root{
+  --bg:#f6f1e7; --panel:#fffdf8; --ink:#2b2a28; --muted:#8a847a; --line:#e2d9c8; --supp:#b8860b;
+  --g-pol:#5b6ee1; --g-eco:#2f9e6b; --g-mil:#d9663d; --g-fro:#b0821f; --g-tho:#9b59b6; --g-cul:#2a9d8f;
+  --shadow:0 10px 30px rgba(60,50,30,.12);
+  --ncols:7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.serif{font-family:"Noto Serif SC","Songti SC",STSong,serif}
+.wrap{max-width:1460px;margin:0 auto;padding:22px 26px 90px}
+.muted{color:var(--muted)}
+
+header.top{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:14px}
+.title h1{margin:0;font-size:29px;letter-spacing:2px}
+.title .sub{color:var(--muted);font-size:13px;margin-top:4px;letter-spacing:1px}
+.spacer{flex:1}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 14px;box-shadow:var(--shadow)}
+.search input{border:0;outline:0;background:transparent;font-size:14px;width:176px;color:var(--ink)}
+.btn{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 15px;font-size:13.5px;color:var(--ink);box-shadow:var(--shadow);transition:.15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.seg button{cursor:pointer;border:0;background:transparent;border-radius:999px;padding:7px 16px;font-size:13.5px;color:var(--muted);transition:.15s}
+.seg button.on{background:var(--ink);color:#fff}
+.seg.mini button{padding:5px 14px;font-size:12.5px}
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 6px;font-size:12.5px;color:var(--muted)}
+.legend .k{display:flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+
+.tl-wrap{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.tl{display:grid;grid-template-columns:130px repeat(var(--ncols),minmax(0,1fr));align-items:center}
+.tl .lead{font-size:12px;color:var(--muted);letter-spacing:1px}
+.chip{justify-self:center;cursor:pointer;text-align:center;background:var(--bg);border:2px solid var(--ink);border-radius:999px;padding:6px 8px;min-width:70px;transition:.15s}
+.chip .cn{font-size:12.5px;font-weight:700;white-space:nowrap}
+.chip .yr{font-size:10px;color:var(--muted);white-space:nowrap}
+.chip:hover{transform:translateY(-2px);background:#fff}
+.chip.new{border-style:dashed;border-color:var(--supp)}
+
+.map{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:8px 10px 18px;overflow:hidden}
+.row{display:grid;grid-template-columns:190px repeat(var(--ncols),minmax(0,1fr));align-items:center}
+.row.head{padding:8px 0 12px;border-bottom:1px dashed var(--line);margin-bottom:6px}
+.row.head .tcell{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.25}
+.row.head .tcell b{display:block;font-size:12px;color:var(--ink)}
+.grp{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:16px 0 8px;padding:7px 12px;border-radius:10px;font-weight:700;letter-spacing:2px;font-size:14px}
+.grp .bar{width:6px;height:18px;border-radius:3px}
+.grp .gi{font-size:11.5px;color:var(--muted);font-weight:400;letter-spacing:.5px}
+.g-pol{background:rgba(91,110,225,.10);color:var(--g-pol)} .g-pol .bar{background:var(--g-pol)}
+.g-eco{background:rgba(47,158,107,.10);color:var(--g-eco)} .g-eco .bar{background:var(--g-eco)}
+.g-mil{background:rgba(217,102,61,.10);color:var(--g-mil)} .g-mil .bar{background:var(--g-mil)}
+.g-fro{background:rgba(176,130,31,.12);color:var(--g-fro)} .g-fro .bar{background:var(--g-fro)}
+.g-tho{background:rgba(155,89,182,.10);color:var(--g-tho)} .g-tho .bar{background:var(--g-tho)}
+.g-cul{background:rgba(42,157,143,.10);color:var(--g-cul)} .g-cul .bar{background:var(--g-cul)}
+.trow{position:relative;padding:5px 0;border-radius:8px}
+.trow .tlabel{font-size:13.5px;padding:6px 10px 6px 14px;color:var(--ink);font-weight:600;position:relative;z-index:2;border-radius:8px;line-height:1.25;cursor:pointer}
+.trow .tlabel small{display:block;font-weight:400;color:var(--muted);font-size:11px;margin-top:1px}
+.trow .tlabel:hover{background:var(--bg)}
+.trow::before{content:"";position:absolute;left:190px;right:6px;top:50%;height:2px;background:var(--line);opacity:.7;z-index:0}
+.ncell{display:flex;justify-content:center;align-items:center;position:relative;z-index:2;height:30px}
+.node{width:15px;height:15px;border-radius:50%;border:2px solid #fff;cursor:pointer;transition:.16s;box-shadow:0 0 0 1px rgba(0,0,0,.10)}
+.node.pol{background:var(--g-pol)} .node.eco{background:var(--g-eco)} .node.mil{background:var(--g-mil)}
+.node.fro{background:var(--g-fro)} .node.tho{background:var(--g-tho)} .node.cul{background:var(--g-cul)}
+.node:hover{transform:scale(1.55);box-shadow:0 0 0 4px rgba(0,0,0,.06)}
+.node.hl{box-shadow:0 0 0 5px rgba(43,42,40,.20)}
+.node.sel{transform:scale(1.6);box-shadow:0 0 0 5px rgba(43,42,40,.24)}
+.trow.hit .tlabel{background:#fff3c4}
+
+#readView{display:none}
+#readView.on{display:block}
+#treeView.off{display:none}
+.reader{display:grid;grid-template-columns:232px minmax(0,1fr);gap:24px;margin-top:22px;align-items:start}
+.toc{position:sticky;top:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:14px 12px;max-height:calc(100vh - 30px);overflow:auto}
+.toc-h{display:flex;align-items:center;justify-content:space-between;font-size:13px;letter-spacing:1px;color:var(--muted);margin:2px 4px 10px}
+.toc-h .prog{font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.toc .item{display:grid;grid-template-columns:20px 1fr;gap:6px;align-items:center;padding:8px;border-radius:9px;cursor:pointer;transition:.13s}
+.toc .item:hover{background:var(--bg)}
+.toc .item.active{background:var(--ink);color:#fff}
+.toc .item.active em{color:#cfc9bd}
+.toc .item .ck{width:17px;height:17px;border:1.5px solid var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:#fff}
+.toc .item.read .ck{background:#2f9e6b;border-color:#2f9e6b}
+.toc .item b{display:block;font-size:13.5px;font-weight:600;line-height:1.2}
+.toc .item em{display:block;font-style:normal;font-size:10.5px;color:var(--muted);margin-top:2px}
+.toc .item .newtag{font-size:9.5px;background:var(--supp);color:#fff;border-radius:4px;padding:0 4px;margin-left:5px;vertical-align:middle}
+.toc .allbtn{margin-top:10px;text-align:center;font-size:11.5px;color:var(--muted);cursor:pointer;border-top:1px dashed var(--line);padding-top:9px}
+.toc .allbtn:hover{color:var(--ink)}
+
+.main{min-width:0}
+.readbar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.readbar .rbi{font-size:12px;color:var(--muted)}
+.quizhint{display:none;margin:0 0 12px;padding:10px 14px;border:1px dashed var(--supp);border-radius:10px;background:#fffdf3;color:#8a6d3b;font-size:12.5px}
+.main.quiz .quizhint{display:block}
+.quizhint span{cursor:pointer;text-decoration:underline}
+.art{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:34px 46px 40px;max-width:940px}
+.art-head{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px;position:relative}
+.art-head .kicker{font-size:12.5px;letter-spacing:3px;color:var(--muted)}
+.art-title{margin:6px 0 4px;font-size:34px;letter-spacing:3px}
+.art-span{font-size:13.5px;color:var(--muted)}
+.art-note{margin-top:8px;font-size:12.5px;color:#8a6d3b;background:#fffdf3;border:1px dashed #e2cfa0;border-radius:8px;padding:6px 10px;display:inline-block}
+.ribbon{position:absolute;right:0;top:0;background:var(--supp);color:#fff;font-size:11px;letter-spacing:2px;border-radius:6px;padding:3px 10px}
+.lead-in{background:var(--bg);border:1px solid var(--line);border-left:4px solid #d9b66a;border-radius:10px;padding:16px 18px;font-size:15px;line-height:2.05;margin-bottom:8px}
+.blk{margin-top:22px}
+.blk-h{font-size:16px;letter-spacing:1px;margin:0 0 10px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.bigsec{margin-top:34px;border-radius:14px;padding:2px 22px 20px;border:1px solid var(--line)}
+.bigsec-h{display:flex;align-items:center;gap:12px;font-size:20px;letter-spacing:3px;margin:18px 0 6px}
+.bigsec-h .num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;font-family:var(--serif)}
+.bigsec.g-pol .num{background:var(--g-pol)} .bigsec.g-eco .num{background:var(--g-eco)} .bigsec.g-mil .num{background:var(--g-mil)}
+.bigsec.g-fro .num{background:var(--g-fro)} .bigsec.g-tho .num{background:var(--g-tho)} .bigsec.g-cul .num{background:var(--g-cul)}
+.bigsec.g-pol{background:rgba(91,110,225,.035)} .bigsec.g-eco{background:rgba(47,158,107,.04)}
+.bigsec.g-mil{background:rgba(217,102,61,.04)} .bigsec.g-fro{background:rgba(176,130,31,.05)}
+.bigsec.g-tho{background:rgba(155,89,182,.04)} .bigsec.g-cul{background:rgba(42,157,143,.04)}
+.topic{margin:18px 0 4px}
+.topic.empty .topic-h{color:#c6c0b3;cursor:default;pointer-events:none}
+.topic.empty .para{color:#cfc9bc;margin:2px 0 0;font-size:13px}
+.topic-h{font-size:15px;margin:0 0 2px;letter-spacing:.5px;color:#4a443a;cursor:pointer;display:inline-block;border-bottom:1px dashed transparent}
+.topic-h:hover{border-bottom-color:#c8b27a;color:#5b4a22}
+.topic-h small{font-weight:400;font-size:11px;color:var(--muted);margin-left:8px}
+.readnav{display:flex;align-items:center;gap:12px;margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.readnav .spacer{flex:1}
+.pill{cursor:pointer;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:9px 18px;font-size:13.5px}
+.pill:hover{background:#fff}
+.pill.done{background:#2f9e6b;color:#fff;border-color:#2f9e6b}
+
+/* supplements */
+.supp{margin:12px 0 4px;border:1px dashed var(--supp);border-radius:10px;background:#fffdf3;padding:10px 14px 12px}
+.supp-h{font-size:11px;letter-spacing:2px;color:var(--supp);margin-bottom:6px}
+.supp li{font-size:14px;line-height:1.85;padding:5px 0 5px 16px;position:relative;list-style:none;border-bottom:1px dotted #efe3c6}
+.supp ul{padding:0;margin:0}
+.supp li:last-child{border-bottom:0}
+.supp li::before{content:"补";position:absolute;left:0;top:7px;font-size:9px;color:#fff;background:var(--supp);border-radius:3px;padding:0 3px;line-height:14px}
+.supp b{color:#8a6d3b}
+
+/* quiz mode */
+.main.quiz .art .q-wrap{filter:blur(7px);cursor:pointer;user-select:none;position:relative;transition:filter .18s}
+.main.quiz .art .q-wrap::after{content:"点击核对 · 先自己回忆";position:absolute;right:10px;top:8px;font-size:11px;color:#b9a880}
+.main.quiz .art .q-wrap.revealed{filter:none;cursor:auto;user-select:auto}
+.main.quiz .art .q-wrap.revealed::after{display:none}
+
+.mask{position:fixed;inset:0;background:rgba(40,35,25,.42);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
+.mask.on{display:flex}
+.modal{background:var(--panel);border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.35);max-width:980px;width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.mhead{padding:20px 24px 14px;border-bottom:1px solid var(--line);position:relative}
+.mhead .kicker{font-size:12px;letter-spacing:2px;color:var(--muted)}
+.mhead h2{margin:4px 0 0;font-size:23px}
+.mhead .x{position:absolute;right:18px;top:16px;cursor:pointer;border:1px solid var(--line);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);background:var(--bg)}
+.mhead .x:hover{color:var(--ink)}
+.mbody{padding:8px 26px 30px;overflow:auto}
+.sec{color:#8a6d3b;font-size:13px;letter-spacing:1px;margin:20px 0 8px;border-left:3px solid #d9b66a;padding-left:8px}
+ul.bullets{list-style:none;padding:0;margin:8px 0}
+ul.bullets li{position:relative;padding:8px 0 8px 18px;line-height:1.85;font-size:14.5px;border-bottom:1px dashed var(--line)}
+ul.bullets li:last-child{border-bottom:0}
+ul.bullets li::before{content:"";position:absolute;left:2px;top:17px;width:6px;height:6px;border-radius:50%;background:#c8b27a}
+ul.bullets b{color:#5b4a22}
+.flow{font-size:13.5px;line-height:1.9;padding:5px 0 5px 22px;border-left:1px dotted var(--line);margin-left:4px}
+.para{font-size:14.5px;line-height:1.95;margin:10px 0}
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+.jump .j{cursor:pointer;font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--bg)}
+.jump .j:hover{background:#fff}
+.tl-item{border-left:3px solid var(--line);padding:2px 0 2px 16px;margin:14px 0}
+.tl-item .when{font-weight:700;font-size:14px}
+.tl-item .when .span{font-weight:400;color:var(--muted);font-size:12px;margin-left:6px}
+.gapcard{border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0;background:var(--bg)}
+.gapcard h4{margin:0 0 6px;font-size:15px}
+.lv{font-size:10.5px;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle;color:#fff}
+.lv.h{background:#c0392b}.lv.m{background:#d68910}.lv.l{background:#7f8c8d}
+.gapcard p{margin:4px 0 0;font-size:13.5px;line-height:1.8;color:#4a463f}
+.note{font-size:12.5px;color:var(--muted);line-height:1.8;margin-top:14px}
+.crow{display:flex;align-items:center;gap:10px;margin:9px 0}
+.crow label{width:96px;font-size:13px;color:var(--muted);text-align:right;flex:none}
+.crow input{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13.5px;background:var(--bg);outline:0}
+.crow input:focus{border-color:#2f9e6b;background:#fff}
+.cbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.cloudbox{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--bg);font-size:13px;line-height:1.8;margin:8px 0}
+.editbar{display:none;align-items:center;gap:10px;margin:0 0 12px;padding:10px 14px;border:1px dashed #2f9e6b;border-radius:10px;background:#f2fbf6;color:#2c7a55;font-size:12.5px;flex-wrap:wrap}
+.main.edit .editbar{display:flex}
+.main.edit .art{outline:2px dashed #2f9e6b;outline-offset:3px}
+.art-body[contenteditable="true"]{background:#fffefa}
+
+#lineageView{display:none;margin-top:22px}
+#lineageView.on{display:block}
+.lineage-head{background:linear-gradient(135deg,#fffdf8 0%,#f2ead9 100%);border:1px solid var(--line);border-radius:18px;padding:24px 28px;box-shadow:var(--shadow);margin-bottom:18px}
+.lineage-head .kicker{font-size:12px;letter-spacing:3px;color:var(--muted)}
+.lineage-head h2{margin:5px 0 8px;font-size:30px;letter-spacing:3px}
+.lineage-head p{margin:0;color:var(--muted);line-height:1.9;font-size:14px}
+.lineage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.lineage-card{position:relative;overflow:hidden;cursor:pointer;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px 24px;box-shadow:var(--shadow);transition:.18s;min-height:178px;font:inherit;color:var(--ink)}
+.lineage-card:hover{transform:translateY(-3px);border-color:#c9b88e;background:#fff}
+.lineage-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--accent)}
+.lineage-card .lc-kicker{font-size:11px;letter-spacing:2px;color:var(--muted)}
+.lineage-card h3{margin:7px 0 10px;font-size:19px;line-height:1.45;letter-spacing:.5px}
+.lineage-card p{margin:0;color:#5b554a;font-size:13.5px;line-height:1.75;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.lineage-card .lc-more{display:block;margin-top:14px;font-size:12.5px;color:#8b6b22;font-weight:700}
+@media(max-width:1080px){.lineage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.lineage-grid{grid-template-columns:1fr}.lineage-head{padding:18px}.lineage-head h2{font-size:26px}}
+@media (max-width:1080px){
+  .reader{grid-template-columns:1fr}
+  .toc{position:static;max-height:none}
+  .art{padding:22px 18px 28px}
+  .art-title{font-size:26px}
+  .tl,.row{grid-template-columns:110px repeat(var(--ncols),minmax(0,1fr))}
+  .trow::before{left:110px}
+  .node{width:11px;height:11px}
+  .trow .tlabel{font-size:10.5px;padding-left:5px}
+}
+@media (max-width:700px){.tl-wrap{overflow-x:auto}.tl{min-width:900px}}</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title">
+      <h1>中国近现代史</h1>
+      <div class="sub">知识树 · 分阶段精读 · 自测 ｜ 第一遍用「分阶段精读」，回想用「知识树」，检测用「自测」</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="tools">
+      <div class="seg" id="seg">
+        <button data-v="tree" class="on">知识树</button>
+        <button data-v="read">分阶段精读</button>
+        <button data-v="lineage">历史脉络</button>
+      </div>
+      <div class="search" id="searchBox">🔍<input id="q" placeholder="搜索考点，如 鸦片战争 / 国共合作 / 改革开放"></div>
+      <button class="btn" id="resetBtn">重置</button>
+      <button class="btn" id="cloudBtn">☁ 云同步</button>
+      <button class="btn primary" id="gapsBtn">⚠ 来源核对</button>
+    </div>
+  </header>
+
+  <div id="treeView">
+    <div class="legend">
+      <span class="k"><i class="dot" style="background:var(--g-pol)"></i>历史主线</span>
+      <span class="k"><i class="dot" style="background:var(--g-fro)"></i>政治与革命</span>
+      <span class="k"><i class="dot" style="background:var(--g-eco)"></i>经济与社会</span>
+      <span class="k"><i class="dot" style="background:var(--g-tho)"></i>思想与外交</span>
+      <span class="k"><i class="dot" style="background:var(--g-cul)"></i>史学与成就</span>
+      <span class="k" style="margin-left:auto">共 <b id="nCount">0</b> 个知识节点 ｜ 虚线节点为补充内容</span>
+    </div>
+    <div class="tl-wrap"><div class="tl" id="tl"></div></div>
+    <div class="map" id="map"></div>
+  </div>
+
+  <div id="readView">
+    <div class="reader">
+      <aside class="toc" id="toc"></aside>
+      <div class="main" id="main">
+        <div class="readbar">
+          <span class="rbi" id="rbPos"></span>
+          <div class="seg mini" id="modeSeg">
+            <button data-m="read" class="on">精读</button>
+            <button data-m="quiz">自测</button>
+          </div>
+          <span class="spacer"></span>
+          <span class="rbi" id="rbProg"></span>
+          <button class="btn" id="editBtn">✎ 编辑</button>
+        </div>
+        <div class="editbar" id="editBar">
+          <span id="editHint">编辑模式：正文可直接点击修改，改完点“保存本页”</span>
+          <b id="saveState" style="color:#c0392b"></b>
+          <span class="spacer"></span>
+          <span class="pill" id="saveBtn">保存本页</span>
+          <span class="pill" id="revertBtn">还原本页</span>
+          <span class="pill" id="exportBtn">导出修改版</span>
+        </div>
+        <div class="quizhint" id="quizhint">🧠 自测模式：先自己回忆，再点击灰色区域核对答案 ｜
+          <span id="expandAll">全部展开</span> · <span id="collapseAll">全部收起</span></div>
+        <article class="art" id="art"></article>
+      </div>
+    </div>
+  </div>
+  <div id="lineageView">
+    <div class="lineage-head">
+      <div class="kicker">总表 · 跨阶段总结</div>
+      <h2>历史脉络</h2>
+      <p>这里集中呈现总表最后一行“历史发展脉络”。九条主线各自跨越七个阶段，点开任意一条，就能先看连续变化，再看演变逻辑。</p>
+    </div>
+    <div class="lineage-grid" id="lineageGrid"></div>
+  </div>
+</div>
+
+<div class="mask" id="mask">
+  <div class="modal">
+    <div class="mhead">
+      <div class="kicker" id="mkicker"></div>
+      <h2 id="mtitle"></h2>
+      <div class="x" id="mx">×</div>
+    </div>
+    <div class="mbody" id="mbody"></div>
+  </div>
+</div>
+
+<div class="mask" id="cmask">
+  <div class="modal" style="max-width:600px">
+    <div class="mhead">
+      <div class="kicker">云端同步</div>
+      <h2>GitHub 同步设置</h2>
+      <div class="x" id="cx">×</div>
+    </div>
+    <div class="mbody">
+      <div class="cloudbox">
+        填一次即可，设置会存在你这台电脑的浏览器里。<b>Token 只保存在本地浏览器，绝不会写进网页</b>。
+      </div>
+      <div class="crow"><label>用户名</label><input id="cOwner" placeholder="你的 GitHub 用户名"></div>
+      <div class="crow"><label>仓库名</label><input id="cRepo" placeholder="gudai-history-tree"></div>
+      <div class="crow"><label>分支</label><input id="cBranch" placeholder="main"></div>
+      <div class="crow"><label>文件名</label><input id="cPath" placeholder="edits-modern.json"></div>
+      <div class="crow"><label>Token</label><input id="cToken" type="password" placeholder="github_pat_..."></div>
+      <div class="cbtns">
+        <button class="pill" id="cSave">保存设置</button>
+        <button class="pill" id="cPull">↓ 从云端拉取</button>
+        <button class="pill" id="cPush">↑ 上传到云端</button>
+      </div>
+      <p class="note" id="cState"></p>
+    </div>
+  </div>
+</div>
+
+<script id="data" type="application/json">{"cols": [{"i": 3, "title": "时代主线与重大事件", "outer": "阶段全景", "group": "历史主线"}, {"i": 4, "title": "政权、政党与制度", "outer": "政治制度", "group": "政治与革命"}, {"i": 5, "title": "战争、边疆与军事", "outer": "军事冲突", "group": "历史主线"}, {"i": 6, "title": "经济、财政与工业化", "outer": "经济与生产", "group": "经济与社会"}, {"i": 7, "title": "社会阶层、民众运动与土地问题", "outer": "社会与基层", "group": "经济与社会"}, {"i": 8, "title": "思想文化、教育与社会思潮", "outer": "思想与文化", "group": "思想与外交"}, {"i": 9, "title": "外交与国际格局", "outer": "对外关系", "group": "思想与外交"}, {"i": 10, "title": "革命、统一战线与国共关系", "outer": "政党与革命", "group": "政治与革命"}, {"i": 11, "title": "史学、学术、科技与文化成就", "outer": "史学与成就", "group": "史学与成就"}], "groupOrder": ["历史主线", "政治与革命", "经济与社会", "思想与外交", "史学与成就"], "periods": [{"name": "晚清统治确立与半殖民地化开端", "span": "1840—1895", "position": "第一编 · 晚清大变局", "sub": "两次鸦片战争 · 太平天国 · 同光中兴 · 边疆危机", "note": "总表把两次鸦片战争、太平天国、洋务运动、边疆危机与甲午战争放在同一阶段；PPT 重点补充世界背景与中外联动。", "feature": "鸦片战争使中国开始沦为半殖民地半封建社会，也揭开了近代化的序幕。《南京条约》割地、赔款、协定关税，领事裁判权与租界接踵而至，条约体系步步收紧；太平天国撼动江南，湘淮军趁势崛起，兵权财权自此下移督抚。洋务运动创办军用民用企业，民族资本在通商口岸萌生，无产阶级与新式知识分子相继出现。然而自救只学器物、不动政体，甲午一战北洋水师覆没，三十年自强经营归于破产。半殖民地化的每一步都以条约固定下来，社会的新因素也在条约的缝隙里生长。", "events": "→ 两次鸦片战争\n→ 太平天国与清廷危机\n→ 同光中兴与洋务运动\n→ 边疆危机与中法战争\n→ 甲午战败与《马关条约》", "cells": {"3": "• 鸦片战争爆发：1840年英国以禁烟为辞，派兵封锁珠江口，正式发动鸦片战争。英军北犯定海、厦门、镇海，兵锋直抵天津海口，道光帝战和不定，沿海清军器不如人，屡战辄北，三年之役以清廷求和终局。此役打破中国长期闭关自守的局面，标志近代中国历史的开端，此后社会性质与革命任务皆随之而变。\n• 南京条约签订：1842年，中英在南京英舰上议定《南京条约》，割香港岛、赔款二千一百万元、开放五口并协定关税。为近代第一个不平等条约，领土与关税主权首遭破坏，半殖民地化的进程自此开启。\n• 金田起义反清：1851年1月，洪秀全率拜上帝会会众在广西桂平金田村起义，建号太平天国；同年冬于永安分封东、西、南、北、翼五王，正式建立起与清廷对峙的农民政权，沉重打击清朝在南方的统治。\n• 天京事变再启战端：1856年秋天京事变起，杨秀清被杀、韦昌辉伏诛、石达开率部出走，领导集团自相屠戮，元气大伤，起义由盛转衰。同年英法发动第二次鸦片战争，以亚罗号事件与马神甫事件为借口，炮击广州并北犯津沽，内讧与外侮同时发作，清朝统治的危机因此加深，南方战场与京师防务双双困敝。\n• 联军犯京焚园：1860年10月英法联军攻入北京，劫掠并焚毁圆明园，咸丰帝北避热河；清廷被迫与英法分别签订《北京条约》，割九龙司、增开天津为埠、赔款倍增，京师首次为外兵占据，半殖民地化程度进一步加深。\n• 洋务运动兴起：1860年代起，恭亲王奕訢在内主政，曾国藩、李鸿章等在外督办，以“自强”“求富”为号召，办机器局、设船厂、练新军、办学堂，历时三十余年，开了近代化的先河，而维护旧制是它的根本目的。\n• 甲午战争北洋覆军：1888年北洋水师正式成军，为当时东亚规模最大的近代化舰队。1894年至1895年甲午中日战争爆发，丰岛海面护航失利，平壤陆战继败，黄海一役后日军攻陷旅顺并屠城，复水陆夹击威海卫，北洋舰队全军覆没，历时三十余年的自强事业归于失败；列强随即划分势力范围，旧有格局不复存在。\n• 马关条约割台：1895年4月，李鸿章与伊藤博文在日本马关订《马关条约》，割辽东半岛、台湾及澎湖列岛，赔白银二亿两，开放沙市、重庆、苏州、杭州并准日商设厂；虽旋有三国干涉还辽，列强瓜分的形势由此陡起。", "4": "• 天王诸王政权架构：1851年洪秀全在东乡登天王位，旋于永安分封杨秀清、萧朝贵、冯云山、韦昌辉、石达开为东、西、南、北、翼五王，形成以天王为核心、军政合一、神权与王权交织的政权架构。承制行事之权尽归东王，诸王互制而无定章，既为日后的内讧埋下伏笔，也反映农民政权难以摆脱封建等级思想的束缚。\n• 天朝田亩制度：定都天京后于1853年颁行《天朝田亩制度》，以“凡天下田天下人同耕”为原则，按口分田、余数归圣库。它以绝对平均主义否定土地私有，反映农民的土地要求，却因空想而未能真正推行。\n• 湘淮军与内轻外重：太平天国期间清廷被迫允许地方办团练，1853年曾国藩创湘军、李鸿章办淮军，军权财权下移督抚，形成“内轻外重”格局；1859年洪仁玕总理朝政后提出《资政新篇》，主张学习西方、发展工商。\n• 总理衙门设立：1861年清廷设立总理各国事务衙门，以恭亲王奕訢主其事，统辖交涉、通商、传教、海防与洋务各端，并管同文馆、海关、铁路矿务诸新局。它取代礼部、理藩院分掌外务的旧制，列强亦得借条约关系左右中枢决策，而此后新政之推行亦赖其主持，标志清朝中央机构开始因外部冲击而调整。\n• 新疆建省固边：1884年，清政府在左宗棠收复新疆之后正式建省，设巡抚与府厅州县，革除军府、伯克旧制，将西北边疆纳入行省体制，中央对边防民户的管控因此加强，边疆与内地一体化进程加快。\n• 海军衙门与台湾建省：1885年清廷设海军衙门，奕譞总理海军事务、李鸿章实握其权，统辖北洋、南洋、福建水师；同年台湾建省，刘铭传为首任巡抚，增府县、修炮台，东南海防归海军衙门统一节制。", "5": "• 第一次鸦片战争（1840—1842）：英国以禁烟为借口发动，清军战败，签订《南京条约》。\n• 第二次鸦片战争（1856—1860）：英法联军攻入北京，焚圆明园，《天津条约》《北京条约》接踵而来。\n• 太平天国战争：太平军与湘淮军长期鏖战，战乱波及江南。\n• 边疆危机与中法战争：西北、新疆、西南、台湾同时告急；1883—1885年中法战争，清军不败而败，签订《中法新约》。\n• 甲午中日战争（1894—1895）：丰岛、平壤、黄海、威海卫诸役，北洋水师覆没，签订《马关条约》。", "6": "• 口岸外资兴起：五口通商后，外商凭条约特权在上海、广州、福州各口设船坞、船厂与洋行，先事船只修理，继而收购丝茶、输入布匹。外资企业把中国口岸拉进世界贸易，既便利列强掠取原料、输出货品，也带来机器与近代企业组织，成为中国工业化的刺激因素，口岸城市由此取代旧府县成为区域经济枢纽。\n• 自然经济解体：鸦片战争后洋纱洋布凭低关税涌入各口，家庭手工棉纺织业大批破产，纺与织、耕与织相继分离，自给自足的自然经济开始解体；生丝、茶叶出口激增，农产品商品化程度随之提升。\n• 白银外流财困：鸦片输入激增与战费、赔款支出交相作用，白银大量外流，银贵钱贱，农民以钱折银纳赋而负担无形加重，田赋盐课入不敷出，清政府财政危机日益加深，统治根基因之动摇。\n• 军用工业创办：1860年代起，洋务派以“自强”为旗号创办近代军用工业，1865年李鸿章设江南制造总局，1866年左宗棠建福州船政局，1867年崇厚办天津机器局，造枪炮弹药与轮船，开中国近代军事工业之先河；然经费仰赖各省协拨、管理循官场积习，成效多为官本体制所限，近代工业化的限度由此显露。\n• 民用企业兴办：1870年代起，洋务派以“求富”为旨改办民用工业，1872年设轮船招商局，1878年建开平矿务局并筹办上海机器织布局，都是官督商办、招集商股，于收回利权虽有限，却开商办企业之先例。\n• 民族资本产生：1870年代前后，商人与买办在通商口岸投资小厂，上海发昌机器厂与1873年陈启沅创办的继昌隆缫丝厂相继出现，规模小且集于缫丝、轧花诸业，民族资本主义由此产生。\n• 交通通信起步：洋务运动期间，1880年李鸿章设天津电报总局，次年津沪陆线竣工，各行省陆续接续；海关自1866年起试办邮政，1878年发行大龙邮票；唐胥铁路亦于1881年告成，起初用骡马拖车，不久改用机车。电报、邮政与铁路并进，使口岸与腹地联系骤密，交通通信近代化自此起步，口岸与腹地的市场联系有了新支点。", "7": "• 买办阶层兴起：鸦片战争后各口开埠，外商洋行须华人通译与购销代理，广州、上海、宁波等口岸由此出现依附洋行的买办阶层。他们抽取佣金、累积资本，进而投资轮船与矿纺，成为沟通外洋与中国市场的中介群体；其生活洋化，既便利了列强的经济渗透，也反映中国社会结构在条约关系中发生的变动。\n• 江南乡村震荡：太平天国运动期间，湘军、淮军与江南团练在江浙反复拉锯，人口锐减，世族地主势力受到沉重打击，佃农趁机争取减租永佃，农村社会剧烈动荡，清朝在江南的统治秩序一度瓦解。\n• 两大矛盾形成：鸦片战争后社会主要矛盾转为帝国主义与中华民族的矛盾、封建主义与人民大众的矛盾，前者最为主要；东南沿海因战争与条约出现大量流民，民生困苦，动荡成为起义再起的环境。\n• 新兴阶级出现：洋务运动所办的近代工业同时孕育出新的阶级。产业工人最早在外商船厂与官办机器局中产生，随矿路扩充而渐增；投资于商办厂家的商人、买办则渐转化为早期民族资产阶级。其资本薄弱而倚赖官府外洋，既要求发展实业，又怕触动旧体制，两面性因而显露。\n• 捻军余波抗粮：1860年代至1870年代，捻军与太平军余部转战皖豫鄂陕与直东，至1868年失败；各地抗粮抗税、会党起事此伏彼起，阶级矛盾未随战乱平息，清廷统治的危机在社会底层持续积累。\n• 反洋教斗争兴起：列强取得内地传教权后，贵州、四川、天津等地教案频发，1870年天津一案毁教堂、毙领事，反侵略情绪与文化冲突交织。中法战争与边疆危机加重赋税，民众负担沉重，社会积怨已难维系。", "8": "• 师夷长技以制夷：鸦片战败冲击士大夫观念，魏源等据林则徐所译西书撰述，提出“师夷长技以制夷”的御侮主张，谓以西洋坚船利炮与练兵之法御侮，并设厂自造、许民兴办机器。此说打破华夷之辨的思想禁锢，成为近代中国向西方学习的起点，为洋务新政提供依据，也推动后来者进而究心政制得失。\n• 拜上帝教动员工具：洪秀全糅合基督教宣传与儒家大同之说，创拜上帝教，奉皇上帝为独一真神，指清廷偶像为妖。既为起义的动员工具，又冲击儒学正统地位，其神权专制亦种下天京内讧的祸根。\n• 经世致用思潮：鸦片战争前后，龚自珍、魏源等以今文经学讥切时政，倡更法、改图之议、斥考据之支离；漕运、盐政、河工、边防之议蜂起，经世致用思潮因而兴起，为改革与维新提供思想资源。\n• 中体西用确立：1860年代，冯桂芬在《校邠庐抗议》中倡以中国伦常名教为原本、辅以诸国富强之术，后经洋务士阐发为中学为体、西学为用，成为甲午以前数十年新政的指导思想。它以儒学名教立其本体，以西人艺器为用，既为引进西学取得合法地位，也框定了学习的限度，使政制变革长期受阻。\n• 早期维新思想：1870年代至1880年代，王韬、郑观应等由赞襄洋务转而批评洋务，主张设议院通下情、兴商战、许民办厂。早期维新思想反映民族资本兴起后变革政治的要求，为戊戌变法作思想准备。\n• 夷夏观念转变：西学东渐随口岸贸易而深化，士人对夷夏之辨的态度由鄙夷转为讲求洋务，铁路、电报、轮船渐由奇技淫巧之目被视为富强之具，传统四民秩序的观念基础出现松动，新风开于沿海。", "9": "• 不平等条约之始：1842年《南京条约》规定割让香港岛、开放广州厦门福州宁波上海五口、赔款二千一百万元，并定协定关税，英商进出口货税由双方秉公议定。它开近代不平等条约体系之先例，此后列强援片面最惠国待遇一体沾惠，中国领土、关税与贸易主权被连续破坏，对外关系自此以条约宰割为常规规则。\n• 虎门望厦黄埔条约：1843年《虎门条约》与1844年中美《望厦条约》、中法《黄埔条约》相继签订，列强得领事裁判权、片面最惠国待遇与兵船巡查口岸之利，法国并获口岸建堂传教之权，司法与外交主权续遭破坏。\n• 上海租界设立：1845年英国在上海设中国近代第一块租界，此后列强于各通商口岸广设租界，自辟道路、设巡捕与领事法庭，形成不受中国管辖的“国中之国”，严重侵害司法与行政主权。\n• 天津北京条约：1858年清廷与英、法、俄、美分别定约，《天津条约》签订，增开口岸、允许公使进京，并准教士入内地传教；1860年《北京条约》继之，割九龙司、赔付巨款，对英法赔款各增至八百万两，天津开为商埠。公使驻京使列强得以在中枢直接影响清朝决策，条约特权由沿海口岸深入腹地，半殖民地化程度进一步加深。\n• 俄国割占北疆：1858—1860年，俄国以兵威与调停相胁，先后迫订《瑷珲条约》与《中俄北京条约》，割占黑龙江以北、乌苏里江以东一百余万平方公里土地，并改订西北边界，是这一时期破坏中国领土最多的列强。\n• 边疆危机频发：1870年代以后，1871年俄国武装占据伊犁，英国探入缅甸、窥测西藏，日本于1874年出兵台湾并继灭琉球，法国则逐步并吞越南，清朝藩篱渐尽、边防体系动摇，海防与塞防之争因起于朝廷筹边之议。\n• 马关条约开设厂之例：1881年《中俄伊犁条约》签订，收回部分权益，但界地与赔款仍有让步；1885年中法战争结束订《中法新约》，法国取得越南保护权，西南门户洞开。1895年《马关条约》许日本在口岸设厂，开了列强在华设厂的先例，对华经济侵略由商品输出转为资本输出，割台与二亿两赔款又激起瓜分风潮，国际地位陡然跌落。\n• 朝贡体系瓦解：19世纪后期，越南、朝鲜、琉球相继名存实亡，俄、英、法、日各循势力范围扩张，属国尽失而边患海防连为一片，中国被进一步纳入列强瓜分体系，传统的朝贡格局由此瓦解。", "10": "• 拜上帝会与太平天国：农民起义与宗教动员相结合，直接冲击清朝统治。\n• 捻军、天地会、哥老会与各地教案：传统民变与反洋教斗争交织。\n• 洋务派与顽固派争论：围绕是否引进西学、西器展开。\n• 早期维新派：王韬、郑观应等开始讨论议院、商战与变法。", "11": "【史学发展】\n• 经世史学兴起：鸦片战争前后，史学由考据之途转入经世之用，今文经学成为议时政、筹边务的经义依据；学者以史证今、以史应世，乾嘉末流之繁琐渐为论当世之务所代。此转向使史学成为批评时政、倡导改革的凭据，反映士人对内外危机的回应，并为此后新史学之兴埋下伏笔。\n• 边疆史地之学：西北边患与海疆警报交迫，张穆撰《蒙古游牧记》、何秋涛撰《朔方备乘》，专究西北、西南边务，边疆史地之学由此成为新热点，为筹边折冲提供文献依据，史学关注由中原扩展至疆域与外洋。\n• 域外史地译述：洋务时期，江南制造局翻译馆与教会、报馆译出大量东西洋史地之书，李圭《环游地球新录》纪其1876年游美所历，域外知识由零散传闻转为系统叙述，开眼看世界的史学取向得以延续。\n• 国别史撰述开创：王韬据西人记载撰《法国志略》与《普法战纪》，记一国政事变迁与战和始末；黄遵宪久任驻日参赞，撰《日本国志》，1887年成书、1895年刊行，分国统、地理、职官、外交、兵志诸志，详明治维新设施。二者开创近代国别史撰述之体，使史学视野由一姓治乱转向列国比较，为变法维新提供可资镜鉴的先例。\n【成就】\n• 史学：林则徐主持编译《四洲志》，介绍西洋各国地理，魏源受其嘱托扩编为《海国图志》，1843年成六十卷本、1852年增至百卷，以五大洲为纲，备述各国史地、政制、兵事与船炮机器之法，附有筹海、筹夷诸篇——这是第一部系统介绍世界的著述，其书东传日本，东亚取法西学的路径为之改易，所辑兵工炮台诸议亦为洋务所本。\n• 史学：徐继畬撰《瀛环志略》于1848年刻成，以五大洲为纲介绍世界地理与各国政治得失，于美国共和之制有所称述——突破华夷之防的旧识，与《海国图志》并为国人重绘世界图景的代表著作。\n• 教育：1862年京师同文馆在北京设立，招子弟习外国语言文字，续增算学、格致与各国条约公法诸课，聘西人教习——为洋务外交与译书事业培养首批通晓西文的人才，开近代新式学堂之先例。\n• 科技：1868年江南制造局造出中国自造的第一艘蒸汽轮船“恬吉”号，为中国自造轮船之始，试航浦江，可载炮运兵；附设的江南制造局翻译馆系统译介西方科技史地书籍，延西人口述而华士笔受，算学、化学、军政诸书渐多流传——机器造船与科学译书并进，标志近代工业与知识移植已同步起步。\n• 教育：1872年起清政府先后派出四批留美幼童，分住美国家庭、入学研习机器、矿务与铁路，容闳实主其议，至1881年撤回归国——为中国造就首批工程与外交人才，开近代官派留学之先例。\n• 出版：1872年英商美查等在沪创办《申报》，商民阅者渐众，以新闻、时评、商情与译述面向华人读者，为近代影响最大的中文报纸——新知与时务得以在口岸与内地之间流布，民间报馆与言论空间渐成规模。\n• 交通：1881年开平矿务局为运煤筑成唐山至胥各庄的唐胥铁路，全长约九公里，为中国自办的第一条标准轨铁路，初因守旧之议以骡马曳车，旋改用蒸汽机车——中国自建铁路自此开端，开平煤炭得以迅捷出运，工矿、口岸与腹地市场连了起来，此后路网延展，煤铁得以外运，沿线市镇渐替驿站而兴。"}}, {"name": "清末新政与辛亥革命", "span": "1895—1912", "position": "第二编 · 从维新到辛亥", "sub": "甲午战后 · 戊戌变法 · 义和团 · 清末新政 · 辛亥革命", "note": "本阶段跨甲午战后、戊戌、义和团、清末新政与辛亥革命，阅读时重点把握“民族危机—制度尝试—革命爆发”的因果链。", "feature": "清末新政与辛亥革命宣告王朝自救与帝制时代同时终结。《马关条约》允许设厂，瓜分狂潮接踵而至；戊戌变法百日而败，义和团招来八国联军，《辛丑条约》使清廷沦为列强统治的工具。新政废科举、练新军、奖励实业，预备立宪许下宪政承诺，皇族内阁却把立宪派推向革命。同盟会以三民主义聚集反清力量，武昌起义各省响应，两千余年帝制就此终结。共和名号虽立，权力的组织问题一个也没有解决，中国从此进入以主义与政党重新立国的时代。", "events": "→ 甲午战后民族危机\n→ 戊戌变法与制度尝试\n→ 义和团运动与八国联军侵华\n→ 清末新政与预备立宪\n→ 武昌起义与民国建立", "cells": {"3": "• 戊戌变法与公车上书：1898年6月光绪帝颁“明定国是”诏，裁冗衙、许官民上书言事、兴办学堂、奖励实业；9月慈禧太后发动戊戌政变，幽禁光绪帝，谭嗣同等六君子遇害，新政除京师大学堂外尽废。《马关条约》签订之际，康有为等发起“公车上书”，维新思潮转向政治运动，开政治改良之先例，暴露了旧权力结构对变革的抵制。\n• 义和团与八国联军侵华：1900年义和团以“扶清灭洋”为口号起于山东、直隶，旋入京津，围攻使馆与教堂，列强借此组成八国联军发动侵华战争，攻陷北京后大肆烧掠，清廷西逃，北方社会秩序遭到严重破坏。\n• 辛丑条约与国权沦丧：1901年清政府与十一国签订《辛丑条约》，赔巨款、拆炮台、准驻兵、划定使馆界，并永远禁止人民成立反帝组织，中国完全沦为半殖民地半封建社会，清廷自此成为列强统治中国的工具。\n• 清末新政的推行与局限：1901年起清政府推行“清末新政”，编练新军、裁汰旧营、奖励实业、兴办学堂、派宗室出洋考察政治，其规模与深度超过洋务运动，客观上推动军事、教育与经济的近代化；但新政以巩固统治为先务，筹款加赋、捐税繁兴，反使民生日益困难，未能挽回清朝衰亡的趋势。\n• 中国同盟会成立：1905年孙中山联合兴中会、华兴会、光复会，在东京成立中国同盟会，以驱除鞑虏、恢复中华、创立民国、平均地权为纲领，并提出三民主义，革命派自此有统一政党，民主革命进入新阶段。\n• 铁路国有与四川保路运动：1911年5月清政府宣布铁路干线国有，将民办筹款的川汉、粤汉铁路收归中央，激起四川保路运动，保路同志会率众抗粮抗捐，请愿遭镇压，成为武昌起义的直接契机。\n• 武昌起义与辛亥革命：1911年10月10日湖北新军士兵在武昌率先起义，占领楚望台军械库与湖广总督署，一夜光复三镇；文学社与共进会多年在新军中的宣传组织为起义奠定根基，各省闻风响应、相继宣布独立，清廷统治土崩瓦解，辛亥革命随即掀起，君主专制终结、共和政体在形式上确立。\n• 民国建立与清朝覆亡：1912年1月1日孙中山就任临时大总统，中华民国临时政府成立；2月12日清帝溥仪宣告退位，延续二百余年的清朝灭亡，两千余年的君主专制制度随之终结，共和政体在形式上得以确立。", "4": "• 戊戌变法的制度尝试：1898年百日维新，光绪帝裁撤闲冗衙门、允许官民上书言事、开办京师大学堂、设农工商总局、编练新式陆军、筹议开议院，尝试把君主专制导向君主立宪的政治改革，触及旧官僚体制的根基；政变后新政几乎尽废，说明在既有的权力格局里自上改良难以实现，立宪诉求由此转向革命。\n• 废科举与预备立宪：1905年清政府下诏停止延续一千三百余年的科举取士，1906年宣布“仿行宪政”、筹议预备立宪，传统选官制度与士绅上升渠道因此中断，新式学堂与留学教育由此获得合法位置。\n• 钦定宪法大纲颁行：1908年清政府颁布《钦定宪法大纲》，为中国首部宪法性文件，正文君上大权二十条、附臣民权利九条。君权始受成文规则的文字约束，咨议局议政相沿成风，而大纲用意实在保障皇权。\n• 资政院与各省咨议局：1909年各省咨议局相继设立，1910年中央资政院开院，同为预备立宪的议事机构，议员多由地方士绅、工商业者与新式知识人构成，可议决本省经税、学务与预算，虽无强制立法之权，却第一次为绅商开辟合法议政平台，立宪请愿三起高潮，地方议政力量的增长削弱了中央控制。\n• 皇族内阁与立宪幻灭：1911年5月清政府成立责任内阁，十三名阁员中满族九人、皇族七人，时称“皇族内阁”，预备立宪假立宪真集权之实暴露，立宪派由请愿转向同情革命，清廷最后一份政治信用由此瓦解。\n• 临时约法确立共和法统：1912年3月南京临时参议院颁布《中华民国临时约法》，规定主权在民、人民平等与人身言论自由，采责任内阁制限总统权，为近代首部资产阶级民主宪法，共和法统以此文本为据。", "5": "• 瓜分狂潮与势力范围：甲午战后列强强租港湾、划分势力范围，美国提出门户开放。\n• 义和团运动与八国联军侵华（1900—1901）：联军攻占北京，签订《辛丑条约》，中国半殖民地化程度大大加深。\n• 日俄战争（1904—1905）：两国在中国东北开战，清政府宣布局外中立。\n• 新军与清末军事改革：编练新军、设练兵处，军事近代化推进，但未能挽救清朝。\n• 辛亥革命战争：武昌起义后各省响应，清王朝在军事与政治双重危机中覆亡。", "6": "• 马关条约后的利权外溢：1895年《马关条约》准许日本在通商口岸投资设厂，他国援引最惠国待遇一体沾惠，外资厂矿与资本输出大量涌入，逐步控制矿业、铁路、航运与金融，民族资本主义的发展空间受到挤压；华商多借“附股”“托名”以求自保，设厂自救、收回利权与实业救国成为舆论的通行口号。\n• 民族资本主义的初步发展：19世纪末20世纪初民间设厂兴利之风渐开，张謇等创办纱厂、面粉厂与垦牧公司，纺织、面粉、火柴诸业成为主要部门，惟偏于轻工业、机器仰给外洋，发展仍属初步。\n• 商部与商律的设立：清末新政奖励工商，1903年清廷设立商部，随后颁行《商律》与公司注册章程，定商勋、劝办商会、奖励工艺，民间投资设厂取得合法名分，绅商地位提升，实业救国得到政策的推动。\n• 收回路矿利权运动：1903年以后各省以废约赎回为口号，开展收回铁路与矿山利权的斗争，鄂湘粤三省力争粤汉、川汉路权，山西拒止英商福公司采煤，清廷在压力下赎回部分路矿；以“利权”为旗帜的群众运动把经济诉求与主权意识联结起来，扩大了资产阶级的政治参与，直接催生保路风潮，成为辛亥革命的前奏。", "7": "• 民族资产阶级的壮大与分化：19世纪末20世纪初实业浪潮兴起，民族资产阶级作为独立社会力量登上政治舞台，内部依政治主张分化为以梁启超为首的立宪派与以孙中山为首的革命派，前者主张保全清室、和平渐变，后者主张武装反清、建立民主共和，两派论战与合流并存，构成清末政治变动的主导力量。\n• 近代知识群体的生成：新政后新式学堂遍及各省，游学日本与欧美之风大盛，归国学生与报馆、译书业构成新的知识阶层，其身份不再依附科举功名，立宪与革命运动有了自己的传播者与组织者。\n• 底层民众的反帝情绪：1900年前后华北农民与手工业者结为义和团，以神拳揭帖动员，焚烧教堂、抗击教会欺压，是底层对瓜分危机的反应；“灭洋”口号有笼统排外的局限，却打击了列强的侵略气焰。\n• 农村破产与城市贫民：清末赔款与新政筹款层层加派，苛捐杂税繁重，灾荒与地价腾贵交相为虐，自耕农大批失地，农村经济破产；破产农民与小手工业者流入上海、武汉、天津等口岸，形成庞大的苦力与人力车夫队伍，失业饥饿成为常态，民变抢案频仍，清末统治秩序由此动摇。", "8": "• 维新变法学说的形成：康有为以今文经学托古改制，著《新学伪经考》《孔子改制考》，把孔子塑为改制立法的素王；梁启超倡“新民”之说，主开民智、伸民权；严复译《天演论》以“物竞天择”警世。维新派主张君主立宪、变法图强、废八股、办学堂，使西方政治学说第一次系统进入中国思想界，开启近代思想启蒙的传统。\n• 三民主义纲领提出：1905年孙中山在《民报》发刊词中把同盟会纲领阐发为民族、民权、民生三大主义，即推翻满洲贵族专制、建立民国、平均地权，成为辛亥革命的指导思想与旧民主主义革命的理论纲领。\n• 革命与改良的政体论战：20世纪初革命派以《民报》、改良派以《新民丛报》为阵地，围绕要不要推翻清廷、要不要建立共和、要不要变革土地制度展开论战，使民主共和观念深入人心，革命阵营由此壮大。\n• 实业救国思潮的兴起：19世纪末20世纪初张謇等痛于利权外溢，倡“实业救国”“兴学救国”，主张以兴办工商、普及教育挽回利权、抵御侵略，谓商战之效尤速于兵战；这一思潮把经济活动与民族存亡联结起来，使设厂经商获得爱国的道德地位，民间投资与商会组织相应扩展，民族工业因此得到观念上的支持。\n• 西学社会学说与观念变动：严复译述的进化论与天赋人权、自由平等、社会契约诸说，经报章译书广为传布，“适者生存”成为警世格言，冲击循环史观与纲常名教，为维新与革命提供了共同的思想武器。", "9": "• 瓜分狂潮与势力范围：1895年《马关条约》签订后，俄法德三国干涉还辽而索取报酬，列强随即强占租借地、划分势力范围，胶州湾归德国，长江流域属英国，两广与云南归法国，福建被日本视为已有，东北与蒙古则被俄日两国觊觎，中国面临被瓜分的危机，主权受到严重破坏，反帝斗争与社会动荡急剧升温。\n• 门户开放政策的提出：1899年美国国务卿海约翰向列强发出照会，承认各势力范围的既得利益，同时主张机会均等、利益均沾，列强侵华由直接瓜分转向协同控制，中国半殖民地处境由此被固定。\n• 辛丑条约下的外交屈从：1901年《辛丑条约》划定北京使馆界，界内由各国专驻兵、不许华人居住，拆毁大沽炮台，并永远禁止中国人民成立反帝组织，清政府外交俯首听命于列强，统治权威严重削弱。\n• 外务部与近代外交机构：1901年清政府改总理各国事务衙门为外务部，班列六部之前，设专职大臣，驻外使馆渐次增设，出使大臣与领事制度初具规模，近代外交体制逐步成形；这既是条约压迫下的被迫变革，也为参与国际交涉提供常设机关，但外交仍在列强支配的条约体系下运行。\n• 日俄战争与中国东北：1904至1905年日本与俄国为争夺远东权益在中国东北开战，清廷竟宣“局外中立”、划战区于辽东，人民生命财产遭严重损失，战后日本继得南满权益，清廷虚弱暴露无遗。\n• 列强对辛亥革命的观望：1911年武昌起义后，列强增兵京津，假宣“中立”拒认南方革命政府，实则寻觅维持在华利益的代理人，南京临时政府未获承认，外交财政困窘迫成议和，共和的实现带有妥协色彩。", "10": "• 维新派与保国会：甲午战后推动制度改良。\n• 义和团与清政府：从“扶清灭洋”到被利用、被镇压。\n• 革命团体：兴中会、华兴会、光复会、中国同盟会。\n• 立宪派与国会请愿：预备立宪中要求速开国会，皇族内阁使其失望。\n• 武昌起义与各省独立：革命派、立宪派、新军共同推动清朝覆亡。", "11": "【史学发展】\n• 新史学与史学革命：1902年梁启超发表《新史学》，倡“史学革命”，批旧史学知有朝廷而不知有国家、知一人而不知全体，徒为帝王将相作谱系；他主张史学应叙述人群进化之现象而求其公理公例，以“民史”代“君史”，并视史学为塑造国民意识的工具，开创近代史学批判传统，推动史学由经学附庸转向独立学科。\n• 新式通史的开端：1904至1906年夏曾佑撰中国历史教科书，后印行为《中国古代史》，分上古、中古、近世三期，兼叙宗教、政制、学术与实业，引入进化观念，摆脱纲目体与理学褒贬，教科书章节体例实以此书为始。\n• 国粹派与史学革新：章太炎撰《訄书》，倡国粹、国学，主张借史学激发爱国之情，整理国故以反对盲从西学；国粹学会与《国粹学报》相继出现，以古学革命配合光复主张，成为近代史学多元格局中的一支。\n【成就】\n• 出版：商务印书馆创立——1897年夏瑞芳、鲍咸昌等人集资创立于上海，1902年张元济入主编译所后，以编印新式教科书、翻译西学名著、印行期刊辞书为三大事业，编译、印刷、发行三所并立，成为近代规模最大、历时最久的出版机构，新式知识借此普及，教科书、学术译著与新式出版连成一体。\n• 出版：严复译述《天演论》——1898年正式刊行，以“物竞天择”“适者生存”阐发天演之理，并加按语发挥“与天争胜”的义旨，为救亡图存提供新的理论依据，进化论成为近代影响最深远的社会学说之一。\n• 教育：京师大学堂创设——1898年百日维新中下诏设立，为戊戌新政仅存之成果，1902年恢复后订章程、分科目，1910年开办分科大学，成为近代第一所国立高等学府，亦为北京大学的前身，近代高等教育从此起步。\n• 工程：京张铁路建成通车——1909年由詹天佑主持全线建成，自丰台经居庸关至张家口，于关沟段设“人”字形折返线以越山脊，全案由中国人自行勘测、设计与施工，未借外债、不用外籍工程师，是中国自主设计修建的第一条干线铁路，打破外国“中国不能自修干路”的论断，推动近代工程人才成长与国人自信心的提升。"}}, {"name": "北洋政府与国民革命", "span": "1912—1927", "position": "第三编 · 民国初年与国民革命", "sub": "北洋政局 · 五四运动 · 中共成立 · 国共合作 · 北伐", "note": "北洋政局与国民革命两条线交织；PPT 第六、第七讲有重叠内容，已合并到本页。", "feature": "北洋时期共和名存实亡，革命领导权完成第一次转移。袁世凯毁法、张勋复辟，军阀割据混战，约法与国会形同虚设；一战给民族工业让出空隙，工人阶级随之壮大。新文化运动高举民主与科学，巴黎和会外交失败引发五四运动，马克思主义在论战中扩大传播，中国共产党成立。国共合作发动北伐，基本推翻北洋军阀统治，四一二政变却使国民革命失败。旧式政党政治走到尽头，组织起来的工农政党接过革命的主导权。", "events": "→ 民国成立与北洋政局\n→ 二次革命、护国运动、护法运动\n→ 五四运动与中国共产党成立\n→ 国共合作与国民革命\n→ 北伐推进与国共分裂", "cells": {"3": "• 北洋军阀的割据统治：1912年袁世凯在北京就任临时大总统，北洋军阀开始掌握中央政权，北京政府在形式上被承认为中国的合法政府；1916年袁世凯死后，皖系段祺瑞、直系冯国璋与奉系张作霖各拥军队、割据地盘，直奉战争两度爆发，统一有名无实，武人政治成为民国初年乱局的根源。\n• 二次革命与护国运动：1913年宋案与善后大借款触发“二次革命”，李烈钧起兵湖口讨袁失败；1915年袁世凯称帝改元洪宪，蔡锷、唐继尧等在云南组织护国军讨伐，次年袁世凯病死，洪宪帝制瓦解，共和有名无实。\n• 护法运动与五四运动：1917年孙中山发动护法运动，南下广州建军政府，反对段祺瑞废弃约法，旋因军阀掣肘失败；1919年巴黎和会失败引发五四运动，工人罢工、商人罢市响应，新民主主义革命由此开端。\n• 中国共产党的诞生：1921年7月中国共产党第一次全国代表大会在上海召开，因巡捕搜查移会浙江嘉兴南湖游船上，通过第一个党纲，确定党的名称、以革命军队推翻资本家阶级政权、实行无产阶级专政、废除资本家私有制并联合共产国际；中国工人阶级从此有了自己的政党，革命面貌为之一新。\n• 国共第一次合作实现：1924年国民党一大确立联俄、容共方针，共产党员以个人身份加入国民党，统一战线正式建立，此后创办黄埔军校、统一广东革命根据地，国民革命的中心由岭南一隅推向全国。\n• 五卅惨案与反帝高潮：1925年5月上海日本纱厂工人顾正红被枪杀，公共租界巡捕于南京路开枪屠杀示威群众，酿成五卅惨案，北京、广州等地罢工、罢市、罢课相继响应，反帝爱国运动的高潮由此形成。\n• 北伐战争的推进与局限：1926年7月广州国民政府誓师北伐，以推翻吴佩孚、孙传芳、张作霖为目标，第四军叶挺独立团为先锋挺进湖南，连克汀泗桥、贺胜桥，十月攻克武昌，1927年初占领长江中下游，北洋军阀统治被基本推翻；但军事胜利与工农运动高涨并存，统一战线内部裂痕加深，为革命失败埋下伏笔。\n• 四一二与七一五政变：1927年4月蒋介石在上海发动“四一二”政变，捕杀共产党人；7月汪精卫在武汉宣布分共，国共合作破裂、国民革命失败，中共转入武装反抗国民党的土地革命，城市工会与农会大批瓦解。", "4": "• 军阀专制与约法的颠倒：北洋时期政权以武力为柱石，国会与约法屡遭蹂躏；1914年袁世凯废除《中华民国临时约法》，另颁《中华民国约法》，改责任内阁为总统集权，并修正大总统选举法许总统连任；1916年后约法与国会两度恢复又两度中断，法统沦为武人争权的招牌，军阀专制成为中国政治的实质。\n• 一大党纲与新型政党：1921年中共一大通过第一个党纲，规定党的名称、奋斗目标与组织纪律，强调集权组织与铁的纪律，形成以马克思列宁主义为指导、依靠工农的新型政党，为中国革命奠定组织基础。\n• 二大提出民主革命纲领：1922年7月中共二大在上海召开，分析社会性质与革命对象，首次提出彻底反帝反封建的纲领，并通过第一部党章；最低纲领与最高纲领自此分列，两步走成为革命阶段论的框架。\n• 国民党一大与改组：1924年1月国民党第一次全国代表大会在广州召开，孙中山以联俄、容共、扶助农工三大政策重新解释三民主义，添入平均地权与节制资本，承认共产党员以个人身份加入，苏联顾问参与筹备；国民党转为有纲领与纪律的政党，国共合作有了共同纲领，为北伐准备了政权与军事基础。\n• 广州国民政府成立：1925年7月广州国民政府依组织法成立，采委员会制集体领导，汪精卫任主席，总揽党政军务，为国民革命的最高政权机关，两广随后统一，党军编为国民革命军，北伐有了政权依托。", "5": "• 北洋军阀混战：皖、直、奉等系争夺中央政权，战乱不断。\n• 二次革命、护国运动与护法运动：围绕袁世凯专权和北洋法统展开。\n• 二十一条与民四条约：日本乘一战之机扩大在华权益。\n• 巴黎和会与五四运动：山东问题外交失败，引发全国反帝爱国运动。\n• 五卅运动与北伐战争：国民革命军北伐，工农运动高涨，后因国共分裂而中断。", "6": "• 一战期间的工业黄金期：1914至1918年欧洲列强忙于战事，对华商品与资本输出暂时松弛，民国奖励实业与国货运动、抵制日货相继兴起，纺织、面粉、卷烟等轻工业迅速扩展，厂矿数目与资本额均有可观增长；但重工业与机器制造仍极薄弱，战后列强资本卷土重来，黄金时期随之结束，民族工业未能摆脱半殖民地处境。\n• 军阀争夺下的农业凋敝：北洋时期军阀混战不休，苛捐杂税繁重，水利失修，耕畜农具被征，劳动力大批逃亡，农业生产衰退，农村经济凋敝，农民破产离村日甚，工业品市场萎缩，社会动荡日益加深。\n• 夹缝中的曲折发展：1920年代民族工业在外资挤压与内战夹缝中艰难维持，战后日本纱厂与商品大量涌入，面粉业由出超转为入超，不少商办厂矿被吞并或停闭，民族工业处境未见根本改变。\n• 银行业与铁路建设的推进：北洋时期华资银行与新式金融事业有所扩展，以上海、天津、汉口为中心，银行数目显著增加，上海商业储蓄银行等新式银行相继设立；铁路在筹议统一与列强借款合同之间缓慢延伸，干线多由外款控制，新增里程有限，金融与交通的近代化在夹缝中推进。", "7": "• 工人阶级的成长与壮大：民国初年民族工业扩展，产业工人人数显著增加，多集中于铁路、矿山、纱厂与口岸码头；工人工时冗长、工资微薄、无政治权利，包身工与学徒制仍带人身束缚色彩，1919年五四运动中上海工人罢工罢市，工人阶级作为独立政治力量登上舞台，为中国共产党成立准备了阶级基础。\n• 佃农负担与租佃矛盾：1920年代乡村土地分配不均，地租高昂，押租、预租层层叠加，佃农生活困苦；军阀横征与高利贷盘剥交相加，抗租、抗粮风潮在南方各省频仍，农民问题成为国民革命的社会根源。\n• 学生群体与知识人的角色：新式学堂与报馆书局培育出近代知识人与学生群体，他们结社团、办刊物、议论时政，五四期间北京学生上街游行，成为社会运动的先锋，知识人与工农开始结合。\n• 工农运动的高涨：1920年代罢工与农民运动在国共两党推动下发展，香港海员大罢工、安源路矿与京汉铁路工人大罢工相继发生，省港大罢工坚持十六个月，广东海丰、陆丰以农会减租抗税，湘鄂赣农村掀起打击土豪劣绅的风暴；工农运动为北伐提供人力与后勤支援，也埋下统一战线破裂的伏笔。", "8": "• 新文化运动的兴起：1915年陈独秀在上海创办《青年杂志》，次年改称《新青年》，编辑部随其入主北京大学而北迁，以“科学与人权”相号召，抨击尊孔复古逆流，主张思想解放与人格自主，胡适、李大钊、鲁迅等相继撰稿，动摇了儒家思想的统治地位，为五四运动与马克思主义传播准备了思想条件。\n• 文学革命与白话文主张：新文化运动以民主与科学为纲，胡适倡《文学改良刍议》、陈独秀作《文学革命论》，主张推倒贵族、古典、山林文学，建设平易通俗的国民文学，白话文取代文言成为书面语。\n• 马克思主义的广泛传播：1919年后李大钊发表《我的马克思主义观》，系统介绍唯物史观与剩余价值学说，并与改良主义、无政府主义展开论战，先进知识分子转向共产主义，为建党准备了思想条件。\n• 东西文化之争与诸论战继起：1920年代东西文化、科学与人生观、问题与主义诸论战相继展开，杜亚泉与陈独秀、李大钊就东西文明能否调和针锋相对，梁漱溟阐发文化三路向之说，问题与主义之争划出改良与革命的分界；几次论战使思想界重估传统，马克思主义跃居引领位置，新文化阵营在分化中改变了方向。", "9": "• 二十一条与民四条约：1915年1月日本趁欧洲战事向袁世凯政府提出“二十一条”要求，图谋独占山东、延长南满铁路、控制汉冶萍公司，并邀聘日本政治军事顾问、割让东南沿海岛屿；5月签订《民四条约》，部分承认其要求，全国反日与抵制日货风起，日本在东北、山东的扩张据此扩大，二十一条遗为中日关系的长期隐患。\n• 对德奥宣战与参战：1917年段祺瑞政府以德国无限制潜艇政策为据，宣布对德奥宣战，参加第一次世界大战，收回天津、汉口德奥租界，停止其赔款；中国以战胜国身份出席巴黎和会，列强未予实质回应。\n• 巴黎和会上的外交失败：1919年中国以战胜国身份出席巴黎和会，要求收回山东权益，和会竟决定把德国在山东权益转让日本，舆论引发五四运动，政府被迫拒签和约，外交挫败由此转为全国政治动员。\n• 华盛顿会议与九国公约：1921至1922年华盛顿会议召开，与会九国签订《九国公约》，宣称尊重中国主权、独立与领土完整，同时重申“门户开放”“机会均等”；山东问题经中日会外交涉解决，胶澳归还中国，中国外交在一定程度上收回权益，但公约以门户开放取代日本独霸，中国回到列强共同支配的格局。\n• 中苏建交与苏联援华：1924年5月中苏签订《中俄解决悬案大纲协定》，苏联声明放弃帝俄时代依不平等条约所得特权，两国互派大使，苏联顾问与军械经费支持国民党改组与建军，联俄列为三大政策之首。\n• 收回汉口九江英租界：1927年1月武汉国民政府借群众反英运动出兵接管汉口、九江英租界，相继完成收回，结束英国在当地数十年的行政管理，不平等条约体系由此遭受打击，成为反帝斗争的重大胜利。", "10": "• 国民党与中华革命党：孙中山继续反袁、护法。\n• 中国共产党成立：马克思主义传播与工人运动发展。\n• 国民党一大与国共合作：新三民主义、联俄联共扶助农工。\n• 北伐与工农运动：国民革命高涨，四一二、七一五政变后国共分裂。", "11": "【史学发展】\n• 古史辨与疑古思潮：1920年代顾颉刚提出“层累地造成的中国古史”说，指证时代愈后传说中的古史期愈长、中心人物愈放愈大，主张以历史眼光整理国故；《古史辨》论文集相继刊行，学人以考据与辩论重审三皇五帝系统与经典记载，传统古史体系遭到严重动摇，史料审查成为治史第一关。\n• 唯物史观史学的开拓：1920年代李大钊撰《史学要论》，阐发唯物史观的历史理论；郭沫若诸人继起，以社会经济形态与阶级分析重估中国古代社会，开辟马克思主义史学路径，古史研究转向社会形态分析。\n• 二重证据法的提出：王国维以地下出土之甲骨、金文、简牍与纸上之《史记》《尚书》等文献相互释证，考订殷代先公先王世系，史学研究开考古与文献互证的新风，殷商由考古材料取得信史地位。\n• 历史研究法的系统讲述：1921年梁启超在南开讲述史学要义，次年印行《中国历史研究法》，界定史之性质与范围，论史料鉴别、史事因果以及通史、专门史之别，系统引介了西方近代史学的概念与方法；《中国历史研究法补编》续论专史做法，近代史学的理论与方法有了系统的表述。\n【成就】\n• 出版：《新青年》创刊——1915年陈独秀在上海创办，原名《青年杂志》，次卷改称《新青年》，先后由陈独秀主持、北京大学教授轮值编辑，发表《敬告青年》《文学改良刍议》诸文，成为新文化运动的主要阵地与思想启蒙的喉舌，民主、科学诸说与马克思主义借此传布全国，刊物成为思想论争的主要场域。\n• 学术：中国科学社成立——1915年由任鸿隽、胡明复、赵元任等留美学生在美国发起，创办《科学》月刊，推进科学编译与研究，引进近代科研组织与学术期刊体制，学界自此有了自己的团体与刊物。\n• 教育：蔡元培主持北京大学——1917年蔡元培就任校长，本“思想自由、兼容并包”之旨延聘陈独秀、胡适、李大钊等新派学者，又留用旧学人士，废科门设学系，把北大改造为学术研究中心，成为新文化运动的摇篮。\n• 文化：鲁迅发表《狂人日记》——1918年刊于《新青年》第四卷第五号，始用“鲁迅”笔名，借日记体的疯子形象揭出家族礼教吃人的本质，发出“救救孩子”的呼声，以成熟的白话语言与紧凑结构塑造现代小说，开中国现代白话小说的先河，成为文学革命最早实绩的证明，白话小说自此成为新文学的正格。\n• 出版：近代出版机构兴盛——商务印书馆、中华书局等编印新式教科书、翻译西学丛书、刊行期刊，铅印、石印与机器造纸使书报成本下降，上海因此成为全国出版中枢，近代阅读公共空间因此扩展。"}}, {"name": "国共对峙、抗日战争与解放战争", "span": "1927—1949", "position": "第四编 · 南京国民政府与决战", "sub": "南京国民政府 · 苏维埃 · 抗日战争 · 解放战争", "note": "本阶段内容最多，按“国共对峙—抗日战争—解放战争”三条主线阅读。", "feature": "南京国民政府统治时期，先有十年国共内战，再有抗战与解放战争两场决定命运的决战。国民政府名义统一全国，训政与五院徒具形式，关税自主与法币改革带来短暂增长，官僚资本却不断膨胀。日本由九一八步步逼到全面侵华，民族危机促成第二次国共合作，正面与敌后两个战场支撑全局，中共在敌后发展壮大。战后金圆券崩溃拖垮国统区，解放区土改聚拢农民，三大战役与渡江战役分出胜负。中国挣得大国名义并废除不平等条约，半殖民地半封建社会也在这一期走完总解体的历程。", "events": "→ 南京国民政府与苏维埃政权\n→ 日本局部侵华与抗日救亡\n→ 全面抗战与抗日民族统一战线\n→ 抗战胜利与战后政局\n→ 解放战争与新中国成立", "cells": {"3": "• 南昌起义与建军：1927年8月1日，周恩来、贺龙、叶挺、朱德、刘伯承等率北伐军两万余人发动南昌起义，打响了武装反抗国民党反动派的第一枪。起义军南下潮汕受挫，朱德、陈毅率余部转战湘南，1928年4月上了井冈山与毛泽东部会师。此举标志中共独立领导武装斗争与创建人民军队的开端。\n• 湘赣边界秋收起义与井冈山道路：1927年9月，毛泽东领导湘赣边界秋收起义，工农革命军进攻长沙受挫；前委在浏阳文家市决定放弃攻打中心城市，向统治薄弱的农村进军；9月底三湾改编确立党对军队的领导；10月上了井冈山，创建第一个农村革命根据地。农村包围城市这条道路，为此后的根据地建设开了先例。\n• 东北易帜：1928年12月张学良通电东北易帜，改悬青天白日旗，服从南京国民政府。北洋军阀统治宣告结束，国民政府在形式上完成全国统一，而地方实力派拥兵自重的局面并未改变，为后来的中原大战埋下伏笔。\n• 九一八事变与局部抗战：1931年9月18日，日本关东军炸毁沈阳北郊南满铁路路轨、袭击东北军北大营，随即侵占沈阳、长春、吉林，1932年2月哈尔滨陷落，东北全境沦亡；国民政府奉行不抵抗政策，寄望国际联盟调处。东北民众与旧部自动组织义勇军，中共派杨靖宇、赵尚志等建抗日游击队，后编为东北抗日联军坚持斗争。\n• 一·二八淞沪抗战：1932年1月28日日军进攻上海闸北，蔡廷锴、蒋光鼐率十九路军抵抗，淞沪抗战持续月余，全国各界捐款捐物、上海工人组织义勇队参战；5月中日签订《淞沪停战协定》，中国军队不得在淞沪驻兵，日军取得留驻权。上海之役与东北义勇军的斗争合起来构成局部抗战的两支主力。\n• 遵义会议与长征：1935年1月中央政治局在遵义召开扩大会议，集中纠正军事与组织上的\"左\"倾错误，事实上确立毛泽东在党中央和红军的领导地位，在危急关头挽救了党和红军。会后红军四渡赤水、巧渡金沙江、强渡大渡河、翻雪山过草地，1935年10月中央红军到陕北，1936年10月三方面军在甘肃会宁会师，长征胜利结束。\n• 华北事变与一二·九运动：1935年日本制造华北事变，《何梅协定》《秦土协定》使中国丧失河北、察哈尔大部主权，继又策动华北五省\"自治\"。12月9日北平学生请愿示威，喊出\"停止内战，一致对外\"，各地学生响应；12月下旬瓦窑堡会议确定抗日民族统一战线方针，抗日救亡运动扩展为全国性的浪潮。\n• 西安事变和平解决：1936年12月12日张学良、杨虎城在西安扣留蒋介石，通电全国要求停止内战、一致抗日。中共派周恩来等赴陕调停，蒋介石被迫接受停止剿共、联共抗日的主张，事变和平解决。十年内战局面基本结束，国共第二次合作由酝酿走向成立，抗日民族统一战线有了现实起点。\n• 七七事变与全面抗战爆发：1937年7月7日夜，日军在北平西南卢沟桥借口一名士兵失踪，炮轰宛平城，第29路军奋起抵抗。北平、天津相继沦陷，日本发动全面侵华战争，全国抗日战争由此爆发。国共两党加速合作，中国战场成为世界反法西斯战争的东方主战场，民族解放的斗争与大国地位的重建自此交织。\n• 正面战场与敌后作战：1937年淞沪会战粉碎三个月亡华计划，平型关大捷为首战告捷，南京大屠杀死难者三十万；1938年台儿庄战役获最大胜利，广州、武汉失守后抗战转入相持，1940年八路军发动百团大战。\n• 皖南事变：1941年1月新四军九千余人北移至泾县茂林，遭国民党军八万余人伏击，大部牺牲，叶挺被扣、项英遇害。中共重建军部、坚持抗战立场，国共关系濒于破裂而未最终决裂，统一战线在摩擦中维系。\n• 抗战胜利与豫湘桂战役：1944年豫湘桂战役中国民党军大溃退，丢失大片国土，暴露其军事腐败；1945年8月15日日本宣布投降，9月2日签署投降书，抗日战争取得完全胜利，台湾随之光复，中国国际地位亦因之提升。\n• 重庆谈判与双十协定：1945年8月，蒋介石三电邀毛泽东赴重庆谈判，毛泽东、周恩来等于8月28日抵渝，国共磋商四十三天，10月10日签署《政府与中共代表会谈纪要》，即《双十协定》，确认和平建国方针，承认各党派平等合法。谈判使中共赢得政治主动与舆论同情，军队与解放区政权问题则悬而未决，内战危机并未消除。\n• 三大战役与内战：1946年重庆政治协商会议后，国民党军进攻中原解放区，内战爆发；1947年刘邓大军千里跃进大别山，转入战略进攻；1948年辽沈、淮海、平津三大战役歼敌主力，1949年4月渡江战役克南京，国民政府瓦解。", "4": "• 训政体制的确立：1928年10月，国民党中央常务会议通过《训政纲领》，宣告结束军政、进入训政，规定由国民党全国代表大会代行国民大会职权，政权委托于党，治权交由国民政府，党权高于一切。一党专政与个人集权自此有制度依据，民主宪政被推迟，共产党与民主派也被排除在体制之外，政治分歧随后转向武装对抗。\n• 五院制政府架构：1928年起国民政府依五权宪法之说，设行政、立法、司法、考试、监察五院，行政院居国民政府之首。五院并行而权出于党，实际决策归中央与蒋介石个人，架构虽具而宪政之实未至。\n• 古田会议：1929年12月红四军第九次党代会在上杭古田召开，决议确立思想建党、政治建军原则，规定红军必须置于党的领导之下、担负革命政治任务。人民军队区别于旧军队的建军原则由此奠基。\n• 中原大战：1930年蒋介石同阎锡山、冯玉祥、李宗仁沿陇海、津浦两线混战七个多月。张学良率东北军入关拥蒋，反蒋联盟瓦解，蒋系地位与军事独裁格局就此定型，国统区生产遭受严重破坏。\n• 苏维埃政权与约法：1931年11月，中华苏维埃共和国临时中央政府在瑞金成立，根据地建工农民主专政政权；同年5月国民会议颁布《中华民国训政时期约法》，确认党治。两政权对垒，反映两种命运的分裂。\n• 抗日民族统一战线正式形成：1937年9月，国民党中央通讯社发表《中共中央为公布国共合作宣言》，蒋介石发表谈话承认中共合法地位，红军主力改编为八路军，南方八省游击队编为新四军，第二次国共合作实现。全民族抗战由此获得政治基础，而国民党的限共溶共方针仍在，摩擦隐患自此埋下。\n• 洛川会议：1937年8月中共中央通过《抗日救国十大纲领》，决定把工作重心放在战区和敌后，放手发动群众，实行独立自主的游击战争。全面抗战路线由此确立，与国民党的片面抗战路线形成对照。\n• 三三制政权建设：1940年起，中共在抗日根据地政权中实行三三制原则，共产党员、非党左派进步分子与中间分子各占三分之一。它团结各阶层抗日，为民主建政积累经验，也成为统一战线政治的先例。\n• 中共七大召开：1945年4月至6月在延安举行，毛泽东作《论联合政府》的政治报告，朱德作《论解放区战场》的军事报告，大会确立毛泽东思想为党的指导思想并写入党章，选举产生以毛泽东为核心的中央委员会，全党在思想上、政治上、组织上达到前所未有的团结，为抗战胜利与随后的斗争作了准备。\n• 中国土地法大纲：1946年中共中央发布五四指示，改取没收地主土地之策；1947年9月全国土地会议通过《中国土地法大纲》，废除封建剥削土地制度，耕者有其田。土改使农民获得土地，为战争胜利提供人力物力。\n• 七届二中全会与建国方略：1948年5月，中共中央发布五一口号，号召召开政治协商会议、成立民主联合政府，各民主党派通电响应、北上解放区。1949年3月，中共七届二中全会在西柏坡召开，决定工作重心由乡村转入城市，规定胜利后政治、经济、外交的基本政策，告诫全党保持谦虚谨慎与艰苦奋斗，为新中国规划建国方略。\n• 新政协与共同纲领：解放区逐步建立人民民主专政政权；1949年9月，中国人民政治协商会议第一届全体会议召开，通过《共同纲领》，规定新中国为新民主主义国家，代行全国人大职权，起临时宪法作用。", "5": "• 国共武装对峙：南昌起义、秋收起义、井冈山道路、红军长征、遵义会议。\n• 日本局部侵华：九一八事变、一·二八事变、长城抗战、华北事变、西安事变。\n• 全面抗战：七七事变后正面战场与敌后战场并立，淞沪、太原、徐州、武汉等会战；1945年抗战胜利。\n• 抗战胜利后的政局：重庆谈判、政治协商会议、国民党发动内战。\n• 解放战争：三大战役、渡江战役，国民党政权败退台湾。\n• 军事制度与根据地：红军、八路军、新四军，敌后根据地与人民战争。", "6": "• 法币政策与币制统一：1935年11月，国民政府宣布实行法币政策，以中央、中国、交通三银行钞票为法币，限期收兑银元、白银收归国有，法币汇价与英镑、美元挂钩。此举结束币制紊乱，促成统一市场与一时繁荣，也为抗战财政预作准备；唯发行权归国家银行垄断，官僚资本膨胀与日后通胀的隐患都在其中。\n• 民族工业发展：1935年起国民政府倡国民经济建设运动，配合关税自主与币制统一，1927—1936年民族工业有所发展，纺织面粉卷烟业增长快，重工业与机器仍赖进口。十年增长没有改变结构，战事一开就显出脆弱。\n• 农村危机与白银外流：1935年前后农村危机最深，美国1934年6月立法高购白银，中国白银大量外流、银根紧缩，通货紧缩与农产跌价相乘，苛捐杂税与高利贷交织，农家纷纷破产，农民与地主矛盾趋于尖锐。\n• 工厂内迁与后方工业：1937年抗战全面爆发后，国民政府组织沿海工矿企业内迁，至1940年年底内迁厂矿四百余家、器材七万余吨，先集武汉、宜昌，再转重庆、昆明。内迁厂矿在西南重建产能，维系军需民用，奠定后方工业基础，近代工业偏沿海的布局因此改变；而官僚资本借统制扼制民营，民营厂日渐困难。\n• 根据地大生产运动：1939年起，陕甘宁等根据地在封锁与灾荒中开展大生产运动，军队屯田、机关半工半耕，南泥湾垦荒是其典型，至1943年前后实现生产自救。它减轻人民负担，为坚持敌后抗战奠定物质基础。\n• 减租减息政策：1942年1月，中共中央作出土地政策的决定，在抗日根据地实行减租减息，农民交租交息。既减轻农民负担、提高抗日积极性，又照顾地主利益以维系统一战线，为战时土地政策的基本形态。\n• 解放区农业与国统区工业：1947年解放区土地改革完成后，农民分得土地，生产积极性提高，农业生产迅速恢复，为前线供应粮秣与兵源；同一时期的国统区，民族工业则在官僚资本挤压与美货倾销之下走向凋敝，厂矿歇业、存货山积，工商业者渐次破产。两种经济面貌的对照，直接反映两条命运的分野。\n• 金圆券与币制崩溃：1948年8月，国民政府发行金圆券，限期收兑法币与金银外币，强制冻结物价。结果币信扫地，物价暴涨数十倍，恶性通货膨胀吞噬薪给阶层，经济秩序几近崩溃，加速其财政危机。", "7": "• 东北沦陷与难民流亡：1931年九一八事变后，日本以关东军统制东北三省，行殖民统治、掠工矿农产，沈阳、吉林、黑龙江相继陷落，东北军退入关内。东北三省同胞沦于殖民统治之下，大批难民、学子与军政人员流亡关内，生活无着，东北抗日义勇军兴起，救亡团体相继成立，民族矛盾逐步上升为主要矛盾。\n• 农村危机与江淮水灾：1931年江淮流域发生特大水灾，灾民逾千万；1930年代农村危机持续加深，地租沉重、田赋附加繁多，农民与地主阶级矛盾尖锐，破产农民流离失所，为土地革命准备了深厚的社会土壤。\n• 高校内迁与人口西迁：1937年起平津京沪高校相继内迁，工厂、机关与数十万难民同入川滇黔，文教人才在西南聚集，形成近代少见的人口大流动；川滇黔始有高校与新式工厂，内地社会结构松动。\n• 南洋华侨支援抗战：1937年全面抗战爆发后，南洋华侨筹赈祖国难民总会推陈嘉庚为主席，各地华侨踊跃捐款捐物、认购救国公债，以巨款助军需民用；三千余名南侨机工回国服务，冒敌机轰炸在滇缅公路抢运物资，不少人殉难。华侨的财力人力支援缓解后方困窘，彰显民族凝聚力，成为全民族抗战的重要部分。\n• 台湾二二八事件：1947年2月，台北民众因缉私血案罢市请愿，遭军警开枪镇压，全省响应，提出改革政治、清除贪腐的要求；当局调兵镇压并清乡搜捕，民众死伤甚众。事件反映台湾同胞反抗国民党专制统治。\n• 国统区民生困顿：1946—1949年，国统区财政枯竭、纸币滥发，物价飞涨不已，工人与公教人员实际收入骤降，抢米风潮与求生斗争频发于城乡，中产之家亦陷于饥饿，城市民心的丧失动摇其统治的社会基础。", "8": "• 左联与左翼文化运动：1930年3月，中国左翼作家联盟在上海成立，鲁迅在会上发表《对于左翼作家联盟的意见》，倡论文艺与大众结合；左联创办《萌芽》《文学月报》，开展文艺大众化讨论，译介马克思主义文艺理论，社联、剧联等团体相继成立。左翼文化运动在白色恐怖下开辟革命文艺阵地，其宗派主义偏向也暴露出来。\n• 新生活运动的倡导：1934年2月，蒋介石在南昌发起新生活运动，以礼义廉耻为准则，提倡齐整洁净、守时守法，意在整饬社会风气并抵制共产主义影响。推行多年而形式多于实效，风俗吏治并无实质变化。\n• 唯物辩证法与文化本位论战：1935年1月，十教授发表《中国本位的文化建设宣言》，主张不守旧、不模仿，建设中国本位文化，引发中西文化论战；自1930年代以来，唯物辩证著作盛行，马克思主义在知识界传播日广。\n• 论持久战发表：1938年5月毛泽东发表《论持久战》，驳斥\"亡国论\"与\"速胜论\"，指明抗战将经战略防御、相持、反攻三阶段，最后胜利属于中国。敌后游击战争由此获得理论指导，军民信心为之坚定。\n• 新民主主义论的发表：1940年1月，毛泽东发表《新民主主义论》，阐明中国革命须分两步走，现阶段革命性质为新民主主义革命，并规定其政治、经济、文化纲领，主张建立各革命阶级联合专政的共和国。此文回答“中国向何处去”的疑问，标志毛泽东思想政治纲领的成熟，也促成国共在文化领导权上的正面交锋。\n• 延安文艺座谈会讲话：1942年5月，毛泽东《在延安文艺座谈会上的讲话》发表，确定文艺为最广大人民服务、首先为工农兵服务，主张普及与提高相结合。它奠定党的文艺政策基石，此后解放区文艺多循此路。\n• 延安整风与战时思想论争：1942—1945年延安整风反对主观主义、宗派主义与党八股，统一党内思想；抗战时期以救亡为主题的文学、戏剧、木刻繁荣，1943年蒋介石《中国之命运》出版，引发中国前途的思想论争。\n• 论人民民主专政：1949年6月，毛泽东发表《论人民民主专政》，总结革命二十八年经验，规定新中国实行工人阶级领导、以工农联盟为基础的人民民主专政，对人民行民主、对反动派行专政，并批判资产阶级共和国方案。此文确立新政权的国体与政体理论，为新中国的制度建设提供思想基础。\n• 中间路线的破产：抗战胜利后，国统区民主人士倡言中间路线，主张以和平改良建成资产阶级共和国；随内战再起、政治迫害加剧，其说影响日益缩小，1949年前后中间党派接受中共领导，第三条道路宣告破产。", "9": "• 改订新约运动：1928年7月起，国民政府发起改订新约运动，先与美国缔结新的关税条约，再与英、法、德、意、日本等国交涉，至1930年多数国家原则上承认中国关税自主，中国得以自定税则、收回部分法权。改约增加关税收入、提升国际地位，显示修约外交的进展；领事裁判权未及废去，不平等条约体系的根基仍未触动。\n• 伪满洲国与华北危机：1932年3月日本扶植溥仪建立伪满洲国；国联派李顿调查团来华，未能制止日本侵略；1933年长城抗战后签订《塘沽协定》，华北门户洞开；日本又策划华北自治运动，华北五省主权面临肢解。\n• 对日德意宣战与同盟作战：1941年12月太平洋战争爆发后，中国正式对日、德、意宣战，中国战场由此成为世界反法西斯战争的重要组成部分，与美、英、苏并肩作战，中国战场被承认为对日作战的东方主战场。\n• 废除治外法权与大国地位：1942年1月，中国签署《联合国家宣言》，成为世界反法西斯同盟的重要成员；1943年1月，中英、中美新约签订，英美放弃在华治外法权及领事裁判权、沿海贸易等特权，他国相继比照。这标志近代不平等条约体系开始瓦解，中国国际地位显著提升；唯香港、新界的殖民统治并未触及。\n• 中国远征军入缅作战：1942年日军进逼滇缅公路，中国组建远征军约十万人入缅援英作战，同古保卫战与仁安羌解围相继获捷；受挫后一部退入印度整训为驻印军，一部退守滇西。1944年起滇西反攻，1945年初与驻印军在畹町会师，中印公路随之打通，西南国际交通线恢复，中国战场与盟军作战连成一体。\n• 开罗会议与联合国：1943年11月开罗会议，中国跻身四大国参与战后安排；1945年10月，中国成为联合国创始会员国及安理会常任理事国，并参与旧金山制宪会议，战时的大国地位获得制度上的确认。\n• 中美友好通商航海条约：1946年11月，国民党政府与美国签订《中美友好通商航海条约》，美国取得在华投资、设厂、通航与购置地产等项权利，形式平等而实质不平等，美货美资借此涌入，加深国统区经济困境。\n• 一边倒方针与美国对华政策：1946年美国特使马歇尔调处国共冲突，其1945年12月来华、1947年1月宣告失败回国，借调解之名干预中国内政，转而援蒋内战；1949年6月，毛泽东提出一边倒的外交方针，新中国站在社会主义阵营一边；8月美国国务院发表《美中关系白皮书》，为自己的对华政策失败辩护；一边倒奠定建国初期外交格局。", "10": "• 中共武装割据与长征：农村包围城市、武装夺取政权。\n• 抗日民族统一战线：西安事变和平解决后正式形成。\n• 中共七大与毛泽东思想：为抗战胜利和新民主主义革命胜利准备条件。\n• 民主党派与第三条道路：抗战后中间路线由活跃走向破产。\n• 解放战争与新政协：中共领导的多党合作和政治协商制度由此奠基。", "11": "【史学发展】\n• 殷墟发掘与现代考古学：1928年中央研究院历史语言研究所设考古组，主持安阳殷墟发掘，至1937年共掘十五次，出土大批甲骨与青铜器，发现宫殿大墓与王陵区，印证《史记》商王世系，使商代由传说转为信史。发掘奠定甲骨学与商史研究的基础，训练出中国首批田野考古人才，标志近代考古学在中国确立。\n• 中国古代社会研究出版：1930年郭沫若《中国古代社会研究》出版，以唯物史观解析古代社会阶段，开创马克思主义史学；同期中央研究院历史语言研究所成立，傅斯年主政，重史料考订，二途并立。\n• 禹贡半月刊与社会史论战：1934年顾颉刚等创办《禹贡》半月刊，旋设禹贡学会，把沿革地理改造为历史地理学；此前1930年代中国社会史论战兴起，唯物史观渗透史学界，与史料学派并峙。\n• 国史大纲与民族文化精神：1940年钱穆《国史大纲》在昆明出版，原是他的通史讲义，上起远古、下讫近代，贯串政治、学术、经济与社会，在民族危亡之际力主治史的人须对本国既往历史怀有温情与敬意，反对虚无主义与全盘西化。此书弘扬民族文化精神，激励抗战国人的历史自信，成为二十世纪通史著作的代表。\n• 中国通史简编出版：1941—1942年范文澜《中国通史简编》在延安出版，第一次以马克思主义观点写出系统的中国通史，读者诵习甚广；抗战时期翦伯赞、吕振羽等马克思主义史学家群体崛起。\n• 唯物史观进入大学课堂：1949年前后，唯物史观史著开始在各校历史系教学中采用，进化史观与考据一脉的讲授地位下降，为新中国马克思主义史学教育体制的建立奠基，教材改造随后在全国铺开。\n【成就】\n• 文化：茅盾长篇小说《子夜》1933年由开明书店出版——以1930年代上海为舞台，写民族资本家吴荪甫振兴实业而终至破产，兼及工潮、农村动荡与公债市场的风云，以社会分析之笔再现都市全景。此书标志中国现代长篇小说的成熟，为左翼文艺赢得声誉，并带动现实主义长篇创作风气。\n• 工程：1937年9月，茅以升主持建成的钱塘江大桥通车——为中国人自行设计施工的第一座双层铁路公路桥，正桥逾千米、工期不足三年；为阻日军前进，建成不到三个月就被自行炸毁，工程成就与牺牲并见。\n• 交通：1938年滇缅公路全线通车——沿线二十余万民工以人力筑成滇西段，连接昆明与仰光，此后成为国际援华物资入境的主要陆上通道，维系后方军工与民用，被称为中国抗战的生命线。\n• 教育：1938年4月，国立西南联合大学在昆明成立——其前身为1937年南迁长沙的北京大学、清华大学与南开大学临时大学，至1946年三校北返，八年之间教室漏雨、图书稀少而弦歌不辍，培养出杨振宁、李政道、邓稼先等大批科教人才，保存并延续了中国高等教育的命脉，学术自由与艰苦求学的传统成为后世典范。\n• 文化：1945年歌剧《白毛女》在延安首演——以“旧社会把人逼成鬼、新社会把鬼变成人”为题，熔西洋歌剧手法与陕北民间曲调于一炉，开创中国民族新歌剧，成为解放区文艺方向的典范。\n• 文化：1948年丁玲长篇小说《太阳照在桑干河上》出版——以华北解放区暖水屯的土改为题材，写地主与农民关系的变动和农民翻身的历程，与《暴风骤雨》并为解放区长篇小说代表，开土地革命题材小说之先。"}}, {"name": "新中国建立与社会主义建设探索", "span": "1949—1978", "position": "第五编 · 中华人民共和国史（一）", "sub": "建国巩固 · 社会主义改造 · 建设探索 · 外交突破", "note": "现有 PPT 未覆盖 1949 年以后，本页正文以总表为主。", "feature": "新中国以全新的制度把国家组织起来，也在探索中付出沉重代价。统一财经、抗美援朝、土地改革使政权站稳，一五计划奠定工业化初步基础，三大改造确立公有制，人民代表大会制度写进宪法。集中力量办成大事，工业体系与两弹一星从无到有；然而阶级斗争思路逐渐压过经济建设，反右扩大化、大跃进与文化大革命使建设几度中断，法制遭到破坏。计划体制保证了重工业的赶超，也把激励与民生的问题积攒下来。成就与教训同出一套体制，是这个时期最深的印记。", "events": "→ 开国与巩固政权\n→ 土地改革、抗美援朝、三大改造\n→ 一五计划与社会主义建设探索\n→ 曲折发展与国防科技突破\n→ 恢复联合国合法席位与中美关系破冰", "cells": {"3": "• 人民政权全国确立：1949年10月1日中央人民政府成立，标志新民主主义革命在全国基本胜利；《共同纲领》规定中华人民共和国实行工人阶级领导的、以工农联盟为基础的人民民主专政，各级人民政权陆续建立。人民成为国家的主人，为社会主义改造与工业化建设奠定了根本政治前提。\n• 抗美援朝保家卫国：1950年10月中国人民志愿军赴朝作战，把战线稳定在三八线附近，1953年7月签署停战协定；此役打破美军不可战胜的神话，巩固新生政权，为国内建设赢得安定环境，参战部队取得现代化战争经验。\n• 废除封建土地制度：1950年《中华人民共和国土地改革法》公布，新解放区分批开展土地改革，到1952年底基本完成，三亿多农民分到七亿亩土地，封建土地所有制在农村瓦解，农业恢复与工业化建设获得前提。\n• 西藏和平解放：1951年5月中央人民政府与西藏地方政府签订《十七条协议》，人民解放军进驻拉萨。帝国主义势力被逐出西藏，祖国大陆实现统一，民族区域自治制度随后在西藏逐步落实。\n• 中共八大指明方向：1956年9月中共八大在北京召开，大会指出国内主要矛盾已转变为人民对于建立先进的工业国的要求同落后的农业国的现实之间的矛盾，国家主要任务转为集中力量发展社会生产力；大会坚持稳步前进的经济建设方针，这次会议成为探索本国建设道路的良好开端。\n• 反右派斗争扩大化：1957年整风运动转为反右派斗争，右派的划定远超实际范围，大批知识分子与民主人士被错划，党内民主与多党合作受损，阶级斗争扩大化的偏向蔓延开来，埋下长远的隐患。\n• 大跃进与公社化兴起：1958年社会主义建设总路线提出后，“大跃进”和人民公社化运动迅速掀起，全民大炼钢铁，农村大办公共食堂、一平二调，浮夸风泛滥，国民经济比例严重失调，生产与生活遭到破坏。\n• 文化大革命全面发动：1966年5月中央政治局扩大会议通过“五一六通知”，同年8月八届十一中全会通过《关于无产阶级文化大革命的决定》，“文化大革命”由此全面发动；此后十年中党政机关受到冲击，大批干部与知识分子遭到迫害，生产教学科研秩序被打乱，这段全局性长时间的严重错误为日后拨乱反正埋下教训。\n• 文革结束与两年徘徊：1976年4月四五运动群众悼念周恩来、反对“四人帮”；同年9月毛泽东逝世，10月江青反革命集团被粉碎，“文化大革命”至此结束。然1977年8月中共十一大宣告文革结束，却未纠正其错误理论与政策，反加肯定，新党章沿用“无产阶级专政下继续革命”；同年2月“两个凡是”提出，平反受阻、思想未能突破，两年徘徊。", "4": "• 婚姻法的颁布：1950年5月《中华人民共和国婚姻法》施行，为新中国制定的第一部法律；它废除包办强迫、男尊女卑的封建主义婚姻制度，确立男女婚姻自由、一夫一妻、男女权利平等、保护妇女与子女合法利益的新民主主义婚姻原则。城乡宣传贯彻后，干涉婚姻的旧俗遭到打击，婚姻自主与妇女就业渐入城市家庭。\n• 民族区域自治制度化：1952年《民族区域自治实施纲要》公布，就自治地方的建立、自治机关的组成与自治权的行使作出具体规定，把《共同纲领》的原则落实为可行的制度，少数民族平等权利有了制度保障。\n• 过渡时期总路线提出：1953年中央提出总路线，即逐步实现国家的社会主义工业化，并逐步完成对农业、手工业和资本主义工商业的社会主义改造，“一化三改”并举，为社会主义制度的确立规定了步骤。\n• 人民代表大会制度确立：1954年9月一届全国人大一次会议召开，通过《中华人民共和国宪法》，规定国家一切权力属于人民，人民代表大会制度为政权组织形式，全国人大为最高国家权力机关；宪法体现人民民主与社会主义两项原则，把过渡时期总路线写入根本大法，为法制建设提供制度保障。\n• 多党合作与政治协商：1954年全国人大召开后，政协不再代行其职权，作为统一战线组织继续存在；1956年中共提出“长期共存、互相监督”方针，多党合作与政治协商成为定制，民主党派得以继续参与国是。\n• 农村政社合一体制：1958年人民公社普遍建立，基层政权与集体经济组织合为一体，既行使行政权力又支配生产分配，削弱了生产队与农民的自主权；此体制延续二十余年，1980年代初撤销。\n• 七千人大会总结经验：1962年1月11日至2月7日中央召开扩大的工作会议，中央至县各级党委和重要厂矿、军队负责干部七千余人到会；会议总结“大跃进”的经验教训，强调尊重客观规律，重申民主集中制与实事求是，中央领导人作自我批评。大会推动经济调整展开，但“左”的指导思想未根本纠正，深层问题仍然遗留。\n• 四届人大重申四化：1975年1月第四届全国人大一次会议通过《中华人民共和国宪法》，重申实现四个现代化的目标；周恩来重申这一任务，会后邓小平着手整顿，四个现代化成为长远建设的方向。", "5": "• 巩固政权与抗美援朝（1950—1953）：保家卫国，提高国际地位。\n• 台海、中印、中苏、西沙等军事斗争：一江山岛、炮击金门、中印边界自卫反击战、珍宝岛、西沙海战。\n• 国防和军队现代化：建立军兵种，研制两弹一星。\n• 军队建设受“文革”干扰，但国防科技仍取得突破。", "6": "• 统一全国财经：1950年3月政务院颁布《关于统一国家财政经济工作的决定》，全国财政收入、物资与资金归中央统一管理，改变各自为政的局面；国家同时打击投机资本、平抑物价，结束物价连年暴涨的历史，财政收支迅速接近平衡。新政权在城市经济中站住脚跟，为经济恢复与有计划建设奠定了前提。\n• 统购统销与国民经济恢复：1952年底工农业生产达到战前水平，国民经济恢复；1953年起对粮食、棉花、油料等农产品实行统购统销，既保障城市供给与工业积累，也以计划调拨掌控城乡流通，市场空间收缩。\n• 一五计划奠基工业化：1953年至1957年，第一个五年计划集中力量发展重工业，以156项工程为骨干，鞍山钢铁公司、长春一汽等相继建成，开始改变旧中国工业落后的面貌，为社会主义工业化奠定初步基础。\n• 社会主义改造确立公有制：1953年至1956年，农业经过互助组、初级社到高级社逐步过渡，手工业走向合作化，资本主义工商业实现全行业公私合营并以定息完成赎买；生产资料私有制转变为社会主义公有制，经济制度在我国基本建立，我国开始进入初级阶段，而改造后期要求过急、工作过粗的偏向也埋下隐患。\n• 八字方针调整经济：1960年冬中央提出“调整、巩固、充实、提高”的方针，1961年八届九中全会通过；压缩基建规模、精简职工与城镇人口、加强农业战线，比例失调的状况逐步改善，对国民经济好转起了促进作用。\n• 六十条与三线建设：1961年《农村人民公社工作条例（草案）》（六十条）颁行，定三级所有、队为基础；1964年起在西南西北部署大规模三线建设，1965年国民经济调整任务基本完成，工业布局由沿海单极转向内地多点。", "7": "• 三反五反运动：1951年12月起在机关工作人员中开展反贪污、反浪费、反官僚主义的“三反”运动；1952年初起在私营工商业者中开展反行贿、偷税漏税、盗骗国家财产、偷工减料、盗窃经济情报的“五反”运动。运动打击了不法资本家的“五毒”，工人阶级与国家对私营经济的领导得到加强，而逼供与扩大化偏向也留下隐患。\n• 知识分子思想改造：1952年思想改造运动在高校与文艺科技界展开，要求清理“旧思想”、开展自我批评；多数知识分子转变立场，马克思主义在文教界的指导地位得以确立，方式简单粗糙亦有消极影响。\n• 移风易俗与扫盲防疫：1952年中央设立扫盲工作委员会，工厂农村兴办识字班，文化水平有所提高；爱国卫生运动持续开展，疫病与血吸虫病防治初见成效，陋习被禁绝，社会风气出现新的气象。\n• 人民公社集体体制：1958年公社化高潮中，农业生产合作社被合并为“一大二公”的公社，大办公共食堂，无偿调拨生产队与社员财物，平均主义与“共产风”造成严重破坏；1962年前后调整为三级所有、队为基础的体制，农民被纳入集中的集体经营与统一分配之中，人民公社长期固化为乡村的基本组织形式。\n• 知识青年上山下乡：1968年底以后，大中学校毕业生被动员到农村边疆插队落户，上千万知识青年先后下乡，延续至1970年代末；知青在艰苦中经受锻炼，深造机会却长期丧失，人才培养出现断层。\n• 干部与知识分子下放：“文化大革命”中大批干部、科技专家与高校教师被批斗下放；1968年5月以后各地陆续开办“五七干校”，干部下放接受“再教育”，正常工作秩序遭到破坏，人才成长出现新的断层。", "8": "• 武训传与胡适思想批判：1951年《人民日报》发表毛泽东撰写的社论，批评电影《武训传》宣扬改良主义，文化界随之检讨；1954年批判俞平伯的《红楼梦》研究，1955年起扩大为对胡适派唯心主义在哲学、史学、教育诸领域的清算。这场批判以政治标准裁定学术是非，确立马克思主义的指导地位，开学术问题政治化之先例。\n• 马克思主义理论教育普及：1952年高校把马克思列宁主义理论列为共同必修课程，政治学习在干部与教师中普遍推行；马克思主义在学术界居于主导地位，新政权的思想基础得以巩固。\n• 双百方针提出：1956年4月毛泽东在中央政治局扩大会议上提出“百花齐放、百家争鸣”，作为促进艺术发展与科学进步的方针；此后文艺与学术界的讨论一度活跃，成为探索本国文化建设道路的重要一步。\n• 学术批判成为政治斗争的前奏：1957年反右派斗争扩大化后，“百花齐放、百家争鸣”方针的贯彻受到严重干扰，文艺与学术界接连兴起大批判；1965年11月姚文元的《评新编历史剧〈海瑞罢官〉》在上海发表，把吴晗的史学研究指为反党反社会主义，学术批判成为发动“文化大革命”的导火索，思想文化的紧张酿成政治动乱。\n• 批林批孔与评法批儒：1966年“破四旧”运动冲击文物古迹与典籍，文艺学术领域接连兴起大批判；1974年“批林批孔”与“评法批儒”把历史人物硬分派别并用以影射现实，正常学术研究与文化遗产传承遭到破坏。\n• 三个世界理论提出：1974年毛泽东提出“三个世界”理论，以美苏两霸为第一世界，发达国家为第二世界，亚非拉为第三世界，中国属第三世界，成为外交战略的依据；1975年的评《水浒》运动又被江青用为倾轧工具。", "9": "• 新中国外交方针奠基：1949年七届二中全会提出不承认旧的卖国外交关系，“另起炉灶”“打扫干净屋子再请客”，同年6月《论人民民主专政》宣布“一边倒”；依此三项方针，1949年10月至1950年苏联及欧亚人民民主国家先后与新中国建交，第一次建交热潮打破孤立封锁，为经济恢复与国防安全创造了外部条件。\n• 中苏友好同盟互助条约：1950年2月中苏签订《中苏友好同盟互助条约》，商定长春铁路与旅顺口归还中国，苏联另贷款三亿美元援华；“一边倒”方针随即落实，为经济恢复争取到外援，也维护了新政权安全。\n• 和平共处五项原则提出：1953年12月周恩来同印度代表团谈话时提出互相尊重领土主权、互不侵犯、互不干涉内政、平等互惠、和平共处五项原则；1954年中印、中缅声明确认，它成为新中国对外关系的准则。\n• 日内瓦会议与万隆会议：1954年4月至7月，新中国首次以五大国之一身份参加日内瓦会议，磋商朝鲜停战与印度支那和平问题，会议就印支停战达成协议；1955年4月周恩来出席万隆亚非会议，针对分歧提出“求同存异”，主张撇开制度差异、共同反对殖民主义，求同存异成为亚非国家的共同准则，亚非国家登上国际舞台。\n• 中苏关系破裂：1956年苏共二十大以后，两党在和平过渡与个人崇拜问题上分歧初现；1960年7月苏联撤回全部在华专家，中苏同盟破裂，经济建设与国防科研受损，关系恶化也影响此后二十年的对外格局。\n• 中法建交打破封锁：1964年1月中法两国建立大使级外交关系，法国成为西方大国中第一个同新中国建交的国家；建交冲破美国对华孤立政策，为同西欧国家发展关系开了先例，外部环境因此改善。\n• 珍宝岛冲突与重返联合国：1969年3月苏军侵入乌苏里江主航道中心线中国一侧的珍宝岛地区，中国边防部队还击，边境武装冲突扩大，全国进入战备；1971年10月第二十六届联合国大会通过第2758号决议，恢复中华人民共和国在联合国的一切合法权利，中国在安理会常任理事国的席位由是恢复。\n• 中美缓和与中日建交：1972年2月美国总统尼克松访华，双方发表《上海公报》，美方承认台湾是中国一部分，两国结束二十多年的对抗；同年9月日本首相田中角荣访华，中日邦交正常化，对外格局因此改变。", "10": "• 中共领导的多党合作和政治协商制度。\n• 人民代表大会制度与民族区域自治制度。\n• 社会主义改造完成，统一战线继续发展。\n• “文革”时期统一战线和政党制度遭到破坏。", "11": "【史学发展】\n• 古史分期诸问题讨论：1950年代，史学界围绕古史分期、土地制度、农民战争、资本主义萌芽与汉民族形成五大问题展开大讨论，《历史研究》等刊物成为各家辩难之地；学界以马克思主义社会形态理论重释中国历史，古史分期、土地制度诸讨论自此铺开，而以阶级斗争框架硬套古史的困难也渐次显露。\n• 奴隶制时代刊行：1952年郭沫若的《奴隶制时代》出版，把奴隶社会与封建社会的转变定在春秋战国之际；“战国封建论”此后成为古史分期讨论中影响最大的一家，并牵及教材编写与文物断代。\n• 马克思主义史学主导确立：1952年院系调整后，历史系按统一计划设置课程，革命史与马列主义列为必修，旧教材被改造；马克思主义史学取得主导地位，研究对象由帝王将相转向劳动人民。\n• 二十四史点校工程：1958年毛泽东提出整理“前四史”，中华书局约请全国著名史学家点校“二十四史”与《清史稿》，1959年《史记》点校本率先问世；工作因“文化大革命”中断，1971年由周恩来主持恢复，顾颉刚、唐长孺等分任其事，至1978年全部出齐。这套点校本成为此后通行的正史定本，传统文献整理有了现代点校的方法。\n• 中国史纲要问世：1961年高校文科教材会议决定由翦伯赞主编《中国史纲要》，1962年起人民出版社陆续出版；全书以马克思主义观点贯通脉络，剪裁与表述谨严，长期充任大学中国史教本，影响几代学人。\n• 史学政治化与思想史撰述：“文化大革命”期间“评法批儒”把史学变为政治工具，人物被硬贴标签以影射现实，影射史学盛行；此前侯外庐等撰《中国思想通史》陆续刊成，马克思主义史学的阵容已经壮大。\n【成就】\n• 科技：1949年11月中国科学院在北京成立，以原中央研究院、北平研究院的研究所为基础，下设数理、化学、生物、天文诸类研究所，郭沫若任院长，为全国科学事业的最高领导机关与学术指导中心，此后集中并培养了第一批科研骨干——国家科研体系建立起来，为资源勘察与国防尖端技术的突破准备了机构和人才条件。\n• 工业：1956年7月长春第一汽车制造厂装配出第一批“解放”牌四吨载重汽车，中国不能自造汽车的历史就此结束，随后形成批量生产能力——这座列为156项工程重点的工厂投产，成为中国汽车工业的起点。\n• 文化：1957年老舍创作完成三幕话剧《茶馆》，1958年由北京人民艺术剧院首演，剧本以一座茶馆为舞台写三个时代各色人物的命运——此剧被视为当代话剧民族化的代表作，成为中国戏剧走向世界的标志之一。\n• 交通：1957年10月武汉长江大桥建成通车，大桥为铁路公路两用，正桥八个桥墩跨越长江，把京汉、粤汉两路连成完整的京广线，毛泽东“一桥飞架南北，天堑变通途”的词句写的就是这座桥——它是新中国在长江上建成的第一座永久性大桥，中国桥梁设计与施工力量在此得到锻炼，为后来自建南京长江大桥积累了经验。\n• 军事：1964年10月中国第一颗原子弹在新疆罗布泊试验场爆炸成功，从1955年决策到首爆历时不足十年——原子弹的成功打破了超级大国的核垄断与核讹诈，国防实力与国际地位因此显著提高。\n• 科技：1965年9月中国科学家在世界上首次人工全合成结晶牛胰岛素，国内数家单位协作完成——这一成就标志人类在揭示生命本质的征途上迈出重要一步，也显示困难条件下基础研究仍可达世界水平。\n• 科技：1966年10月首次导弹核武器试验成功，1967年6月第一颗氢弹爆炸成功，1968年9月南京长江大桥铁路桥建成通车，1970年4月“东方红一号”卫星发射成功，中国成为第五个独立发射卫星的国家——“两弹一星”与自建特大型桥梁相继建成，国防科研体系已能独立运转，重大工程装备不再依赖外国。\n• 农业：1973年全国协作攻关实现籼型杂交水稻三系配套，袁隆平是其中的代表人物，1976年起大面积推广——杂交水稻在世界上首次获得成功，为粮食增产开辟新途径，对粮食安全与农业进步贡献重大。"}}, {"name": "改革开放与社会主义现代化建设新时期", "span": "1978—2012", "position": "第六编 · 中华人民共和国史（二）", "sub": "改革开放 · 市场经济 · 一国两制 · 全面小康", "note": "现有 PPT 未覆盖本阶段，正文以总表为主；2012 年以后另设补充页。", "feature": "改革开放新时期是中国由计划经济转向社会主义市场经济、由封闭走向全方位开放的三十四年。农村实行家庭联产承包，人民公社撤销，城市国企由放权让利走向现代企业制度；十四大确立市场经济体制目标，加入世贸组织把中国纳入全球分工；港澳回归使一国两制变为现实，中国特色社会主义理论体系逐步成形。然高速增长积累了收入差距、地区差距与环境代价，城乡二元与社保短板集中显现。三十四年间中国由温饱不足走到经济总量世界第二，现代化基础得以奠定。", "events": "→ 十一届三中全会与改革开放起步\n→ 市场经济体制与法治建设\n→ 一国两制与港澳回归\n→ 加入世界贸易组织与全面小康\n→ 中国特色社会主义理论体系发展", "cells": {"3": "• 十一届三中全会：1978年5月《实践是检验真理的唯一标准》发表，真理标准问题大讨论冲破教条；同年12月中共十一届三中全会召开，重新确立实事求是路线，停止使用“以阶级斗争为纲”的口号，作出把工作重心转向经济建设、实行改革开放的决策，形成以邓小平为核心的领导集体，实现建国以来党的历史上伟大转折。\n• 平反冤假错案：1978至1982年拨乱反正全面展开，平反文化大革命及历次政治运动造成的冤假错案，1980年为刘少奇恢复名誉，大批干部与知识分子落实政策；1981年历史决议作出总结，指导思想上的拨乱反正完成。\n• 十二大提出新命题：1982年9月中共十二大上，邓小平在开幕词中提出把马克思主义普遍真理同中国实际结合起来、走自己的道路，建设有中国特色的社会主义，这一命题此后成为理论与实践的主题。\n• 十三大与初级阶段理论：1987年10月中共十三大系统阐述社会主义初级阶段理论，提出以经济建设为中心、坚持四项基本原则、坚持改革开放的基本路线，制定“三步走”发展战略；大会指出初级阶段的主要矛盾是人民日益增长的物质文化需要同落后的社会生产之间的矛盾，为市场经济取向的改革提供理论依据。\n• 南方谈话与浦东开发：1990年中央决定开发开放上海浦东；1992年初邓小平视察武昌、深圳、珠海、上海等地发表南方谈话，指出计划与市场都是经济手段，“发展才是硬道理”，推动改革开放走向深化。\n• 十四大确立体制目标：1992年10月中共十四大把建立社会主义市场经济体制确立为改革目标，并提出用邓小平建设有中国特色社会主义理论武装全党的任务，此后改革由政策调整进入制度构建。\n• 香港与澳门回归：1997年7月1日中国政府对香港恢复行使主权，香港特别行政区成立，“一国两制”“港人治港”、高度自治的方针开始实施；1999年12月20日澳门回归祖国。港澳回归洗雪百年民族耻辱，标志祖国统一大业迈出重大步伐，也证明一国两制构想切实可行，为和平解决台湾问题提供范例。\n• 十六大与小康社会：2002年11月中共十六大提出全面建设小康社会的奋斗目标，确立在新世纪头二十年集中力量加快发展，并把发展社会主义民主政治、推进人的全面发展列入部署。\n• 科学发展观与和谐社会：2003年十六届三中全会提出以人为本、全面协调可持续的发展观，2004年四中全会提出构建和谐社会的任务，2006年六中全会作出构建和谐社会的专门决定，把社会建设与经济建设并列；这一提法回应了差距拉大与公共服务不足的矛盾，发展的内涵由单纯增速扩展为协调与共享。\n• 十七大与新要求：2007年10月中共十七大系统阐述科学发展观，对全面建设小康社会提出新要求，把2020年人均国内生产总值比2000年翻两番列为指标；大会把发展的评价标准由总量引向结构与质量。\n• 十八大与两个一百年：2012年11月中共十八大在北京召开，提出全面建成小康社会与全面深化改革开放的目标，确立“两个一百年”的奋斗方向，并把科学发展观同马克思列宁主义、毛泽东思想、邓小平理论、“三个代表”重要思想一道列为党的指导思想；大会为改革开放三十四年作结。", "4": "• 恢复高考招生制度：1977年8月邓小平主持科学和教育工作座谈会，决定恢复高考，同年冬季约570万人报考、录取27万余人；中断十年的高校招生以统一考试选拔为标准重建，使数以百万计的青年凭学业而非出身进入大学，也为各条战线的拨乱反正打开缺口，为改革开放奠定人才基础。\n• 七部法律与法制重启：1979年7月五届全国人大二次会议通过《刑法》《刑事诉讼法》等七部法律，结束无法可依的局面，为新时期的社会秩序与公民权利提供规范，标志国家生活的主要领域重归有法可依。\n• 领导制度改革讲话：1980年8月邓小平在中央政治局扩大会议上作《党和国家领导制度的改革》讲话，批评官僚主义、权力过分集中、干部职务终身制，提出改革党和国家领导制度，为政治体制改革确立方向。\n• 一国两制构想：1981年9月叶剑英提出关于台湾回归祖国、实现和平统一的九条方针；1982年1月邓小平将其概括为“一个国家、两种制度”，其后成为解决台湾与香港澳门问题的基本方针，即在祖国统一前提下保留原有制度与生活方式，并以特别行政区形式予以保障，为港澳回归与基本法制定提供依据。\n• 八二宪法与部门立法：1982年12月五届人大五次会议通过现行宪法，重新规定国家机构职权与公民权利规范；1986年《民法通则》确立民事活动基本准则，《中华人民共和国义务教育法》确立九年义务教育制度。\n• 市场经济入宪：1993年3月宪法修正案把“国家实行社会主义市场经济”写入根本法，并将我国正处于社会主义初级阶段、坚持改革开放载入序言，为市场经济体制改革提供宪法依据。\n• 科教兴国战略：1995年中共中央、国务院作出关于加速科学技术进步的决定，正式提出科教兴国战略，把科技与教育摆在优先位置。科研与义务教育投入随之加大，为世纪之交的现代化建设储备了人才。\n• 村民委员会组织法：1998年11月《村民委员会组织法》正式颁布，取代1987年通过的试行法，规定村民委员会是基层群众性自治组织，由村民直接选举产生，实行民主选举、民主决策、民主管理与民主监督，乡镇政府对其只作指导而非命令；基层群众自治制度逐步完备，直接民主的实践扩展到数亿农民日常生活。\n• 依法治国入宪：1999年3月九届全国人大二次会议的宪法修正案，将“实行依法治国、建设社会主义法治国家”写入宪法，并把邓小平理论写入序言，法治原则正式成为国家根本方针。\n• 人权与私产入宪：2004年3月十届全国人大二次会议通过宪法修正案，写入国家尊重和保障人权，明确公民的合法私有财产不受侵犯；根本法确认财产与权利，为非公有制经济提供了稳定预期。\n• 依法行政与人大监督：2004年国务院发布全面推进依法行政实施纲要，2006年《各级人民代表大会常务委员会监督法》通过，人大监督有了法定程序；行政权力须按法定权限行使，政府行为可查可诉范围扩大。\n• 法律体系形成：2005年3月十届全国人大三次会议通过《反分裂国家法》，以法律形式表明维护国家主权与领土完整的立场；2007年3月《物权法》颁行，明确国家、集体、私人的物权受平等保护；2010年底中国特色社会主义法律体系宣告形成，国家生活的主要方面自此有法可依，市场交易与财产关系有了稳定规则。", "5": "• 对越自卫反击战（1979）与边境防御。\n• 军队改革与百万大裁军，走中国特色精兵之路。\n• 国防现代化、科技强军，参与维和、护航。\n• 香港、澳门回归，维护国家统一；两岸关系曲折发展。", "6": "• 小岗村与家庭承包：1978年冬，安徽凤阳小岗村十八户农民私下约定“大包干”，次年产量陡增；这一做法经中央肯定后迅速推广，1982至1986年连续五个中央一号文件确认家庭联产承包责任制为农村基本经营制度，人民公社建制随之撤销，农民获得生产经营自主权，农村改革为城市改革提供粮食、劳动力与市场条件。\n• 城市改革启动：1984年10月十二届三中全会后城市经济体制改革全面展开，中心环节是增强企业活力，推行厂长负责制与承包经营责任制，标志国企改革由放权让利转入机制改造。\n• 沿海港口城市开放：1984年5月中央决定进一步开放大连、天津、青岛、上海、宁波、福州、广州、北海等十四个沿海港口城市，扩大其引进外资与技改项目的审批自主权，沿海开放由经济特区向港口城市扩展。\n• 有计划的商品经济：1984年10月中共十二届三中全会通过《中共中央关于经济体制改革的决定》，提出社会主义经济是“公有制基础上的有计划的商品经济”，突破把计划经济同商品经济对立起来的传统观念，明确改革以城市为重点、中心环节是增强企业活力；这一判断为1992年确立市场经济目标铺路，仍带过渡性质。\n• 乡镇企业与沿海开放区：1985年2月中央开辟长江三角洲、珠江三角洲、闽南三角地区为沿海经济开放区；同期乡镇企业异军突起，吸纳农村剩余劳动力，成为农村经济与农民收入的重要来源。\n• 分税制财政改革：1994年1月分税制改革实施，按税种划分中央税、地方税与共享税，建立税收返还与转移支付制度，分设国税、地税机构，中央财政收入比重迅速回升，转移支付成为调节地方收支的手段。\n• 所有制与金融改革：1997年9月中共十五大提出公有制为主体、多种所有制共同发展是基本经济制度，确认非公有制经济是社会主义市场经济的重要组成部分，国有经济实行“抓大放小”与战略性改组；此前1994年汇率并轨、设立三家政策性银行，实现政策性与商业性金融分离，国有银行开始向商业银行转制。\n• 应对亚洲金融危机：1997年7月东南亚货币暴跌引发亚洲金融危机，中国坚持人民币不贬值并加强资本流动管制，1998年起实施积极财政政策、扩大内需，平稳渡过冲击，也维护了区域金融秩序的稳定。\n• 入世与外贸跃升：加入世界贸易组织后进出口关税逐步下调，东部沿海形成加工制造与出口的产业带，2004年进出口总额升至世界第三；中国被纳入全球分工体系，出口成为拉动增长的一大支柱。\n• 农业税取消与新农村建设：2004年起中央连续发出关于三农的一号文件，2006年1月1日起农业税全面废止，延续两千余年的田赋就此终结；同期推行农村义务教育经费保障、新型农村合作医疗与农村低保，提出建设社会主义新农村；农民负担继包产到户后再度减轻，城乡关系由索取转向反哺。\n• 汇率形成机制改革：2005年7月中国人民银行宣布实行参考一篮子货币调节的浮动汇率制度，人民币不再单一盯住美元；汇率弹性增强，市场在汇率形成中的作用扩大，外汇储备的规模随之变化。\n• 金融危机与总量跃升：2008年国际金融危机蔓延，外需骤降，沿海加工企业订单锐减，中央实施扩大内需的十项措施与产业调整振兴规划，基础设施与信贷投放拉动投资，经济增速回落而后回升；2010年国内生产总值超过日本居世界第二位，中国由低收入国家进入中等偏上行列，增长由依赖外需转向内外并重。", "7": "• 知青返城与就业压力：1978年底云南等地知识青年以请愿、绝食要求返城，中央放开返乡限制，数年内上千万下乡知青回到城镇；1979年前后城镇待业人员约两千万，1980年8月全国劳动就业会议确立“劳动部门介绍就业、自愿组织起来就业与自谋职业相结合”的方针，集体与个体经济因之恢复。\n• 个体与私营阶层出现：1980年前后各地向个体经营者核发营业执照；1988年宪法修正案确认“私营经济是社会主义公有制经济的补充”，同年国务院颁布《私营企业暂行条例》，私营企业主阶层重新出现。\n• 农民工群体形成：1984年中央允许农民自理口粮进集镇务工经商，户籍对人口流动的限制松动；乡镇企业与沿海城市吸收大量农村劳动力，跨地区务工者在1980年代末渐成规模，成为城乡之间的新群体。\n• 下海经商潮起：1984年前后流通领域搞活引发第一次经商热，部分党政干部与科技人员“下海”经商；1988年海南建省后出现“十万人才过海峡”之潮；1992年南方谈话后更形成官员、学者停薪留职办公司的高潮，新登记企业剧增；下海改变脑体倒挂下的职业观念，壮大非公有制经济，也带来公司泛滥与权力寻租之弊。\n• 下岗潮与再就业工程：1990年代中后期国企“减员增效、下岗分流”，1998年6月中央召开国有企业下岗职工基本生活保障和再就业工作会议，要求建起下岗职工生活保障、失业保险与城市低保三条保障线。\n• 高等教育扩招：1999年普通高等教育招生规模一次性扩大近五成，同年6月中共中央、国务院作出深化教育改革、全面推进素质教育的决定，在校生人数急剧增加，高等教育由精英阶段走向大众化。\n• 三农问题凸显：2000年3月针对增产不增收与农民负担过重，中央决定在安徽省开展农村税费改革试点；城乡居民收入之比由1978年的约2.6比1扩大到2002年的约3.1比1，许多城市又为外来务工人员在岗位与社保上设限，农民工权益与城乡差距成为突出矛盾，十六大提出统筹城乡经济社会发展。\n• 非典与公共卫生：2003年非典型肺炎在广东等地出现并蔓延，全国实行疫情公开与日报告制度，国务院颁布《突发公共卫生事件应急条例》；这次疫情暴露疾控体系的薄弱，也促使信息公开成为应急常规。\n• 社会保障体系铺开：2003年起新型农村合作医疗试点，2007年国务院部署在全国建立农村最低生活保障制度，2009年新型农村社会养老保险试点启动，城镇居民医保同期推开；养老、医疗与低保三项制度由城市扩及农村，单位包办福利的旧格局被社会化保障网取代，人口流动不再以失去保障为代价。\n• 城镇化与人口流动：2011年末城镇常住人口占比超过百分之五十，大批农民工往返于城乡之间，留守儿童与随迁子女教育成为新问题；户籍仍在而人口已大规模离乡，城乡两栖成为突出的社会现象。", "8": "• 伤痕文学与第四次文代会：1978年8月卢新华小说《伤痕》发表，刘心武《班主任》开其先声，“伤痕文学”直面“文革”创伤而震动文坛；1979年10月中国文学艺术工作者第四次代表大会召开，邓小平致祝词，1980年明确提出不再提“文艺从属于政治”的口号，“为人民服务、为社会主义服务”的方向写入官方文件，题材与风格渐趋多样。\n• 文化热与精神污染：1980年代“文化热”兴起，西方人文社科著作大规模译介；1983年关于人道主义与异化问题的讨论继以短暂的“清除精神污染”运动，讨论旋告中止，思想界在引进与划界之间摆动。\n• 国学热的兴起：1990年代“国学热”渐成风气，高校相继设立国学研究与教学机构，《四库全书存目丛书》等大型古籍影印面世，民间读经与传统文化讲座并起，反映市场化冲击下文化认同与价值重建的诉求。\n• 人文精神大讨论：1993—1995年京沪学界围绕“人文精神”的失落展开论争，由《上海文学》刊出《旷野上的废墟》发端，质疑市场经济与大众文化冲击下知识分子的角色，是市场经济到来后思想界的第一次自省。\n• 三个代表重要思想：2000年2月江泽民在广东考察工作时提出“三个代表”的要求，强调党要始终代表中国先进生产力的发展要求、代表中国先进文化的前进方向、代表中国最广大人民的根本利益；2001年“七一”讲话系统阐发，回答长期执政条件下建设什么样的党、怎样建设党问题，为十六大确立其指导地位作准备。\n• 大众文化与消费观念：2000年代互联网普及，网络文学、电子公告板与网吧文化兴起，2002年底网民数已近六千万；电视剧、流行音乐与娱乐报刊构成日常景观，消费与生活方式的观念随市场放开而转变。\n• 发展理念与核心价值：2003年后以人为本的科学发展观渐成全党共识，2006年十六届六中全会把建设社会主义核心价值体系列为任务，2007年十七大提出增强社会主义意识形态的吸引力；发展不再单以增速衡量，公平、协调与共享进入官方表述，思想议题的重心由要不要改革转向改革成果如何分配。\n• 文化体制改革：2003年文化体制改革试点启动，2006年中央发出深化文化体制改革的若干意见，经营性文化单位转企改制，出版影视演艺引入市场机制；文化产品的供给形成多种主体并存的格局。\n• 网络文化与对外传播：2004年起孔子学院在海外陆续设立，2010年上海举办世界博览会；同期网民规模大增，网络文学与通俗讲史改变阅读，中国对外文化传播的渠道明显增多，走出去的主动性增强。", "9": "• 中日和平友好条约：1978年8月《中日和平友好条约》签订，确认1972年《中日联合声明》所列各项原则，规定任何一方均不在亚太地区或世界其他地方谋求霸权，并以和平方式解决争端；同年10月邓小平访问日本。条约以法律形式固定邦交正常化的成果，为中日经贸合作提供依据，也推动对外开放条件改善。\n• 中美正式建交：1978年12月中美发表建交公报，美国承认中华人民共和国政府是中国的唯一合法政府；1979年1月1日两国正式建交，同年1月邓小平访美，中美关系实现正常化，为改革开放提供重要外部条件。\n• 中英联合声明：1982年9月撒切尔夫人访华，中英就香港前途展开两年多谈判；1984年12月两国政府签署《中英联合声明》，确认1997年7月1日中国对香港恢复行使主权，并阐明以一国两制为核心的基本政策。\n• 中苏关系正常化：1989年5月16日戈尔巴乔夫访华与邓小平会晤，宣布结束三十年对立状态、实现中苏关系正常化，双方以“结束过去、开辟未来”相概括，并商定不以意识形态分歧论国家关系；此前1987年4月中葡签署澳门问题联合声明，确认1999年中国对澳门恢复行使主权。北部边境紧张局面随之缓解，外部环境更为安定。\n• 九二共识与汪辜会谈：1992年海协会与海基会达成海峡两岸均坚持一个中国原则的口头共识，1993年汪道涵、辜振甫在新加坡会谈，实现两岸授权团体首次商谈。两岸交往在经济往来之外有了政治对话渠道。\n• 上海合作组织成立：1996年4月中、俄、哈、吉、塔五国元首在上海会晤并签署边境地区加强军事领域信任协定，形成“上海五国”机制；2001年6月15日六国元首在上海签署成立宣言，上海合作组织正式成立。\n• 加入世界贸易组织：2001年11月多哈会议审议通过关于中国加入的决定，同年12月中国正式成为世界贸易组织成员；此前10月上海主办亚太经合组织领导人非正式会议，为当时该组织规模最大的一次聚会。\n• 联合国维和参与扩大：2002年2月中国加入联合国一级维和待命安排机制；自1990年首派军事观察员、1992年首派成建制工程部队赴柬埔寨以来，维和人员逐步覆盖军事观察、工程保障、医疗运输与民事警察，规模持续增加，成为联合国维和行动的重要力量，工程与医疗分队长期驻守非洲多个任务区。\n• 多边外交与亚丁湾护航：2003年起中国主办朝鲜半岛核问题六方会谈，2005年第四轮会谈发表共同声明；2008年12月首次派遣海军舰艇编队赴亚丁湾海域护航；中国在地区安全议题上开始承担斡旋与护航职责。\n• 两岸关系与直接三通：2005年4月国共两党领导人时隔六十年再度会面，此后两岸政党交流趋于常态；2008年12月两岸正式实现海运直航、空运直航与通邮，2010年6月《海峡两岸经济合作框架协议》签署，2011年大陆居民赴台个人游开放；两岸由经第三地间接往来转为直接通航通商，贸易与人员往来的规模成倍扩大。\n• 金融危机后的国际参与：2008年金融危机后中国参与二十国集团峰会，2009年金砖国家领导人会晤举行，2010年中国—东盟自由贸易区全面建成；中国由接受国际规则转为参与规则磋商，布局向区域合作延展。", "10": "• 统一战线恢复，多党合作方针发展为“长期共存、互相监督、肝胆相照、荣辱与共”。\n• 一国两制与港澳回归：国家统一大业取得重大进展。\n• 两岸关系：九二共识、汪辜会谈、直接三通。", "11": "【史学发展】\n• 史学界拨乱反正：1978年后史学界清算“四人帮”御用写作班子与“影射史学”，恢复实事求是学风；高校历史系与中国社会科学院历史研究所等重建并恢复招收研究生，1980年《学位条例》颁布、次年学位制度施行，历史学博士点随之设立，《历史研究》等刊物复刊，各断代史与专门史团体相继成立，为新时期史学发展奠定基础。\n• 西方史学方法引入：1980年代年鉴学派、计量史学与心理史学等西方史学方法被大规模译介，巴勒克拉夫《当代史学主要趋势》中版面世，史学理论一时成为显学，为研究视角多样化提供工具。\n• 史学研究视角转换：1990年代现代化史、社会史与区域史研究相继兴盛，罗荣渠《现代化新论》重新阐释近代中国的历史任务，社会史由描述社会生活转向国家与社会关系，区域研究强调透过地方理解中国整体；当代史学的国际化追求与新史学思潮涌动，海外汉学回潮、中外对话增多，政治史独大格局被打破。\n• 夏商周断代工程：1996—2000年国家组织实施“夏商周断代工程”，以文献、考古与碳十四测年、天文记录相互印证，2000年公布阶段成果报告与三代年表，推定夏代始年约为公元前2070年、武王克商为公元前1046年。\n• 公众史学与口述史学：2000年代口述史方法由名人传记、政协文史资料扩展到普通人的经历记录，媒体专栏与回忆录出版成热潮，公众参与历史书写的风气渐开，史料的边界与史家责任成为讨论主题。\n• 海外清史讨论与回应：海外汉学著作在2000年后被系统译介，海外学界围绕清代历史的“新清史”讨论于2010年前后传入国内，引发关于满汉关系、边疆治理与王朝性质的争辩；国内学者就此展开反驳与辨析，中国史学界重新审视既有的分期与论述框架，对外学术交流由译介为主转为正面讨论。\n• 史料数字化与公众史学：2000年代后期古籍数字化与数据库建设推开，《四库全书》电子版便利了检索，电视讲座与通俗写史成风，历史知识走出专业圈子；史料获取方式改变，史学与公众的关系随之调整。\n• 国家清史纂修工程：2002年12月中共中央、国务院批准启动国家清史纂修工程，成立国家清史编纂委员会，集合全国力量修撰一部系统的新清史，以补《清史稿》之阙，为新中国规模最大的文化学术工程之一。\n• 学科建设与教材工程：2004年中共中央实施马克思主义理论研究和建设工程，组织编写思想政治理论课与历史学等学科教材，国家对哲学社会科学投入加大；学科建设由分散走向统一规划。\n【成就】\n• 科技：1983年12月国防科技大学研制的“银河一号”亿次巨型计算机通过鉴定，每秒运算一亿次以上，使中国跻身少数能独立研制亿次机的国家之列——它填补国内高速计算的空白，为气象预报、石油勘探、图像处理与国防工程提供自主算力，标志中国高性能计算机研制进入实用阶段。\n• 科技：1984年4月8日“东方红二号”试验通信卫星发射成功并定点于地球同步轨道，使中国成为能独立研制发射同步轨道卫星的国家之一——通信与广播电视传输不再长期租用国外卫星。\n• 科技：1988年10月16日北京正负电子对撞机首次对撞成功，同年10月21日举行落成典礼——它是中国第一台高能加速器，使中国在高能物理实验研究领域占有一席之地，为此后粲物理能区的实验测量提供平台。\n• 工业：1991年12月15日，位于浙江海盐的秦山核电站第一期30万千瓦压水堆机组自主设计建造并并网发电，结束中国大陆没有核电的历史——它与稍后建成的大亚湾核电站一道形成自主建造与技术引进并行的核电布局，带动核燃料、装备制造与专业人才培养，标志中国能源结构开始多元化。\n• 工程：1992年4月七届全国人大五次会议通过兴建三峡工程的决议，1994年12月14日长江三峡工程正式开工——工程以防洪为首要任务，兼有发电与航运之利，是当时世界规模最大的水利枢纽。\n• 科技：1999年11月20日“神舟一号”无人试验飞船由长征系列运载火箭在酒泉发射升空，次日于内蒙古中部预定地区成功回收——它是载人航天工程的首次飞行试验，验证飞船与回收技术，为载人飞行铺路。\n• 交通：2001年6月29日青藏铁路二期工程格尔木至拉萨段开工建设，新建线路约1142公里，多数地段海拔四千米以上，需攻克高寒缺氧、多年冻土与生态脆弱三大难题——它是世界上海拔最高、穿越冻土最长的高原铁路，也是西部大开发的标志性工程，该线2006年全线通车，西藏自此通了铁路，内地与西藏的交流有了骨干通道。\n• 航天：2003年10月“神舟五号”载人飞船将杨利伟送入太空并安全返回，中国成为第三个独立掌握载人航天技术的国家——载人飞行由试验转为现实，为出舱活动与交会对接积累了经验。\n• 工程：2008年三峡工程左右岸电站全部机组投产，装机容量二千二百五十万千瓦，防洪库容二百二十一亿立方米——长江中下游的防洪标准由十年一遇提高到百年一遇，清洁能源的供给大幅增加。\n• 交通：2008年8月京津城际铁路开通运营，时速三百五十公里，是中国第一条具有自主知识产权的高速铁路；此后京沪、京广等干线相继建成，2010年底高铁运营里程居世界第一——铁路客运由普速时代进入高速时代，城市群之间的人员流动成本大幅下降，装备制造与工程技术随之输出到海外。\n• 教育：2008年秋季起全国城乡义务教育阶段学生学杂费全部免除，农村义务教育阶段教科书免费提供，西部农村寄宿生获得生活补助——延续多年的收费义务教育就此终结，入学率与巩固率随之提高。"}}, {"name": "中国特色社会主义新时代", "span": "2012—至今", "position": "第七编 · 当代继续发展", "sub": "全面深化改革 · 脱贫攻坚 · 中国式现代化", "feature": "补：中国特色社会主义进入新时代。现有总表止于2012年，PPT止于1949年，因此本页作为补充阶段单独处理，内容以“补”标记。", "events": "→ 中共十八大与全面建成小康社会\n→ 全面深化改革与全面依法治国\n→ 脱贫攻坚与全面建成小康社会\n→ 中共二十大与中国式现代化", "isNew": true, "note": "补充页：现有总表和 PPT 均未覆盖本阶段，整页按“补”处理；以后有新材料可再替换。", "cells": {"3": "", "4": "", "5": "", "6": "", "7": "", "8": "", "9": "", "10": "", "11": ""}}], "cross": {"3": "【脉络梳理】\n→晚清统治确立（1840—1895）：两次鸦片战争战败订约，金田起义、天京事变，洋务运动兴起，甲午北洋水师覆没\n→清末新政与辛亥革命（1895—1912）：戊戌变法百日而败，八国联军逼签《辛丑条约》，皇族内阁断改良之路，武昌起义\n→北洋政府与国民革命（1912—1927）：护国运动倒洪宪，五四运动、中共成立，五卅惨案、北伐战争、四一二政变\n→南京国民政府与决战（1927—1949）：东北易帜、中原大战，九一八到七七步步沦陷，淞沪、台儿庄、百团大战，重庆谈判、三大战役\n→新中国建立与建设（1949—1978）：抗美援朝立国威，一五计划起步，反右扩大化、大跃进，文革十年、九一三事件\n→改革开放与现代化建设（1978—2012）：三中全会转向，南方谈话后市场经济入宪，港澳回归、加入世贸，十八大立两个一百年\n【演变趋势与逻辑】\n百年事件从对外战败起步，经军阀混战与民族战争，最后归于和平建设。晚清鸦片战争、甲午战争接连战败，太平天国与义和团复起于内，内外战事交替。清末武昌起义终结帝制，各省相继独立，接手民国的是军阀割据。北洋时期直皖战争与两次直奉战争相继爆发，内阁更迭频繁，中央号令不出京畿。国民政府时期北伐完成形式统一，日本自九一八进至七七，局部战事扩大为全面战争；抗战胜利后内战即起，三大战役与渡江战役决定政权归属。新中国以抗美援朝拒敌于国门之外，此后二十余年的大事件转为国内建设与政治运动。改革开放时期未再发生大规模战争，港澳回归与加入世贸组织成为此期的国家大事，十六大后提出全面建设小康社会，国家的任务转向发展方式的调整。", "4": "【脉络梳理】\n→晚清统治确立（1840—1895）：总理衙门主管洋务，湘淮军兴而督抚专权，新疆建省、海军衙门继设\n→清末新政与辛亥革命（1895—1912）：废科举、设资政院，《钦定宪法大纲》与皇族内阁相继，清亡而《临时约法》立\n→北洋政府与国民革命（1912—1927）：袁世凯毁法、洪宪帝制自毙，国民党一大改组联俄容共，广州国民政府成立\n→南京国民政府与决战（1927—1949）：训政五院、苏维埃与三三制并立对峙，1949年《共同纲领》代行宪法\n→新中国建立与建设（1949—1978）：一届人大颁行五四宪法，人民公社政社合一，七千人大会纠左，文革冲垮法制\n→改革开放与现代化建设（1978—2012）：七部法律重启法制，1982年宪法重立，村委会直选，2010年法律体系形成\n【演变趋势与逻辑】\n政治制度从君主专制经共和试验与政党训政，走到人民代表大会制度与依法治国。晚清设总理衙门与海军衙门办理洋务，湘淮军兴起后督抚掌兵权与财权，朝廷的旧体制指挥不动地方。清末废科举、设资政院，颁《钦定宪法大纲》许诺宪政，皇族内阁既出，宪政筹备止于此。北洋时期《临时约法》屡遭废止，国会被军阀一再解散，共和仅存名号。国民政府时期行训政、设五院，中共在根据地建苏维埃、行三三制，两套政权并存。新中国以《共同纲领》过渡，1954年宪法确立人民代表大会制度，文革期间法制一度废弛。改革开放时期1982年宪法重申法制，依法治国写入宪法，村民委员会组织法把自治推到村级。四种制度前后更替，到2012年法律体系已经形成，权力的运行被要求依宪法与法律进行。", "5": "【脉络梳理】\n→晚清统治确立（1840—1895）：两次鸦片战争战败订约，金田起义、天京事变，洋务运动兴起，甲午北洋水师覆没\n→清末新政与辛亥革命（1895—1912）：戊戌变法百日而败，八国联军逼签《辛丑条约》，皇族内阁断改良之路，武昌起义\n→北洋政府与国民革命（1912—1927）：护国运动倒洪宪，五四运动、中共成立，五卅惨案、北伐战争、四一二政变\n→南京国民政府与决战（1927—1949）：东北易帜、中原大战，九一八到七七步步沦陷，淞沪、台儿庄、百团大战，重庆谈判、三大战役\n→新中国建立与建设（1949—1978）：抗美援朝立国威，一五计划起步，反右扩大化、大跃进，文革十年、九一三事件\n→改革开放与现代化建设（1978—2012）：三中全会转向，南方谈话后市场经济入宪，港澳回归、加入世贸，十八大立两个一百年\n【演变趋势与逻辑】\n百年事件从对外战败起步，经军阀混战与民族战争，最后归于和平建设。晚清鸦片战争、甲午战争接连战败，太平天国与义和团复起于内，内外战事交替。清末武昌起义终结帝制，各省相继独立，接手民国的是军阀割据。北洋时期直皖战争与两次直奉战争相继爆发，内阁更迭频繁，中央号令不出京畿。国民政府时期北伐完成形式统一，日本自九一八进至七七，局部战事扩大为全面战争；抗战胜利后内战即起，三大战役与渡江战役决定政权归属。新中国以抗美援朝拒敌于国门之外，此后二十余年的大事件转为国内建设与政治运动。改革开放时期未再发生大规模战争，港澳回归与加入世贸组织成为此期的国家大事，十六大后提出全面建设小康社会，国家的任务转向发展方式的调整。\n【脉络梳理】\n→晚清统治确立（1840—1895）：《南京条约》开五口通商，领事裁判权与协定关税落定，朝贡体制走向瓦解\n→清末新政与辛亥革命（1895—1912）：列强瓜分势力范围，美国提出门户开放，日俄战争战于中国东北\n→北洋政府与国民革命（1912—1927）：对德奥宣战加入协约国，巴黎和会受挫，华盛顿会议、收回汉口九江英租界\n→南京国民政府与决战（1927—1949）：改订新约争取关税自主，抗战中废除治外法权，跻身四强、参与创建联合国\n→新中国建立与建设（1949—1978）：一边倒结盟苏联，和平共处五项原则提出，恢复联合国合法席位、中美关系破冰\n→改革开放与现代化建设（1978—2012）：中美建交、中日缔约，加入世贸组织，主办六方会谈，2010年成第二大经济体\n【演变趋势与逻辑】\n中国在国际体系中的位置，由条约体系的底层，经战时同盟的四强，转为体系内的参与者。晚清两次战败后割地赔款，关税税则与领事裁判权落于外人之手，朝贡体系解体。清末列强划分势力范围，美国提出门户开放，外务部依列强通例办事。北洋时期对德奥宣战、加入协约国，巴黎和会山东交涉失败，转受华盛顿会议约束。国民政府一面改订旧约收回关税自主权，一面在抗战时期促成治外法权废除，借此跻身四强、参与战后国际安排。新中国先与苏联结盟，复以和平共处五项原则交往亚非国家，1971年恢复联合国合法席位。改革开放时期中美建交、加入世贸组织，中国由接受既成规则转为参与规则制定。由被迫签约到参与定规矩，到2012年中国已是世界第二大经济体，贸易按国际规则进行。", "6": "【脉络梳理】\n→晚清统治确立（1840—1895）：五口通商、协定关税，江南制造总局与轮船招商局创办，民族资本在口岸萌生\n→清末新政与辛亥革命（1895—1912）：《马关条约》准外人设厂，商部设立奖励实业，收回路矿利权运动高涨\n→北洋政府与国民革命（1912—1927）：欧洲列强放松压迫，民族工业迎来黄金时期，战后外资回流再受挤压\n→南京国民政府与决战（1927—1949）：法币改革统一币制，沿海工矿内迁西南，金圆券崩溃、国统区经济瓦解\n→新中国建立与建设（1949—1978）：统一财经稳定物价，一五计划建156项工程，三大改造确立公有制，三线建设备战\n→改革开放与现代化建设（1978—2012）：包产到户先行，特区与沿海开放，分税制划央地财权，农业税废止、总量第二\n【演变趋势与逻辑】\n经济最初由官办与民办两途推进，随后国家收归计划调配，改革开放后再度交回市场。晚清五口通商后洋布排挤土布，自然经济瓦解，洋务派办江南制造总局与轮船招商局。清末《马关条约》准外人设厂，商部设立、实业获奖，民族工业在口岸兴起。北洋时期欧洲列强无暇东顾，棉纺与面粉业一度兴旺，战后外资回潮，销路受压。国民政府时期关税自主与法币改革维持数年，官僚资本膨胀、金圆券失信，城乡经济一并凋敝。新中国统一财经、行统购统销，一五计划集中投向重工业，农业与消费长期居于次要。改革开放时期包产到户先行，特区与沿海开放继之，分税制划央地财权，农业税废止而市场经济入宪，资源配置由计划转到市场，价格与投资不再听命于计划，2010年中国成为第二大经济体。", "7": "【脉络梳理】\n→晚清统治确立（1840—1895）：买办出现在通商口岸，湘淮军开文人领兵之例，会党与教门活跃于民间\n→清末新政与辛亥革命（1895—1912）：废科举断士子进身之路，新式学生与留学生成群，立宪派与革命派分野\n→北洋政府与国民革命（1912—1927）：工人阶级壮大并在五四后登上政治舞台，农运兴起于广东湖南，学生运动成先锋\n→南京国民政府与决战（1927—1949）：难民流亡、高校西迁，土地改革重排农村阶级，华侨倾力支援抗战\n→新中国建立与建设（1949—1978）：土地改革消灭地主阶级，人民公社把农民编进集体，知识青年上山下乡\n→改革开放与现代化建设（1978—2012）：知青返城、个体户重生，农民工进城，社保扩及农村，城镇人口过半\n【演变趋势与逻辑】\n社会由士绅与农民构成的旧结构，转为工人、市民与农民工并存的格局。晚清通商口岸出现买办与产业工匠，湘淮军既起，文官独掌兵权的旧制不复存在。清末废科举，学生与留学生成为新的知识群体，立宪派与革命派由此分途。北洋时期工厂增多，工人阶级壮大，五四后以罢工登上政治舞台；农运在广东、湖南兴起。国民政府时期战争把人口大批推向西南，解放区土改重划农村阶级。新中国以土地改革废除地主阶级，人民公社与单位制分头编组农民与职工，人口流动随之中止。改革开放时期恢复高考、知青返城、农民进城务工相继发生，个体户与私营业主重新出现，户籍限制逐步松动。结构由士绅与农民变为工人、市民与农民工并存，户籍虽在，城镇常住人口已过半数。", "8": "【脉络梳理】\n→晚清统治确立（1840—1895）：师夷长技以制夷，中体西用立为纲领，王韬郑观应倡言开设议院\n→清末新政与辛亥革命（1895—1912）：维新派与革命派论战政体，三民主义问世，实业救国与教育救国并起\n→北洋政府与国民革命（1912—1927）：《新青年》倡民主与科学，白话文取代文言，马克思主义在论战中传播\n→南京国民政府与决战（1927—1949）：《新民主主义论》指明前途，延安文艺定工农兵方向，中间路线归于破产\n→新中国建立与建设（1949—1978）：双百方针提出而受挫，学术批判泛化为政治批判，评法批儒席卷学界\n→改革开放与现代化建设（1978—2012）：真理标准讨论破除迷信，文化热、国学热相继，科学发展观成为主导提法\n【演变趋势与逻辑】\n回答中国往何处去的说法几度更换：先说器物不如人，再论制度不行，最后归结为主义的选择。晚清承认器械不如人，师夷长技与中体西用皆止于造船造炮，早期维新始及议院。清末甲午战后论战政体，维新派主君主立宪，革命派主共和。北洋时期共和徒具形式，论争转入伦理与文化，《新青年》倡民主与科学，白话文取代文言。国民政府时期马克思主义在诸说中传播日广，以其同时回应救亡与土地问题。新中国确立马克思主义的指导地位，双百方针提出后旋即受挫，学术批判演为政治批判。改革开放时期真理标准讨论解除思想禁锢，西方学说与传统文化相继进入讨论，思想议题的来源不再单一，科学发展观与核心价值体系相继提出，发展的评价不再只看增速。", "9": "【脉络梳理】\n→晚清统治确立（1840—1895）：《南京条约》开五口通商，领事裁判权与协定关税落定，朝贡体制走向瓦解\n→清末新政与辛亥革命（1895—1912）：列强瓜分势力范围，美国提出门户开放，日俄战争战于中国东北\n→北洋政府与国民革命（1912—1927）：对德奥宣战加入协约国，巴黎和会受挫，华盛顿会议、收回汉口九江英租界\n→南京国民政府与决战（1927—1949）：改订新约争取关税自主，抗战中废除治外法权，跻身四强、参与创建联合国\n→新中国建立与建设（1949—1978）：一边倒结盟苏联，和平共处五项原则提出，恢复联合国合法席位、中美关系破冰\n→改革开放与现代化建设（1978—2012）：中美建交、中日缔约，加入世贸组织，主办六方会谈，2010年成第二大经济体\n【演变趋势与逻辑】\n中国在国际体系中的位置，由条约体系的底层，经战时同盟的四强，转为体系内的参与者。晚清两次战败后割地赔款，关税税则与领事裁判权落于外人之手，朝贡体系解体。清末列强划分势力范围，美国提出门户开放，外务部依列强通例办事。北洋时期对德奥宣战、加入协约国，巴黎和会山东交涉失败，转受华盛顿会议约束。国民政府一面改订旧约收回关税自主权，一面在抗战时期促成治外法权废除，借此跻身四强、参与战后国际安排。新中国先与苏联结盟，复以和平共处五项原则交往亚非国家，1971年恢复联合国合法席位。改革开放时期中美建交、加入世贸组织，中国由接受既成规则转为参与规则制定。由被迫签约到参与定规矩，到2012年中国已是世界第二大经济体，贸易按国际规则进行。", "10": "【脉络梳理】\n→晚清统治确立（1840—1895）：总理衙门主管洋务，湘淮军兴而督抚专权，新疆建省、海军衙门继设\n→清末新政与辛亥革命（1895—1912）：废科举、设资政院，《钦定宪法大纲》与皇族内阁相继，清亡而《临时约法》立\n→北洋政府与国民革命（1912—1927）：袁世凯毁法、洪宪帝制自毙，国民党一大改组联俄容共，广州国民政府成立\n→南京国民政府与决战（1927—1949）：训政五院、苏维埃与三三制并立对峙，1949年《共同纲领》代行宪法\n→新中国建立与建设（1949—1978）：一届人大颁行五四宪法，人民公社政社合一，七千人大会纠左，文革冲垮法制\n→改革开放与现代化建设（1978—2012）：七部法律重启法制，1982年宪法重立，村委会直选，2010年法律体系形成\n【演变趋势与逻辑】\n政治制度从君主专制经共和试验与政党训政，走到人民代表大会制度与依法治国。晚清设总理衙门与海军衙门办理洋务，湘淮军兴起后督抚掌兵权与财权，朝廷的旧体制指挥不动地方。清末废科举、设资政院，颁《钦定宪法大纲》许诺宪政，皇族内阁既出，宪政筹备止于此。北洋时期《临时约法》屡遭废止，国会被军阀一再解散，共和仅存名号。国民政府时期行训政、设五院，中共在根据地建苏维埃、行三三制，两套政权并存。新中国以《共同纲领》过渡，1954年宪法确立人民代表大会制度，文革期间法制一度废弛。改革开放时期1982年宪法重申法制，依法治国写入宪法，村民委员会组织法把自治推到村级。四种制度前后更替，到2012年法律体系已经形成，权力的运行被要求依宪法与法律进行。\n【脉络梳理】\n→晚清统治确立（1840—1895）：两次鸦片战争战败订约，金田起义、天京事变，洋务运动兴起，甲午北洋水师覆没\n→清末新政与辛亥革命（1895—1912）：戊戌变法百日而败，八国联军逼签《辛丑条约》，皇族内阁断改良之路，武昌起义\n→北洋政府与国民革命（1912—1927）：护国运动倒洪宪，五四运动、中共成立，五卅惨案、北伐战争、四一二政变\n→南京国民政府与决战（1927—1949）：东北易帜、中原大战，九一八到七七步步沦陷，淞沪、台儿庄、百团大战，重庆谈判、三大战役\n→新中国建立与建设（1949—1978）：抗美援朝立国威，一五计划起步，反右扩大化、大跃进，文革十年、九一三事件\n→改革开放与现代化建设（1978—2012）：三中全会转向，南方谈话后市场经济入宪，港澳回归、加入世贸，十八大立两个一百年\n【演变趋势与逻辑】\n百年事件从对外战败起步，经军阀混战与民族战争，最后归于和平建设。晚清鸦片战争、甲午战争接连战败，太平天国与义和团复起于内，内外战事交替。清末武昌起义终结帝制，各省相继独立，接手民国的是军阀割据。北洋时期直皖战争与两次直奉战争相继爆发，内阁更迭频繁，中央号令不出京畿。国民政府时期北伐完成形式统一，日本自九一八进至七七，局部战事扩大为全面战争；抗战胜利后内战即起，三大战役与渡江战役决定政权归属。新中国以抗美援朝拒敌于国门之外，此后二十余年的大事件转为国内建设与政治运动。改革开放时期未再发生大规模战争，港澳回归与加入世贸组织成为此期的国家大事，十六大后提出全面建设小康社会，国家的任务转向发展方式的调整。", "11": "【脉络梳理】\n→晚清统治确立（1840—1895）：边疆史地之学兴起，《海国图志》开世界视野，王韬、黄遵宪撰国别史\n→清末新政与辛亥革命（1895—1912）：梁启超《新史学》倡史界革命，夏曾佑撰新式通史，国粹史学并起\n→北洋政府与国民革命（1912—1927）：古史辨疑古改写上古史，王国维立二重证据法，唯物史观传入中国\n→南京国民政府与决战（1927—1949）：殷墟发掘开现代考古，《国史大纲》持文化立场，范文澜撰马克思主义通史\n→新中国建立与建设（1949—1978）：古史分期与资本主义萌芽大讨论，二十四史点校，评法批儒使史学政治化\n→改革开放与现代化建设（1978—2012）：学科重建、西方方法引入，断代工程与清史纂修，公众史学与数字化并起\n【演变趋势与逻辑】\n史学由经世史学经新史学、马克思主义史学，进入多元并进的阶段。晚清边疆危机催生西北史地之学，《海国图志》等书开始记述外域。清末梁启超倡新史学，夏曾佑撰新式通史，章太炎自国粹一路重释旧史。北洋时期古史辨重审上古传说，王国维以地下材料与文献互证，唯物史观同时传入。国民政府时期史语所主持殷墟发掘，考古与文献并重；马克思主义通史与文化立场史学并行。新中国以古史分期、资本主义萌芽等论题主导学界，二十四史点校同期展开，评法批儒一度使史学服务于政治。改革开放时期学科建制恢复，西方史学方法译介进来，断代工程与清史纂修启动，海外汉学的清史讨论传入国内。由经世与新史学走到多元并进，考古与口述并用，官修大型史书重新开工。"}}</script>
+<script id="supp" type="application/json">{"晚清统治确立与半殖民地化开端": {"3": ["马戛尔尼使团（1792—1793）与阿美士德使团（1816）：PPT 从全球史视角说明中西外交礼仪、通商制度与观念冲突。", "小斯当东、英国议会辩论与炮舰政策：把鸦片战争放入工业革命、自由贸易和殖民扩张的世界背景中理解。", "三角贸易：英国—印度—中国之间的棉纺织品、原棉与鸦片、丝茶流动，是战争爆发的重要经济背景。"], "4": ["总理衙门与总税务司：总理衙门统辖外交、通商、海防与洋务；赫德长期掌握中国海关，反映主权的部分流失。", "洋务派与顽固派争论：争论焦点是是否学习西方器物、是否改变旧制。"], "5": ["边疆危机专题：新疆、伊犁、台湾、西南边疆同时告急，中法战争体现“不败而败”的复杂结局。", "洋务海防：北洋、南洋、福建、广东海军建设与甲午覆没形成鲜明对照。"], "6": ["自然经济解体的链条：洋纱洋布输入 → 家庭手工棉纺织业破产 → 农产品商品化 → 中国被卷入世界市场。", "近代企业与口岸经济：外资企业、洋务企业和民族资本在通商口岸同时出现。"], "7": ["买办、无产阶级与民族资产阶级：通商口岸和近代企业催生新的社会力量。", "湘淮军与地方势力：军权、财权下移督抚，形成“内轻外重”格局。"], "8": ["师夷长技以制夷、中体西用与早期维新思想：从学器物逐步走向讨论制度。", "经世致用与夷夏观念变化：边疆危机推动士人重新认识世界。"], "9": ["条约体系与朝贡体系：PPT 强调以条约关系取代传统朝贡关系，是近代中外关系转型的关键。", "自由贸易政策与炮舰政策：英国以自由贸易名义扩大市场，以海军力量保障贸易与殖民利益。"], "10": ["太平天国评价争议：PPT 设置“反帝反封建起义”与“未带来实质变革”两种评价视角，适合做论述题训练。", "拜上帝教经典：《原道救世歌》《原道醒世训》《原道觉世训》体现宗教动员与政治动员的结合。"]}, "清末新政与辛亥革命": {"3": ["公车上书、强学会与《中外纪闻》：维新运动从舆论动员走向政治组织。", "保路运动与武昌起义：铁路国有、民股损失和四川保路运动成为辛亥革命的直接导火线。"], "4": ["五大臣出洋考察政治、资政院与咨议局、皇族内阁：预备立宪从制度尝试走向信任破产。", "《钦定宪法大纲》与《临时约法》：前者保留君权，后者确立共和法统，形成鲜明对照。"], "5": ["瓜分狂潮、门户开放、八国联军与日俄战争：组合起来看民族危机如何步步加深。", "清末新军：军事改革并未巩固清廷，反而为革命提供了部分武装力量。"], "6": ["商部、商律与实业救国：清末经济政策转向奖励实业。", "收回路矿利权运动：民族主义与经济利益汇合。"], "7": ["废科举与新式知识群体：士子进身道路改变，留学生和新式学生成为革命与改良的重要力量。", "民族资产阶级壮大并分化：立宪派与革命派的社会基础由此形成。"], "8": ["维新变法学说与三民主义：改良与革命两种方案在政体问题上正面交锋。", "革命与改良论战：《民报》与《新民丛报》的论战是核心考点。"], "9": ["外务部与近代外交机构：清末外交机构逐步专业化，但难以改变屈从局面。", "列强对辛亥革命的观望：列强更关心在华利益与条约体系稳定。"], "10": ["中国同盟会与三民主义：民族、民权、民生成为革命派纲领。", "武昌起义后各省独立：立宪派、革命派、旧官僚与新军共同推动清朝覆亡。"]}, "北洋政府与国民革命": {"3": ["北洋外交主线：二十一条、对德奥宣战、巴黎和会、华盛顿会议、收回汉口九江英租界。", "五四运动：从学生爱国运动发展为工人阶级登上政治舞台的社会运动。"], "4": ["北洋法统问题：《临时约法》《大总统选举法》《天坛宪草》《中华民国约法》之间的冲突。", "府院之争与军阀派系：总统府、国务院及皖、直、奉等系的权力斗争。"], "5": ["一战与中国：日本提出二十一条；中国参战、巴黎和会上山东问题受挫。", "军阀混战与国民革命战争：北洋内部战争与北伐战争交替出现。"], "6": ["民族工业黄金时期：一战期间列强暂时放松压迫，民族资本主义发展。", "银行业与铁路建设：近代金融、交通在夹缝中推进。"], "7": ["工人阶级壮大并在五四后登上政治舞台。", "农民运动兴起于广东、湖南，学生群体成为政治先锋。"], "8": ["新文化运动、文学革命与白话文：民主、科学和思想解放成为时代主题。", "问题与主义之争、马克思主义传播：新文化运动后期发生分化。"], "9": ["巴黎和会与华盛顿会议：中国外交从期待到受挫，再进入新的国际体系。", "中苏建交与苏联援华：对国共合作和国民革命产生重要影响。"], "10": ["中国共产党成立：马克思主义与工人运动相结合的产物。", "国民党一大与国共合作：新三民主义、联俄联共扶助农工。", "四一二、七一五政变：第一次国共合作破裂，国民革命失败。"]}, "国共对峙、抗日战争与解放战争": {"3": ["南京国民政府时期的内政、外交与苏维埃：PPT 把它拆成三条线索理解。", "抗战阶段划分：局部抗战（1931—1937）、全面抗战（1937—1945）、解放战争（1945—1949）。"], "4": ["训政体制与五院制：国民党一党训政，国民政府五院分权。", "苏维埃政权与三三制：中共在根据地建设中的制度探索。", "新政协与《共同纲领》：为新中国成立作政治与法律准备。"], "5": ["日军侵华路线：九一八 → 华北事变 → 七七事变 → 全面侵华。", "正面战场与敌后战场：淞沪、太原、徐州、武汉等会战与敌后根据地相互配合。", "抗战胜利与解放战争：豫湘桂战役、三大战役、渡江战役。"], "6": ["法币改革、沿海工矿内迁与西南开发：抗战时期经济格局发生变动。", "金圆券崩溃与国统区经济瓦解：成为国民党失败的重要原因。"], "7": ["难民流亡与高校西迁：抗战造成大规模人口迁移和文化教育转移。", "土地改革重排农村阶级，华侨倾力支援抗战。"], "8": ["《新民主主义论》与延安文艺：明确革命前途和文艺方向。", "抗战文化：救亡主题、文化统制与知识分子分化。"], "9": ["改订新约与关税自主：南京国民政府争取主权的外交努力。", "抗战中废除治外法权：中国跻身四强、参与创建联合国。", "美苏因素：战后政治局势与国共谈判受到美苏双重影响。"], "10": ["抗日民族统一战线：从局部抗战走向全民族抗战。", "皖南事变与国共摩擦：统一战线内部又联合又斗争。", "重庆谈判与双十协定：战后和平建国的短暂尝试。"]}, "新中国建立与社会主义建设探索": {"3": ["开国大典、土地改革、抗美援朝、三大改造、一五计划构成建国初期主线。", "1956年后社会主义建设在探索中曲折发展，既有成就也有失误。"], "4": ["政治制度：人民代表大会制度、中国共产党领导的多党合作和政治协商制度、民族区域自治制度。", "1954年宪法与社会主义改造：国家制度体系逐步确立。"], "5": ["抗美援朝、台海危机、中印边界自卫反击战、珍宝岛、西沙海战。", "两弹一星：国防科技与国家安全能力实现突破。"], "6": ["土地改革与农业合作化，一五计划与工业化起步。", "人民公社化、大跃进与国民经济调整。"], "7": ["社会主义改造完成后社会结构发生变化。", "知识青年、工农兵、干部与知识分子关系在探索中曲折变动。"], "8": ["双百方针提出后受挫，学术批判一度泛化为政治批判。", "马克思主义指导地位确立，社会主义建设理论在探索中发展。"], "9": ["一边倒结盟苏联、和平共处五项原则、恢复联合国合法席位、中美关系破冰。", "中国从条约体系底层转向社会主义阵营和第三世界的重要成员。"], "10": ["中共领导的多党合作和政治协商制度继续发展。", "文革时期统一战线和政党制度受到破坏。"]}, "改革开放与社会主义现代化建设新时期": {"3": ["十一届三中全会、平反冤假错案、十二大、十三大、南方谈话、十四大构成改革主线。", "香港、澳门回归和加入世界贸易组织是重大历史节点。"], "4": ["八二宪法、依法治国入宪、人权与私产入宪、法律体系形成。", "一国两制与港澳回归，村民委员会组织法推进基层治理。"], "5": ["对越自卫反击战、军队改革、百万大裁军、维和与护航。", "国防现代化与科技强军。"], "6": ["家庭联产承包、城市改革、沿海开放、分税制、所有制与金融改革。", "入世与外贸跃升，农业税取消，新农村建设。"], "7": ["知青返城、个体私营阶层、农民工、下岗再就业、高等教育扩招。", "城镇化与人口流动加快，社会保障体系铺开。"], "8": ["伤痕文学、文化热、国学热、人文精神讨论、三个代表、核心价值体系。", "大众文化、网络文化与对外传播兴起。"], "9": ["中美建交、中日缔约、中苏关系正常化、上海合作组织、加入世贸组织。", "九二共识、汪辜会谈、两岸直接三通。"], "10": ["统一战线恢复，多党合作方针发展为“长期共存、互相监督、肝胆相照、荣辱与共”。", "一国两制与港澳回归；两岸关系在共识与波折中发展。"]}, "中国特色社会主义新时代": {"3": ["中国特色社会主义进入新时代：统筹推进“五位一体”总体布局，协调推进“四个全面”战略布局。", "中共十九大、二十大：习近平新时代中国特色社会主义思想确立为指导思想；中国式现代化成为中心任务。"], "4": ["全面依法治国、国家治理体系和治理能力现代化持续推进。", "全过程人民民主、新型政党制度和统一战线继续发展。"], "5": ["深化国防和军队改革，形成军委管总、战区主战、军种主建格局。", "航母、航天、信息化等国防科技发展，维护南海、台海、边疆安全与国家统一。"], "6": ["供给侧结构性改革、新发展理念、高质量发展。", "脱贫攻坚取得全面胜利，全面建成小康社会；乡村振兴与共同富裕成为重要议题。"], "7": ["中等收入群体扩大，城镇化、人口流动和老龄化问题日益突出。", "社会保障、教育、医疗和住房等民生领域持续改革。"], "8": ["社会主义核心价值观、文化自信与中华优秀传统文化传承发展。", "网络文化、数字文化与对外传播能力不断增强。"], "9": ["共建“一带一路”、人类命运共同体、全球发展倡议、全球安全倡议、全球文明倡议。", "中美关系、周边外交和多边外交在新格局下继续调整。"], "10": ["坚持和完善中国共产党领导的多党合作和政治协商制度。", "坚持“一国两制”、推进祖国统一，维护国家主权、安全和发展利益。"], "11": ["科技创新：高铁、航天、北斗、5G、人工智能等取得重要进展。", "史学与社会科学：中国史、世界史学科体系和话语体系建设持续推进，数字化史料与公众史学发展。"]}}</script>
+<script>
+const DS = JSON.parse(document.getElementById('data').textContent);
+const SUPP = JSON.parse(document.getElementById('supp').textContent);
+const GROUPS = DS.groupOrder;
+const GKEY = {"历史主线":"pol","政治与革命":"fro","经济与社会":"eco","思想与外交":"tho","史学与成就":"cul"};
+const GCLS = {"历史主线":"g-pol","政治与革命":"g-fro","经济与社会":"g-eco","思想与外交":"g-tho","史学与成就":"g-cul"};
+const P = DS.periods, COLS = DS.cols;
+const GAPS = [{"cat": "一、来源覆盖核对", "items": [{"t": "总表覆盖", "lv": "h", "tag": "主干", "merged": true, "d": "总表提供6个时间阶段、9条纵向专题和1页跨阶段脉络，覆盖1840—2012。"}, {"t": "PPT覆盖", "lv": "h", "tag": "重点", "merged": true, "d": "9份PPT主要覆盖1840—1949，重点强化世界背景、战争边疆、外交、政党和国共关系。"}, {"t": "1949年以后", "lv": "m", "tag": "总表", "merged": true, "d": "1949—2012没有对应PPT，正文以总表为主；页内已注明来源。"}, {"t": "2012年以后", "lv": "m", "tag": "补充", "merged": false, "d": "现有材料未覆盖2012年以后，已单设“中国特色社会主义新时代”补充页，整页标“补”。"}, {"t": "图片讲义", "lv": "l", "tag": "已识别", "merged": true, "d": "后半部分PPT多为整页图片，已逐页识别标题和要点，并与总表做了模块级核对。"}]}, {"cat": "二、制作约定", "items": [{"t": "正文来源", "lv": "l", "tag": "总表", "merged": true, "d": "总表原有内容保持正文显示，按新专题重新编排，不改变原意。"}, {"t": "PPT补充", "lv": "l", "tag": "补", "merged": true, "d": "PPT中总表没有或有增量的内容统一用琥珀色“补”标记。"}, {"t": "编辑与云同步", "lv": "l", "tag": "保留", "merged": true, "d": "页内编辑、导出修改版、本机记忆与云端同步功能保留；云同步使用独立的 edits-modern.json。"}]}];
+const CN = ["一","二","三","四","五","六","七","八","九","十"];
+const N = P.length;
+
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const colByI = i => COLS.find(c => String(c.i)===String(i));
+
+function fmt(text){
+  const lines=(text||"").split("\n"); let html="",inList=false;
+  const close=()=>{ if(inList){html+="</ul>";inList=false;} };
+  for(const raw of lines){
+    const line=raw.trim(); if(!line) continue;
+    if(line.startsWith("【") && line.includes("】")){
+      close(); html+='<h4 class="sec">'+esc(line.slice(1,line.indexOf("】")))+'</h4>';
+      const rest=line.slice(line.indexOf("】")+1).trim(); if(rest) html+='<p class="para">'+esc(rest)+'</p>';
+    } else if(line.startsWith("•")||line.startsWith("·")){
+      if(!inList){ html+='<ul class="bullets">'; inList=true; }
+      let t=line.replace(/^[•·]\s*/,"");
+      const idx=Math.min(...["：",":"].map(c=>{const i=t.indexOf(c);return i<0?1e9:i;}));
+      t = idx<1e9 ? "<b>"+esc(t.slice(0,idx))+"</b>："+esc(t.slice(idx+1)) : esc(t);
+      html+="<li>"+t+"</li>";
+    } else if(line.startsWith("→")){ close(); html+='<div class="flow">'+esc(line.replace(/^→\s*/,""))+'</div>'; }
+    else { close(); html+='<p class="para">'+esc(line)+'</p>'; }
+  }
+  close(); return html;
+}
+function suppOf(pi,key){ const a=(SUPP[P[pi].name]||{})[String(key)]; return a||[]; }
+function fmtSupp(list){
+  if(!list.length) return "";
+  const items=list.map(s=>{
+    const i=s.indexOf("：");
+    const t=i>=0 ? "<b>"+esc(s.slice(0,i))+"</b>："+esc(s.slice(i+1)) : esc(s);
+    return "<li>"+t+"</li>";
+  }).join("");
+  return '<div class="supp"><div class="supp-h">补 充</div><ul>'+items+'</ul></div>';
+}
+
+const mask=document.getElementById("mask"), mt=document.getElementById("mtitle"),
+      mk=document.getElementById("mkicker"), mb=document.getElementById("mbody");
+function openModal(k,t,b){ mk.textContent=k; mt.textContent=t; mb.innerHTML=b; mask.classList.add("on"); mb.scrollTop=0; }
+function closeModal(){ mask.classList.remove("on"); }
+document.getElementById("mx").onclick=closeModal;
+mask.addEventListener("click",e=>{ if(e.target===mask) closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+
+function openNode(pi,ci){
+  const p=P[pi], col=colByI(ci);
+  let body='<div class="lead-in">'+fmt(p.feature)+'</div>'+fmt(p.cells[String(ci)]||"")+fmtSupp(suppOf(pi,ci));
+  openModal(p.name+" ｜ "+p.span, col.title, body);
+}
+function openTheme(ci){
+  const col=colByI(ci);
+  let body='<p class="note">按时间顺序看「'+esc(col.title)+'」的跨阶段演变。</p>';
+  body+=P.map((p,i)=>({p,i})).filter(x=>x.p.cells[String(ci)]||suppOf(x.i,ci).length)
+      .map(x=>'<div class="tl-item"><div class="when">'+esc(x.p.name)+'<span class="span">'+esc(x.p.span)+'</span></div>'
+             +fmt(x.p.cells[String(ci)]||"")+fmtSupp(suppOf(x.i,ci))+'</div>').join('');
+  if(DS.cross[String(ci)]) body+='<h4 class="sec">跨阶段脉络梳理</h4>'+fmt(DS.cross[String(ci)]);
+  openModal("专题 · 纵向演变", col.title, body);
+}
+function openPeriod(pi){
+  const p=P[pi];
+  let body='<div class="lead-in">'+fmt(p.feature)+'</div><h4 class="sec">阶段主线</h4>'+fmt(p.events)+fmtSupp(suppOf(pi,"events"));
+  body+='<h4 class="sec">本阶段各专题</h4><div class="jump">'+COLS.map(c=>'<span class="j" data-p="'+pi+'" data-c="'+c.i+'">'+esc(c.title)+'</span>').join('')+'</div>';
+  openModal(p.position+" ｜ "+p.sub, p.name, body);
+  mb.querySelectorAll('.j').forEach(el=>el.onclick=()=>openNode(+el.dataset.p,+el.dataset.c));
+}
+function openGaps(){
+  let body='<p class="note">这里是近现代史项目的“来源核对”：总表、PPT 和补充页的覆盖情况都列在这里。带「已并入」的条目已经合并进正文，用“补”标记与原内容区分。</p>';
+  for(const sec of GAPS){
+    body+='<h4 class="sec">'+esc(sec.cat)+'</h4>';
+    for(const it of sec.items)
+      body+='<div class="gapcard"><h4>'+esc(it.t)+'<span class="lv '+it.lv+'">'+esc(it.tag)+'</span></h4><p>'+esc(it.d)+'</p></div>';
+  }
+  openModal("自查补充","可能缺漏的重要考点",body);
+}
+
+/* ======= TREE ======= */
+function buildTree(){
+  document.documentElement.style.setProperty('--ncols', P.length);
+  const tl=document.getElementById("tl");
+  tl.innerHTML='<div class="lead">时间轴</div>'+P.map((p,i)=>'<div class="chip'+(p.isNew?' new':'')+'" data-p="'+i+'"><div class="cn">'+esc(p.name.replace("（补充）",""))+'</div><div class="yr">'+esc(p.span)+'</div></div>').join('');
+  tl.querySelectorAll('.chip').forEach(el=>el.onclick=()=>openPeriod(+el.dataset.p));
+  const map=document.getElementById("map");
+  let m='<div class="row head"><div></div>'+P.map(p=>'<div class="tcell"><b>'+esc(p.name.replace("（补充）",""))+'</b>'+esc(p.span)+'</div>').join('')+'</div>';
+  let count=0;
+  GROUPS.forEach(g=>{
+    const cols=COLS.filter(c=>c.group===g);
+    m+='<div class="row grp '+GCLS[g]+'"><span class="bar"></span>'+esc(g)+'<span class="gi">'+cols.length+' 个专题</span></div>';
+    cols.forEach(c=>{
+      const hint=c.outer&&c.outer!==c.title?'<small>'+esc(c.outer)+'</small>':'';
+      m+='<div class="row trow" data-c="'+c.i+'"><div class="tlabel" data-c="'+c.i+'">'+esc(c.title)+hint+'</div>';
+      P.forEach((p,pi)=>{
+        const has=p.cells[String(c.i)]||suppOf(pi,c.i).length;
+        if(has) count++;
+        const cls='node '+GKEY[g]+(suppOf(pi,c.i).length?' '+'' : '');
+        const style=suppOf(pi,c.i).length?' style="box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--supp);"':'';
+        m+='<div class="ncell"><div class="'+cls+'" data-p="'+pi+'" data-c="'+c.i+'" title="'+esc(p.name+' · '+c.title)+'"'+style+'></div></div>';
+      });
+      m+='</div>';
+    });
+  });
+  map.innerHTML=m; document.getElementById("nCount").textContent=count;
+  map.querySelectorAll('.node').forEach(el=>el.onclick=()=>{
+    map.querySelectorAll('.node.sel').forEach(x=>x.classList.remove('sel'));
+    el.classList.add('sel'); openNode(+el.dataset.p,+el.dataset.c);
+  });
+  map.querySelectorAll('.tlabel').forEach(el=>el.onclick=()=>openTheme(+el.dataset.c));
+}
+
+/* ======= READER ======= */
+const RKEY='zgjds-read-v1';
+let readSet=new Set(JSON.parse(localStorage.getItem(RKEY)||"[]"));
+let cur=0, quiz=false;
+const saveRead=()=>localStorage.setItem(RKEY,JSON.stringify([...readSet]));
+
+function renderToc(){
+  const t=document.getElementById("toc");
+  let h='<div class="toc-h">阶段目录<span class="prog">'+readSet.size+' / '+N+' 已读</span></div>';
+  P.forEach((p,i)=>{
+    h+='<div class="item'+(i===cur?' active':'')+(readSet.has(i)?' read':'')+'" data-i="'+i+'">'
+      +'<span class="ck">'+(readSet.has(i)?'✓':'')+'</span><span><b>'+esc(p.name.replace("（补充）",""))
+      +(p.isNew?'<span class="newtag">补</span>':'')+'</b><em>'+esc(p.span)+'</em></span></div>';
+  });
+  h+='<div class="allbtn" id="allBtn">全部标记为已读 / 全部重置</div>';
+  t.innerHTML=h;
+  t.querySelectorAll('.item').forEach(el=>el.onclick=()=>go(+el.dataset.i));
+  document.getElementById("allBtn").onclick=()=>{
+    if(readSet.size===N) readSet.clear(); else P.forEach((_,i)=>readSet.add(i));
+    saveRead(); renderToc(); renderArt();
+  };
+}
+
+function renderArt(){
+  const p=P[cur], art=document.getElementById("art");
+  let h='<div class="art-head">'+(p.isNew?'<span class="ribbon">补充页</span>':'')
+      +'<div class="kicker">'+esc(p.position)+'</div><h2 class="art-title">'+esc(p.name.replace("（补充）",""))+'</h2>'
+      +'<div class="art-span">'+esc(p.span)+(p.sub?' ｜ '+esc(p.sub):'')+'</div>'+(p.note?'<div class="art-note">※ '+esc(p.note)+'</div>':'')+'</div>';
+  h+='<div class="q-wrap lead-in">'+fmt(p.feature)+'</div>';
+  h+='<div class="blk"><h3 class="blk-h">阶段主线</h3><div class="q-wrap">'+fmt(p.events)+fmtSupp(suppOf(cur,"events"))+'</div></div>';
+  GROUPS.forEach((g,gi)=>{
+    const cols=COLS.filter(c=>c.group===g);
+    const filled=cols.filter(c=>p.cells[String(c.i)]||suppOf(cur,c.i).length);
+    h+='<section class="bigsec '+GCLS[g]+'"><h3 class="bigsec-h"><span class="num">'+CN[gi]+'</span>'+esc(g)+'</h3>';
+    cols.forEach(c=>{
+      const sub=c.outer&&c.outer!==c.title?' <small>'+esc(c.outer)+'</small>':'';
+      if(filled.includes(c)){
+        h+='<div class="topic"><h4 class="topic-h" data-c="'+c.i+'">'+esc(c.title)+sub+'</h4>'
+          +'<div class="q-wrap">'+fmt(p.cells[String(c.i)]||"")+fmtSupp(suppOf(cur,c.i))+'</div></div>';
+      } else {
+        h+='<div class="topic empty"><h4 class="topic-h">'+esc(c.title)+sub+'</h4><p class="para">—</p></div>';
+      }
+    });
+    h+='</section>';
+  });
+  h='<div class="art-body">'+h+'</div>';
+  const done=readSet.has(cur);
+  h+='<div class="readnav">'
+    +(cur>0?'<button class="pill" id="prevBtn">← '+esc(P[cur-1].name.replace("（补充）",""))+'</button>':'<span></span>')
+    +'<div class="spacer"></div><button class="pill '+(done?'done':'')+'" id="doneBtn">'+(done?'✓ 已读':'标记为已读')+'</button><div class="spacer"></div>'
+    +(cur<N-1?'<button class="pill" id="nextBtn">'+esc(P[cur+1].name.replace("（补充）",""))+' →</button>':'<span></span>')+'</div>';
+  art.innerHTML=h;
+  const _v=VIEW()[p.name]; if(_v && art.querySelector('.art-body')) art.querySelector('.art-body').innerHTML=_v;
+  art.querySelectorAll('.topic-h').forEach(el=>el.onclick=()=>{ if(!editing) openTheme(+el.dataset.c); });
+  const pb=document.getElementById("prevBtn"); if(pb) pb.onclick=()=>go(cur-1);
+  const nb=document.getElementById("nextBtn"); if(nb) nb.onclick=()=>go(cur+1);
+  document.getElementById("doneBtn").onclick=()=>{ readSet.has(cur)?readSet.delete(cur):readSet.add(cur); saveRead(); renderToc(); renderArt(); };
+  document.getElementById("rbPos").textContent='第 '+(cur+1)+' / '+N+' 阶段';
+  document.getElementById("rbProg").textContent='已读 '+readSet.size+' / '+N;
+}
+
+/* quiz reveal */
+document.getElementById("art").addEventListener("click",e=>{
+  if(!quiz) return;
+  const w=e.target.closest(".q-wrap"); if(w) w.classList.toggle("revealed");
+});
+function setQuiz(on){
+  quiz=on;
+  document.getElementById("main").classList.toggle("quiz",on);
+  document.querySelectorAll("#modeSeg button").forEach(b=>b.classList.toggle("on",(b.dataset.m==='quiz')===on));
+  if(!on) document.querySelectorAll(".q-wrap.revealed").forEach(x=>x.classList.remove("revealed"));
+}
+document.querySelectorAll("#modeSeg button").forEach(b=>b.onclick=()=>setQuiz(b.dataset.m==='quiz'));
+document.getElementById("expandAll").onclick=()=>document.querySelectorAll(".q-wrap").forEach(x=>x.classList.add("revealed"));
+document.getElementById("collapseAll").onclick=()=>document.querySelectorAll(".q-wrap").forEach(x=>x.classList.remove("revealed"));
+
+const EKEY='zgjds-edit-v1';
+let EDIT=JSON.parse(localStorage.getItem(EKEY)||"{}");        /* 本机自己的改动 */
+const RKEY2='zgjds-remote-v1';
+let REMOTE=JSON.parse(localStorage.getItem(RKEY2)||"{}");      /* 云端最新快照 */
+const _st=document.getElementById('editstore');
+if(_st){ try{ REMOTE=Object.assign(REMOTE, JSON.parse(_st.textContent)); }catch(e){} }  /* 离线兜底 */
+function VIEW(){ return Object.assign({}, REMOTE, EDIT); }     /* 云端 + 本机，本机优先 */
+function setRemote(o){ if(!o) return; REMOTE=Object.assign(REMOTE, o); try{ localStorage.setItem(RKEY2, JSON.stringify(REMOTE)); }catch(e){} }
+let editing=false, saveT=null;
+function saveEdit(){
+  const b=document.querySelector('#art .art-body');
+  if(!b) return;
+  EDIT[P[cur].name]=b.innerHTML;
+  try{ localStorage.setItem(EKEY, JSON.stringify(EDIT)); }catch(e){}
+  pushToServer();
+}
+let pushT=null;
+function pushToServer(){
+  if(!/^https?:/.test(location.protocol)) return;
+  clearTimeout(pushT);
+  pushT=setTimeout(()=>{
+    fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(EDIT)})
+      .then(r=>{ const s=document.getElementById('saveState'); if(s) s.textContent = r.ok ? '已保存到本地文件 ✓' : '保存失败'; })
+      .catch(()=>{ const s=document.getElementById('saveState'); if(s) s.textContent='保存失败（已存浏览器）'; });
+  },300);
+}
+async function loadServerEdits(){
+  if(!/^https?:/.test(location.protocol)) return;
+  try{
+    const r=await fetch('/api/load');
+    if(!r.ok) return;
+    const o=await r.json();
+    if(o && Object.keys(o).length){
+      EDIT=Object.assign(EDIT,o);
+      document.getElementById('editHint').textContent='（已连接本地文件，改动会自动保存到磁盘）';
+      if(document.getElementById('readView').classList.contains('on')) renderArt();
+    } else {
+      document.getElementById('editHint').textContent='（已连接本地文件，改动会自动保存到磁盘）';
+    }
+  }catch(e){}
+}
+loadServerEdits();
+function setEdit(on){
+  editing=on;
+  if(on && quiz) setQuiz(false);
+  document.getElementById('main').classList.toggle('edit',on);
+  document.getElementById('editBtn').classList.toggle('primary',on);
+  const b=document.querySelector('#art .art-body');
+  if(b){ b.setAttribute('contenteditable', on?'true':'false'); }
+  if(on) b && b.focus();
+}
+document.getElementById('editBtn').onclick=()=>{ if(editing) saveEdit(); setEdit(!editing); };
+document.getElementById('saveBtn').onclick=()=>{ saveEdit(); setEdit(false); renderArt(); };
+document.getElementById('revertBtn').onclick=()=>{ delete EDIT[P[cur].name]; localStorage.setItem(EKEY, JSON.stringify(EDIT)); setEdit(false); renderArt(); };
+function buildExportHTML(){
+  saveEdit();
+  const clone=document.documentElement.cloneNode(true);
+  clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+  clone.querySelectorAll('.q-wrap.revealed').forEach(e=>e.classList.remove('revealed'));
+  let s=clone.querySelector('#editstore');
+  if(!s){ s=document.createElement('script'); s.id='editstore'; s.type='application/json';
+    const d=clone.querySelector('#data'); d.parentNode.insertBefore(s, d); }
+  s.textContent=JSON.stringify(EDIT).replace(/<\//g,'<\\/');
+  return '<!DOCTYPE html>\n'+clone.outerHTML;
+}
+function doExport(){
+  const html=buildExportHTML();
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
+  a.download='中国近现代史知识树-修改版.html';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+document.getElementById('exportBtn').onclick=doExport;
+document.getElementById('art').addEventListener('input',()=>{ if(editing){ clearTimeout(saveT); saveT=setTimeout(saveEdit,600); } });
+document.addEventListener('keydown',e=>{ if(editing && (e.ctrlKey||e.metaKey) && e.key==='s'){ e.preventDefault(); saveEdit(); setEdit(false); renderArt(); } });
+
+function go(i){ if(i<0||i>=N) return; cur=i; renderToc(); renderArt(); document.getElementById("readView").scrollIntoView({behavior:"smooth",block:"start"}); }
+document.addEventListener("keydown",e=>{
+  if(!document.getElementById("readView").classList.contains("on")) return;
+  if(mask.classList.contains("on")) return;
+  if(e.key==="ArrowRight") go(cur+1);
+  if(e.key==="ArrowLeft") go(cur-1);
+});
+
+
+function lineageSummary(text){
+  const lines=(text||"").split("\n").map(x=>x.trim()).filter(Boolean);
+  const arrows=lines.filter(x=>x.startsWith("→"));
+  if(arrows.length){
+    const shown=arrows.slice(0,4).map(x=>x.replace(/^→\s*/,"")).join(" → ");
+    return shown+(arrows.length>4?" → …":"");
+  }
+  const plain=lines.find(x=>!x.startsWith("【"));
+  return plain?plain.slice(0,150):"";
+}
+function buildLineage(){
+  const grid=document.getElementById("lineageGrid");
+  const color={pol:"var(--g-pol)",fro:"var(--g-fro)",eco:"var(--g-eco)",mil:"var(--g-mil)",tho:"var(--g-tho)",cul:"var(--g-cul)"};
+  grid.innerHTML=COLS.map(c=>{
+    const raw=DS.cross[String(c.i)]||"";
+    return '<button class="lineage-card" data-c="'+c.i+'" style="--accent:'+color[GKEY[c.group]]+'">'
+      +'<span class="lc-kicker">'+esc(c.group)+'</span><h3>'+esc(c.title)+'</h3>'
+      +'<p>'+esc(lineageSummary(raw))+'</p><span class="lc-more">查看完整脉络 →</span></button>';
+  }).join("");
+  grid.querySelectorAll(".lineage-card").forEach(el=>el.onclick=()=>openLineage(+el.dataset.c));
+}
+function openLineage(ci){
+  const col=colByI(ci), raw=DS.cross[String(ci)]||"";
+  let body='<p class="note">跨越七个阶段，按时间看「'+esc(col.title)+'」的演变与逻辑。</p>';
+  body+=fmt(raw);
+  openModal("历史脉络 · 跨阶段演变",col.title,body);
+}
+
+/* ======= SWITCH ======= */
+function switchView(v){
+  const tree=document.getElementById("treeView"), read=document.getElementById("readView"), lineage=document.getElementById("lineageView");
+  document.querySelectorAll("#seg button").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
+  const showRead=v==="read", showLineage=v==="lineage";
+  tree.classList.toggle("off", showRead||showLineage);
+  read.classList.toggle("on", showRead);
+  lineage.classList.toggle("on", showLineage);
+  document.getElementById("searchBox").style.display=(showRead||showLineage)?"none":"";
+  document.getElementById("resetBtn").style.display=(showRead||showLineage)?"none":"";
+  if(showRead){ renderToc(); renderArt(); }
+  if(showLineage){ buildLineage(); }
+}
+document.querySelectorAll("#seg button").forEach(b=>b.onclick=()=>switchView(b.dataset.v));
+
+/* ======= SEARCH ======= */
+const q=document.getElementById("q");
+q.addEventListener("input",()=>{
+  const term=q.value.trim(), map=document.getElementById("map");
+  map.querySelectorAll('.trow').forEach(r=>{ r.classList.remove('hit'); r.querySelectorAll('.node').forEach(n=>n.classList.remove('hl')); });
+  if(!term) return;
+  map.querySelectorAll('.trow').forEach(row=>{
+    const ci=row.dataset.c; let hit=false;
+    P.forEach((p,pi)=>{
+      const v=p.cells[String(ci)]||"";
+      if(v.includes(term)||suppOf(pi,ci).join("").includes(term)||colByI(ci).title.includes(term)||p.name.includes(term)){
+        hit=true; const n=row.querySelector('.node[data-p="'+pi+'"]'); if(n) n.classList.add('hl');
+      }
+    });
+    if(hit) row.classList.add('hit');
+  });
+});
+document.getElementById("resetBtn").onclick=()=>{ q.value=""; q.dispatchEvent(new Event('input')); };
+document.getElementById("gapsBtn").onclick=openGaps;
+
+/* ================= GitHub cloud sync ================= */
+/* 默认仓库：本地文件（file://）打开时也能从云端同步 */
+const DEFAULT_REPO = {owner:"1057u520", repo:"hist-notes-9f3k2", branch:"main", path:"edits-modern.json"};
+/* 从 GitHub Pages 网址自动认出 用户名/仓库名  */
+function detectRepo(){
+  const h=location.hostname||"";
+  const m=h.match(/^([^.]+)\.github\.io$/i);
+  if(m){
+    const seg=location.pathname.split('/').filter(Boolean);
+    if(seg.length) return {owner:m[1], repo:seg[0]};
+  }
+  return null;
+}
+/* 从各处尝试读取 edits.json */
+async function readRemoteEdits(){
+  const tries=[];
+  tries.push((async()=>{ const r=await fetchTO('./edits-modern.json',{cache:'no-store'},8000); if(!r.ok) throw 0; return await r.json(); })());
+  let d = (CLOUD.owner&&CLOUD.repo) ? {owner:CLOUD.owner,repo:CLOUD.repo,branch:CLOUD.branch||'main',path:CLOUD.path||DEFAULT_REPO.path} : (detectRepo()||DEFAULT_REPO);
+  if(d){
+    const br=d.branch||'main', pa=d.path||DEFAULT_REPO.path;
+    tries.push((async()=>{ const r=await fetchTO('https://api.github.com/repos/'+d.owner+'/'+d.repo+'/contents/'+pa+'?ref='+br,{headers:ghHead(),cache:'no-store'},9000); if(!r.ok) throw 0; const j=await r.json(); return JSON.parse(b64dec(j.content)||'{}'); })());
+    tries.push((async()=>{ const r=await fetchTO('https://raw.githubusercontent.com/'+d.owner+'/'+d.repo+'/'+br+'/'+pa,{cache:'no-store'},9000); if(!r.ok) throw 0; return await r.json(); })());
+  }
+  tries.push((async()=>{ const r=await fetchTO('/api/load',{cache:'no-store'},6000); if(!r.ok) throw 0; return await r.json(); })());
+  const res=await Promise.allSettled(tries);
+  let merged=null;
+  for(const x of res){ if(x.status==='fulfilled' && x.value && Object.keys(x.value).length){ merged=Object.assign(merged||{}, x.value); } }
+  return merged;
+}
+/* 打开页面就自动同步一次（不需要配置、不需要 Token） */
+async function autoLoadEdits(){
+  try{
+    const d=detectRepo();
+    if(d && !CLOUD.owner){ CLOUD.owner=d.owner; CLOUD.repo=d.repo; CLOUD.branch=CLOUD.branch||'main'; CLOUD.path=CLOUD.path||DEFAULT_REPO.path;
+      try{ localStorage.setItem(CKEY, JSON.stringify(CLOUD)); }catch(e){} }
+    const remote=await readRemoteEdits();
+    if(remote){
+      setRemote(remote);                        /* 云端快照，本机改动仍优先 */
+      if(document.getElementById('readView').classList.contains('on')) renderArt();
+      const s=document.getElementById('saveState'); if(s) s.textContent='已自动同步云端 '+Object.keys(remote).length+' 页 ✓';
+    }
+  }catch(e){}
+}
+
+const CKEY='zgjds-cloud-v1';
+let CLOUD=JSON.parse(localStorage.getItem(CKEY)||"{}");
+function cloudReady(){ return !!(CLOUD.owner && CLOUD.repo); }
+function ghHead(){ const h={'Accept':'application/vnd.github+json'}; if(CLOUD.token) h['Authorization']='Bearer '+CLOUD.token; return h; }
+function b64enc(str){ const b=new TextEncoder().encode(str); let s=''; b.forEach(x=>s+=String.fromCharCode(x)); return btoa(s); }
+function b64dec(b64){ const bin=atob((b64||'').replace(/\s/g,'')); const b=Uint8Array.from(bin,c=>c.charCodeAt(0)); return new TextDecoder().decode(b); }
+function cpath(){ return CLOUD.path || DEFAULT_REPO.path; }
+function fetchTO(url,opts,ms){ ms=ms||15000; const ac=new AbortController(); const id=setTimeout(()=>ac.abort(),ms);
+  return fetch(url,Object.assign({},opts||{},{signal:ac.signal})).finally(()=>clearTimeout(id)); }
+function cstate(msg,ok){ const s=document.getElementById('cState'); if(s){ s.textContent=msg; s.style.color = ok===false?'#c0392b':'#2c7a55'; } }
+async function cloudPull(silent){
+  if(!cloudReady()){ if(!silent) cstate('请先填写用户名与仓库名'); return false; }
+  try{
+    const r=await fetchTO('https://api.github.com/repos/'+CLOUD.owner+'/'+CLOUD.repo+'/contents/'+cpath()+'?ref='+(CLOUD.branch||'main'),{headers:ghHead()});
+    if(r.status===404){ cstate('云端还没有 '+cpath()+'（首次上传后会生成）'); return false; }
+    if(!r.ok){ cstate('拉取失败：HTTP '+r.status); return false; }
+    const j=await r.json();
+    const remote=JSON.parse(b64dec(j.content)||'{}');
+    const n=Object.keys(remote).length;
+    setRemote(remote);
+    if(document.getElementById('readView').classList.contains('on')) renderArt();
+    cstate('已从云端拉取，共 '+n+' 处修改', true);
+    return true;
+  }catch(e){ cstate('拉取失败：'+e.message, false); return false; }
+}
+async function cloudPush(){
+  if(!cloudReady()){ cstate('请先填写用户名与仓库名'); return false; }
+  if(!CLOUD.token){ cstate('上传需要 Token，请填写后保存'); return false; }
+  saveEditLocalOnly();
+  try{
+    const api='https://api.github.com/repos/'+CLOUD.owner+'/'+CLOUD.repo+'/contents/'+cpath();
+    let sha=null;
+    const g=await fetchTO(api+'?ref='+(CLOUD.branch||'main'),{headers:ghHead()});
+    if(g.ok){ const j=await g.json(); sha=j.sha; }
+    const body={ message:'update my edits '+new Date().toLocaleString('zh-CN'), content:b64enc(JSON.stringify(VIEW(),null,0)), branch:(CLOUD.branch||'main') };
+    if(sha) body.sha=sha;
+    const p=await fetchTO(api,{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghHead()),body:JSON.stringify(body)});
+    if(p.ok){ cstate('已上传到云端 ✓（其他电脑刷新即可看到）', true); return true; }
+    const e=await p.json().catch(()=>({}));
+    cstate('上传失败：HTTP '+p.status+' '+(e.message||''), false); return false;
+  }catch(e){ cstate('上传失败：'+e.message, false); return false; }
+}
+function saveEditLocalOnly(){
+  const b=document.querySelector('#art .art-body');
+  if(b) EDIT[P[cur].name]=b.innerHTML;
+  try{ localStorage.setItem(EKEY, JSON.stringify(EDIT)); }catch(e){}
+}
+function openCloud(){
+  const d=detectRepo()||{};
+  document.getElementById('cOwner').value=CLOUD.owner||d.owner||'';
+  document.getElementById('cRepo').value=CLOUD.repo||d.repo||'';
+  document.getElementById('cBranch').value=CLOUD.branch||'main';
+  document.getElementById('cPath').value=CLOUD.path||DEFAULT_REPO.path;
+  document.getElementById('cToken').value=CLOUD.token||'';
+  document.getElementById('cmask').classList.add('on');
+}
+document.getElementById('cloudBtn').onclick=openCloud;
+document.getElementById('cx').onclick=()=>document.getElementById('cmask').classList.remove('on');
+document.getElementById('cmask').addEventListener('click',e=>{ if(e.target.id==='cmask') document.getElementById('cmask').classList.remove('on'); });
+document.getElementById('cSave').onclick=()=>{
+  CLOUD={owner:document.getElementById('cOwner').value.trim(), repo:document.getElementById('cRepo').value.trim(),
+         branch:(document.getElementById('cBranch').value.trim()||'main'), path:(document.getElementById('cPath').value.trim()||DEFAULT_REPO.path),
+         token:document.getElementById('cToken').value.trim()};
+  localStorage.setItem(CKEY, JSON.stringify(CLOUD));
+  if(/^https?:/.test(location.protocol)){
+    fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(CLOUD)})
+      .then(()=>cstate('设置已保存（本机服务已记住，启动时会自动从云端同步）', true))
+      .catch(()=>cstate('设置已保存', true));
+  } else { cstate('设置已保存', true); }
+};
+document.getElementById('cPull').onclick=()=>cloudPull(false);
+document.getElementById('cPush').onclick=()=>cloudPush();
+
+buildTree();
+autoLoadEdits();
+if(cloudReady() && CLOUD.token){ cloudPull(true); }
+</script>
+</body>
+</html>
