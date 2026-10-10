@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>世界史知识树 · 总入口</title>
+<style>
+:root{--bg:#f6f1e7;--panel:#fffdf8;--ink:#2b2a28;--muted:#8a847a;--line:#e2d9c8;--gold:#b8860b;--deep:#5b4a22}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#fffdf7 0,#f6f1e7 45%,#efe8da 100%);color:var(--ink);font-family:"Noto Serif SC","Songti SC","Microsoft YaHei",serif;min-height:100vh}
+.wrap{max-width:1080px;margin:0 auto;padding:64px 24px 80px}.kicker{letter-spacing:5px;color:var(--gold);font-size:13px;font-weight:700}.hero h1{font-size:clamp(42px,7vw,78px);margin:14px 0 14px;letter-spacing:3px}.hero p{max-width:760px;color:#5b554a;font-size:17px;line-height:1.9;margin:0}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:46px}.card{display:block;text-decoration:none;color:inherit;background:rgba(255,253,248,.92);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 18px 45px rgba(75,60,30,.08);transition:.2s;position:relative;overflow:hidden;min-height:270px}.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--accent)}.card:hover{transform:translateY(-5px);border-color:#c9b88e;box-shadow:0 24px 55px rgba(75,60,30,.13)}.card .tag{font-size:12px;color:var(--accent);letter-spacing:3px;font-weight:700}.card h2{font-size:31px;margin:13px 0 12px;letter-spacing:1px}.card p{color:#5b554a;line-height:1.85;font-size:15px;margin:0}.card .go{position:absolute;right:28px;bottom:24px;color:var(--accent);font-weight:700;font-size:14px}
+.ancient{--accent:#9a6b23}.modern{--accent:#316d63}.tips{margin-top:30px;background:#fff8e7;border:1px solid #ead9a8;border-radius:16px;padding:18px 22px;color:#725b1d;line-height:1.9;font-size:14px}.tips b{color:#8a6d3b}
+@media(max-width:760px){.wrap{padding:36px 16px 60px}.cards{grid-template-columns:1fr;margin-top:28px}.card{min-height:230px;padding:24px}.hero h1{font-size:44px}.hero p{font-size:15px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">考研历史学 313 · 世界史</div>
+    <h1>世界史知识树</h1>
+    <p>把世界史拆成两份页面：古代史按文明和国家精读，近现代史按时间阶段推进。每份页面都可以查知识树、通读专题、做自测，并保留自己的修改。</p>
+  </section>
+  <section class="cards">
+    <a class="card ancient" href="世界古代史知识树.html">
+      <div class="tag">文明与国家</div>
+      <h2>世界古代史</h2>
+      <p>两河、埃及、印度、希腊、罗马，以及拜占庭、伊斯兰、中世纪西欧、日本、蒙古、奥斯曼和朝鲜。适合按重点文明逐个攻克，再用跨文明比较串起来。</p>
+      <span class="go">进入古代史 →</span>
+    </a>
+    <a class="card modern" href="世界近现代史知识树.html">
+      <div class="tag">时间与格局</div>
+      <h2>世界近现代史</h2>
+      <p>从大航海、革命时代和工业革命，到帝国主义、两次世界大战、冷战、去殖民化与全球化。适合按阶段通读，再用历史脉络看长期演变。</p>
+      <span class="go">进入近现代史 →</span>
+    </a>
+  </section>
+  <div class="tips"><b>使用顺序：</b>第一遍先点“分阶段精读／文明精读”通读；第二遍用“知识树”查漏；最后用“历史脉络／跨文明比较”回想因果。琥珀色内容表示 PPT 补充重点。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,7 @@
+世界史知识树 GitHub 文件说明
+
+1. index.html 是总入口。
+2. 世界古代史知识树.html 和 世界近现代史知识树.html 是两份主页面。
+3. maps 文件夹必须和两份 HTML 放在一起，不要单独移动。
+4. edits-world-ancient.json、edits-world-modern.json 分别是两份页面的云端修改文件。
+5. 上传到仓库的 world 文件夹即可，不要覆盖仓库根目录已有的 index.html。

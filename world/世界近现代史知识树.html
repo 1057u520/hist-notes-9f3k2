@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>世界近现代史 · 知识树 & 分阶段精读</title>
+<style>
+:root{
+  --bg:#f6f1e7; --panel:#fffdf8; --ink:#2b2a28; --muted:#8a847a; --line:#e2d9c8; --supp:#b8860b;
+  --g-pol:#5b6ee1; --g-eco:#2f9e6b; --g-mil:#d9663d; --g-fro:#b0821f; --g-tho:#9b59b6; --g-cul:#2a9d8f;
+  --shadow:0 10px 30px rgba(60,50,30,.12);
+  --ncols:7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.serif{font-family:"Noto Serif SC","Songti SC",STSong,serif}
+.wrap{max-width:1460px;margin:0 auto;padding:22px 26px 90px}
+.muted{color:var(--muted)}
+
+header.top{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:14px}
+.title h1{margin:0;font-size:29px;letter-spacing:2px}
+.title .sub{color:var(--muted);font-size:13px;margin-top:4px;letter-spacing:1px}
+.spacer{flex:1}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 14px;box-shadow:var(--shadow)}
+.search input{border:0;outline:0;background:transparent;font-size:14px;width:176px;color:var(--ink)}
+.btn{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 15px;font-size:13.5px;color:var(--ink);box-shadow:var(--shadow);transition:.15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.seg button{cursor:pointer;border:0;background:transparent;border-radius:999px;padding:7px 16px;font-size:13.5px;color:var(--muted);transition:.15s}
+.seg button.on{background:var(--ink);color:#fff}
+.seg.mini button{padding:5px 14px;font-size:12.5px}
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 6px;font-size:12.5px;color:var(--muted)}
+.legend .k{display:flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+
+.tl-wrap{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.tl{display:grid;grid-template-columns:130px repeat(var(--ncols),minmax(0,1fr));align-items:center}
+.tl .lead{font-size:12px;color:var(--muted);letter-spacing:1px}
+.chip{justify-self:center;cursor:pointer;text-align:center;background:var(--bg);border:2px solid var(--ink);border-radius:999px;padding:6px 8px;min-width:70px;transition:.15s}
+.chip .cn{font-size:12.5px;font-weight:700;white-space:nowrap}
+.chip .yr{font-size:10px;color:var(--muted);white-space:nowrap}
+.chip:hover{transform:translateY(-2px);background:#fff}
+.chip.new{border-style:dashed;border-color:var(--supp)}
+
+.map{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:8px 10px 18px;overflow:hidden}
+.row{display:grid;grid-template-columns:190px repeat(var(--ncols),minmax(0,1fr));align-items:center}
+.row.head{padding:8px 0 12px;border-bottom:1px dashed var(--line);margin-bottom:6px}
+.row.head .tcell{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.25}
+.row.head .tcell b{display:block;font-size:12px;color:var(--ink)}
+.grp{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:16px 0 8px;padding:7px 12px;border-radius:10px;font-weight:700;letter-spacing:2px;font-size:14px}
+.grp .bar{width:6px;height:18px;border-radius:3px}
+.grp .gi{font-size:11.5px;color:var(--muted);font-weight:400;letter-spacing:.5px}
+.g-pol{background:rgba(91,110,225,.10);color:var(--g-pol)} .g-pol .bar{background:var(--g-pol)}
+.g-eco{background:rgba(47,158,107,.10);color:var(--g-eco)} .g-eco .bar{background:var(--g-eco)}
+.g-mil{background:rgba(217,102,61,.10);color:var(--g-mil)} .g-mil .bar{background:var(--g-mil)}
+.g-fro{background:rgba(176,130,31,.12);color:var(--g-fro)} .g-fro .bar{background:var(--g-fro)}
+.g-tho{background:rgba(155,89,182,.10);color:var(--g-tho)} .g-tho .bar{background:var(--g-tho)}
+.g-cul{background:rgba(42,157,143,.10);color:var(--g-cul)} .g-cul .bar{background:var(--g-cul)}
+.trow{position:relative;padding:5px 0;border-radius:8px}
+.trow .tlabel{font-size:13.5px;padding:6px 10px 6px 14px;color:var(--ink);font-weight:600;position:relative;z-index:2;border-radius:8px;line-height:1.25;cursor:pointer}
+.trow .tlabel small{display:block;font-weight:400;color:var(--muted);font-size:11px;margin-top:1px}
+.trow .tlabel:hover{background:var(--bg)}
+.trow::before{content:"";position:absolute;left:190px;right:6px;top:50%;height:2px;background:var(--line);opacity:.7;z-index:0}
+.ncell{display:flex;justify-content:center;align-items:center;position:relative;z-index:2;height:30px}
+.node{width:15px;height:15px;border-radius:50%;border:2px solid #fff;cursor:pointer;transition:.16s;box-shadow:0 0 0 1px rgba(0,0,0,.10)}
+.node.pol{background:var(--g-pol)} .node.eco{background:var(--g-eco)} .node.mil{background:var(--g-mil)}
+.node.fro{background:var(--g-fro)} .node.tho{background:var(--g-tho)} .node.cul{background:var(--g-cul)}
+.node:hover{transform:scale(1.55);box-shadow:0 0 0 4px rgba(0,0,0,.06)}
+.node.hl{box-shadow:0 0 0 5px rgba(43,42,40,.20)}
+.node.sel{transform:scale(1.6);box-shadow:0 0 0 5px rgba(43,42,40,.24)}
+.trow.hit .tlabel{background:#fff3c4}
+
+#readView{display:none}
+#readView.on{display:block}
+#treeView.off{display:none}
+.reader{display:grid;grid-template-columns:232px minmax(0,1fr);gap:24px;margin-top:22px;align-items:start}
+.toc{position:sticky;top:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:14px 12px;max-height:calc(100vh - 30px);overflow:auto}
+.toc-h{display:flex;align-items:center;justify-content:space-between;font-size:13px;letter-spacing:1px;color:var(--muted);margin:2px 4px 10px}
+.toc-h .prog{font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.toc .item{display:grid;grid-template-columns:20px 1fr;gap:6px;align-items:center;padding:8px;border-radius:9px;cursor:pointer;transition:.13s}
+.toc .item:hover{background:var(--bg)}
+.toc .item.active{background:var(--ink);color:#fff}
+.toc .item.active em{color:#cfc9bd}
+.toc .item .ck{width:17px;height:17px;border:1.5px solid var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:#fff}
+.toc .item.read .ck{background:#2f9e6b;border-color:#2f9e6b}
+.toc .item b{display:block;font-size:13.5px;font-weight:600;line-height:1.2}
+.toc .item em{display:block;font-style:normal;font-size:10.5px;color:var(--muted);margin-top:2px}
+.toc .item .newtag{font-size:9.5px;background:var(--supp);color:#fff;border-radius:4px;padding:0 4px;margin-left:5px;vertical-align:middle}
+.toc .allbtn{margin-top:10px;text-align:center;font-size:11.5px;color:var(--muted);cursor:pointer;border-top:1px dashed var(--line);padding-top:9px}
+.toc .allbtn:hover{color:var(--ink)}
+
+.main{min-width:0}
+.readbar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.readbar .rbi{font-size:12px;color:var(--muted)}
+.quizhint{display:none;margin:0 0 12px;padding:10px 14px;border:1px dashed var(--supp);border-radius:10px;background:#fffdf3;color:#8a6d3b;font-size:12.5px}
+.main.quiz .quizhint{display:block}
+.quizhint span{cursor:pointer;text-decoration:underline}
+.art{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:34px 46px 40px;max-width:940px}
+.art-head{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px;position:relative}
+.art-head .kicker{font-size:12.5px;letter-spacing:3px;color:var(--muted)}
+.art-title{margin:6px 0 4px;font-size:34px;letter-spacing:3px}
+.art-span{font-size:13.5px;color:var(--muted)}
+.art-note{margin-top:8px;font-size:12.5px;color:#8a6d3b;background:#fffdf3;border:1px dashed #e2cfa0;border-radius:8px;padding:6px 10px;display:inline-block}
+.ribbon{position:absolute;right:0;top:0;background:var(--supp);color:#fff;font-size:11px;letter-spacing:2px;border-radius:6px;padding:3px 10px}
+.lead-in{background:var(--bg);border:1px solid var(--line);border-left:4px solid #d9b66a;border-radius:10px;padding:16px 18px;font-size:15px;line-height:2.05;margin-bottom:8px}
+.blk{margin-top:22px}
+.blk-h{font-size:16px;letter-spacing:1px;margin:0 0 10px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.bigsec{margin-top:34px;border-radius:14px;padding:2px 22px 20px;border:1px solid var(--line)}
+.bigsec-h{display:flex;align-items:center;gap:12px;font-size:20px;letter-spacing:3px;margin:18px 0 6px}
+.bigsec-h .num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;font-family:var(--serif)}
+.bigsec.g-pol .num{background:var(--g-pol)} .bigsec.g-eco .num{background:var(--g-eco)} .bigsec.g-mil .num{background:var(--g-mil)}
+.bigsec.g-fro .num{background:var(--g-fro)} .bigsec.g-tho .num{background:var(--g-tho)} .bigsec.g-cul .num{background:var(--g-cul)}
+.bigsec.g-pol{background:rgba(91,110,225,.035)} .bigsec.g-eco{background:rgba(47,158,107,.04)}
+.bigsec.g-mil{background:rgba(217,102,61,.04)} .bigsec.g-fro{background:rgba(176,130,31,.05)}
+.bigsec.g-tho{background:rgba(155,89,182,.04)} .bigsec.g-cul{background:rgba(42,157,143,.04)}
+.topic{margin:18px 0 4px}
+.topic.empty .topic-h{color:#c6c0b3;cursor:default;pointer-events:none}
+.topic.empty .para{color:#cfc9bc;margin:2px 0 0;font-size:13px}
+.topic-h{font-size:15px;margin:0 0 2px;letter-spacing:.5px;color:#4a443a;cursor:pointer;display:inline-block;border-bottom:1px dashed transparent}
+.topic-h:hover{border-bottom-color:#c8b27a;color:#5b4a22}
+.topic-h small{font-weight:400;font-size:11px;color:var(--muted);margin-left:8px}
+.readnav{display:flex;align-items:center;gap:12px;margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.readnav .spacer{flex:1}
+.pill{cursor:pointer;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:9px 18px;font-size:13.5px}
+.pill:hover{background:#fff}
+.pill.done{background:#2f9e6b;color:#fff;border-color:#2f9e6b}
+
+/* supplements */
+.supp{margin:12px 0 4px;border:1px dashed var(--supp);border-radius:10px;background:#fffdf3;padding:10px 14px 12px}
+.supp-h{font-size:11px;letter-spacing:2px;color:var(--supp);margin-bottom:6px}
+.supp li{font-size:14px;line-height:1.85;padding:5px 0 5px 16px;position:relative;list-style:none;border-bottom:1px dotted #efe3c6}
+.supp ul{padding:0;margin:0}
+.supp li:last-child{border-bottom:0}
+.supp li::before{content:"补";position:absolute;left:0;top:7px;font-size:9px;color:#fff;background:var(--supp);border-radius:3px;padding:0 3px;line-height:14px}
+.supp b{color:#8a6d3b}
+
+/* quiz mode */
+.main.quiz .art .q-wrap{filter:blur(7px);cursor:pointer;user-select:none;position:relative;transition:filter .18s}
+.main.quiz .art .q-wrap::after{content:"点击核对 · 先自己回忆";position:absolute;right:10px;top:8px;font-size:11px;color:#b9a880}
+.main.quiz .art .q-wrap.revealed{filter:none;cursor:auto;user-select:auto}
+.main.quiz .art .q-wrap.revealed::after{display:none}
+
+.mask{position:fixed;inset:0;background:rgba(40,35,25,.42);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
+.mask.on{display:flex}
+.modal{background:var(--panel);border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.35);max-width:980px;width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.mhead{padding:20px 24px 14px;border-bottom:1px solid var(--line);position:relative}
+.mhead .kicker{font-size:12px;letter-spacing:2px;color:var(--muted)}
+.mhead h2{margin:4px 0 0;font-size:23px}
+.mhead .x{position:absolute;right:18px;top:16px;cursor:pointer;border:1px solid var(--line);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);background:var(--bg)}
+.mhead .x:hover{color:var(--ink)}
+.mbody{padding:8px 26px 30px;overflow:auto}
+.sec{color:#8a6d3b;font-size:13px;letter-spacing:1px;margin:20px 0 8px;border-left:3px solid #d9b66a;padding-left:8px}
+ul.bullets{list-style:none;padding:0;margin:8px 0}
+ul.bullets li{position:relative;padding:8px 0 8px 18px;line-height:1.85;font-size:14.5px;border-bottom:1px dashed var(--line)}
+ul.bullets li:last-child{border-bottom:0}
+ul.bullets li::before{content:"";position:absolute;left:2px;top:17px;width:6px;height:6px;border-radius:50%;background:#c8b27a}
+ul.bullets b{color:#5b4a22}
+.flow{font-size:13.5px;line-height:1.9;padding:5px 0 5px 22px;border-left:1px dotted var(--line);margin-left:4px}
+.para{font-size:14.5px;line-height:1.95;margin:10px 0}
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+.jump .j{cursor:pointer;font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--bg)}
+.jump .j:hover{background:#fff}
+.tl-item{border-left:3px solid var(--line);padding:2px 0 2px 16px;margin:14px 0}
+.tl-item .when{font-weight:700;font-size:14px}
+.tl-item .when .span{font-weight:400;color:var(--muted);font-size:12px;margin-left:6px}
+.gapcard{border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0;background:var(--bg)}
+.gapcard h4{margin:0 0 6px;font-size:15px}
+.lv{font-size:10.5px;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle;color:#fff}
+.lv.h{background:#c0392b}.lv.m{background:#d68910}.lv.l{background:#7f8c8d}
+.gapcard p{margin:4px 0 0;font-size:13.5px;line-height:1.8;color:#4a463f}
+.note{font-size:12.5px;color:var(--muted);line-height:1.8;margin-top:14px}
+.crow{display:flex;align-items:center;gap:10px;margin:9px 0}
+.crow label{width:96px;font-size:13px;color:var(--muted);text-align:right;flex:none}
+.crow input{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13.5px;background:var(--bg);outline:0}
+.crow input:focus{border-color:#2f9e6b;background:#fff}
+.cbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.cloudbox{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--bg);font-size:13px;line-height:1.8;margin:8px 0}
+.editbar{display:none;align-items:center;gap:10px;margin:0 0 12px;padding:10px 14px;border:1px dashed #2f9e6b;border-radius:10px;background:#f2fbf6;color:#2c7a55;font-size:12.5px;flex-wrap:wrap}
+.main.edit .editbar{display:flex}
+.main.edit .art{outline:2px dashed #2f9e6b;outline-offset:3px}
+.art-body[contenteditable="true"]{background:#fffefa}
+
+#lineageView{display:none;margin-top:22px}
+#lineageView.on{display:block}
+.lineage-head{background:linear-gradient(135deg,#fffdf8 0%,#f2ead9 100%);border:1px solid var(--line);border-radius:18px;padding:24px 28px;box-shadow:var(--shadow);margin-bottom:18px}
+.lineage-head .kicker{font-size:12px;letter-spacing:3px;color:var(--muted)}
+.lineage-head h2{margin:5px 0 8px;font-size:30px;letter-spacing:3px}
+.lineage-head p{margin:0;color:var(--muted);line-height:1.9;font-size:14px}
+.lineage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.lineage-card{position:relative;overflow:hidden;cursor:pointer;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px 24px;box-shadow:var(--shadow);transition:.18s;min-height:178px;font:inherit;color:var(--ink)}
+.lineage-card:hover{transform:translateY(-3px);border-color:#c9b88e;background:#fff}
+.lineage-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--accent)}
+.lineage-card .lc-kicker{font-size:11px;letter-spacing:2px;color:var(--muted)}
+.lineage-card h3{margin:7px 0 10px;font-size:19px;line-height:1.45;letter-spacing:.5px}
+.lineage-card p{margin:0;color:#5b554a;font-size:13.5px;line-height:1.75;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.lineage-card .lc-more{display:block;margin-top:14px;font-size:12.5px;color:#8b6b22;font-weight:700}
+@media(max-width:1080px){.lineage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.lineage-grid{grid-template-columns:1fr}.lineage-head{padding:18px}.lineage-head h2{font-size:26px}}
+@media (max-width:1080px){
+  .reader{grid-template-columns:1fr}
+  .toc{position:static;max-height:none}
+  .art{padding:22px 18px 28px}
+  .art-title{font-size:26px}
+  .tl,.row{grid-template-columns:110px repeat(var(--ncols),minmax(0,1fr))}
+  .trow::before{left:110px}
+  .node{width:11px;height:11px}
+  .trow .tlabel{font-size:10.5px;padding-left:5px}
+}
+@media (max-width:700px){.tl-wrap{overflow-x:auto}.tl{min-width:900px}}.sample-note{background:#fff8e7;border:1px solid #ead9a8;color:#725b1d;border-radius:10px;padding:10px 14px;margin:12px 0 0;font-size:13px;line-height:1.7}.sample-note b{color:#8a6d3b}.mapbar{display:flex;align-items:center;gap:12px;margin:14px 0 4px}.mapbar .map-meta{font-size:12.5px;color:var(--muted)}.mapgrid{display:grid;grid-template-columns:1fr;gap:16px}.mapcard{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px;overflow:hidden}.mapcard h4{margin:0 0 4px;font-size:18px}.mapcard .map-time{font-size:12px;color:var(--gold);letter-spacing:1px;margin-bottom:8px}.mapcard img{display:block;width:100%;height:auto;border-radius:9px;border:1px solid #e8dfcf;background:#f5f1e8}.mapcard p{margin:10px 0 0;color:#5b554a;font-size:13.5px;line-height:1.8}.mapcard a{display:block}.backhome{display:inline-block;margin-top:8px;color:var(--gold);text-decoration:none;font-size:13px;font-weight:700}.backhome:hover{text-decoration:underline}</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title">
+      <h1>世界近现代史</h1><br><a class="backhome" href="index.html">← 返回世界史入口</a>
+      <div class="sub">知识树 · 分阶段精读 · 历史脉络 ｜ 按时间阶段通读，再用历史脉络串联世界近现代史</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="tools">
+      <div class="seg" id="seg">
+        <button data-v="tree" class="on">知识树</button>
+        <button data-v="read">分阶段精读</button>
+        <button data-v="lineage">历史脉络</button>
+      </div>
+      <div class="search" id="searchBox">🔍<input id="q" placeholder="搜索考点，如 大航海 / 工业革命 / 冷战 / 全球化"></div>
+      <button class="btn" id="resetBtn">重置</button>
+      <button class="btn" id="cloudBtn">☁ 云同步</button>
+      <button class="btn primary" id="gapsBtn">⚠ 来源核对</button>
+    </div>
+  </header>
+  <div class="sample-note"><b>页面说明：</b>本页按8个时间阶段精读，PPT 11—25和亚非拉分表均已合并；1991年以后内容按补充页处理。</div>
+
+  <div id="treeView">
+    <div class="legend">
+      <span class="k"><i class="dot" style="background:var(--g-pol)"></i>历史主线</span>
+      <span class="k"><i class="dot" style="background:var(--g-fro)"></i>政治与革命</span>
+      <span class="k"><i class="dot" style="background:var(--g-eco)"></i>经济与社会</span>
+      <span class="k"><i class="dot" style="background:var(--g-tho)"></i>思想与外交</span>
+      <span class="k"><i class="dot" style="background:var(--g-cul)"></i>史学与成就</span>
+      <span class="k" style="margin-left:auto">共 <b id="nCount">0</b> 个知识节点 ｜ 虚线节点为补充内容</span>
+    </div>
+    <div class="tl-wrap"><div class="tl" id="tl"></div></div>
+    <div class="map" id="map"></div>
+  </div>
+
+  <div id="readView">
+    <div class="reader">
+      <aside class="toc" id="toc"></aside>
+      <div class="main" id="main">
+        <div class="readbar">
+          <span class="rbi" id="rbPos"></span>
+          <div class="seg mini" id="modeSeg">
+            <button data-m="read" class="on">精读</button>
+            <button data-m="quiz">自测</button>
+          </div>
+          <span class="spacer"></span>
+          <span class="rbi" id="rbProg"></span>
+          <button class="btn" id="editBtn">✎ 编辑</button>
+        </div>
+        <div class="editbar" id="editBar">
+          <span id="editHint">编辑模式：正文可直接点击修改，改完点“保存本页”</span>
+          <b id="saveState" style="color:#c0392b"></b>
+          <span class="spacer"></span>
+          <span class="pill" id="saveBtn">保存本页</span>
+          <span class="pill" id="revertBtn">还原本页</span>
+          <span class="pill" id="exportBtn">导出修改版</span>
+        </div>
+        <div class="quizhint" id="quizhint">🧠 自测模式：先自己回忆，再点击灰色区域核对答案 ｜
+          <span id="expandAll">全部展开</span> · <span id="collapseAll">全部收起</span></div>
+        <article class="art" id="art"></article>
+      </div>
+    </div>
+  </div>
+  <div id="lineageView">
+    <div class="lineage-head">
+      <div class="kicker">总表 · 跨阶段总结</div>
+      <h2>历史脉络</h2>
+      <p>这里汇总世界近现代史总表的跨阶段演变。九条主线各自贯通八个阶段，点开后先看变化，再看逻辑。</p>
+    </div>
+    <div class="lineage-grid" id="lineageGrid"></div>
+  </div>
+</div>
+
+<div class="mask" id="mask">
+  <div class="modal">
+    <div class="mhead">
+      <div class="kicker" id="mkicker"></div>
+      <h2 id="mtitle"></h2>
+      <div class="x" id="mx">×</div>
+    </div>
+    <div class="mbody" id="mbody"></div>
+  </div>
+</div>
+
+<div class="mask" id="cmask">
+  <div class="modal" style="max-width:600px">
+    <div class="mhead">
+      <div class="kicker">云端同步</div>
+      <h2>GitHub 同步设置</h2>
+      <div class="x" id="cx">×</div>
+    </div>
+    <div class="mbody">
+      <div class="cloudbox">
+        填一次即可，设置会存在你这台电脑的浏览器里。<b>Token 只保存在本地浏览器，绝不会写进网页</b>。
+      </div>
+      <div class="crow"><label>用户名</label><input id="cOwner" placeholder="你的 GitHub 用户名"></div>
+      <div class="crow"><label>仓库名</label><input id="cRepo" placeholder="gudai-history-tree"></div>
+      <div class="crow"><label>分支</label><input id="cBranch" placeholder="main"></div>
+      <div class="crow"><label>文件名</label><input id="cPath" placeholder="edits-world-modern.json"></div>
+      <div class="crow"><label>Token</label><input id="cToken" type="password" placeholder="github_pat_..."></div>
+      <div class="cbtns">
+        <button class="pill" id="cSave">保存设置</button>
+        <button class="pill" id="cPull">↓ 从云端拉取</button>
+        <button class="pill" id="cPush">↑ 上传到云端</button>
+      </div>
+      <p class="note" id="cState"></p>
+    </div>
+  </div>
+</div>
+
+<script id="data" type="application/json">{"cols":[{"i":3,"title":"时代主线与重大事件","outer":"阶段全景","group":"历史主线"},{"i":4,"title":"政治制度与国家治理","outer":"政治制度","group":"政治与革命"},{"i":5,"title":"战争、外交与国际体系","outer":"战争与国际关系","group":"历史主线"},{"i":6,"title":"经济、贸易与工业化","outer":"经济与生产","group":"经济与社会"},{"i":7,"title":"社会结构、阶层与人口","outer":"社会与阶层","group":"经济与社会"},{"i":8,"title":"思想、宗教与文化","outer":"思想与文化","group":"思想与外交"},{"i":9,"title":"殖民扩张与民族解放","outer":"殖民与独立","group":"思想与外交"},{"i":10,"title":"革命、改革与社会主义运动","outer":"革命与社会运动","group":"政治与革命"},{"i":11,"title":"史学、科技与文明成就","outer":"史学与成就","group":"史学与成就"}],"groupOrder":["历史主线","政治与革命","经济与社会","思想与外交","史学与成就"],"periods":[{"name":"地理大发现与早期殖民扩张","span":"1500—1640","position":"世界近现代史 · 第1阶段","sub":"→ 哥伦布首航美洲 · → 直航印度新航路 · → 麦哲伦环球航行 · → 西班牙征服美洲","note":"总表为该阶段正文主干；PPT 对应讲次将在同一阶段内继续合并，新增考点统一标“补”。","feature":"1500年—1640年，欧洲航海者打通通往美洲、非洲与亚洲的新航路，世界各大区域首次被海洋贸易网连为一体。西班牙与葡萄牙率先建立海外殖民帝国，荷兰、英国、法国卷入全球竞争。伴随商业革命与价格革命，西欧资本主义生产组织初步发展，文艺复兴与宗教改革重塑思想版图。与此同时，殖民征服、跨洋奴隶贸易与早期共和政体试验并行，欧洲内部政治格局在宗教战争冲击下走向重组。","events":"→ 哥伦布首航美洲\n→ 直航印度新航路\n→ 麦哲伦环球航行\n→ 西班牙征服美洲\n→ 尼德兰革命\n→ 无敌舰队覆灭","cells":{"3":"• 哥伦布首航美洲：1492年，意大利人哥伦布受西班牙王室资助横渡大西洋，抵达巴哈马、古巴等地，开辟欧洲通往美洲的新航路。此举引发欧洲列强对美洲的探险、殖民与资源掠夺，打破新旧大陆长期隔绝，使欧洲商路重心由地中海转移到大西洋沿岸，推动世界历史演进发生深刻转变。\n• 直航印度新航路：1498年，葡萄牙航海家达·伽马率船队绕过非洲好望角抵达印度卡利卡特，开通欧洲直通印度洋的新航路。这条航路使葡萄牙得以直接获取香料、丝绸与宝石，绕开阿拉伯与意大利中间商，迅速积累巨额财富，也开启欧洲国家东来、角逐亚洲贸易与殖民据点的序幕。\n• 麦哲伦环球航行：1519年，葡萄牙航海家麦哲伦受西班牙资助率船队出航，绕过南美洲南端进入太平洋，其船队于1522年返回西班牙，完成人类首次环球航行。这一航行证实了地球为球体的学说，极大拓展了欧洲人对世界地理范围的认识，也为日后全球海洋贸易的建立奠定基础。\n• 西班牙征服美洲：1519—1521年，西班牙殖民者科尔特斯征服墨西哥阿兹特克帝国；1533年，皮萨罗攻灭秘鲁印加帝国。两大美洲古文明就此覆灭，西班牙在拉丁美洲确立庞大殖民统治。\n• 尼德兰革命：1566年，尼德兰爆发反对西班牙哈布斯堡统治的起义，历时数十年的独立战争由此展开。1581年北方七省宣布脱离西班牙，1609年与西班牙达成十二年停战协定，事实上确认联省共和国独立。这是人类历史上第一次成功的资产阶级革命，开创了早期资产阶级共和政体。\n• 无敌舰队覆灭：1588年，英国海军击败西班牙无敌舰队，粉碎其进攻英国的计划。此役标志着西班牙海上霸权开始衰落，英国夺取大西洋制海权，为日后向美洲与亚洲扩张殖民地提供条件。\n• 三十年战争：1618年，神圣罗马帝国境内波西米亚新教诸侯起兵反对天主教皇帝，引发三十年全欧大战。战事席卷德意志、法国、瑞典与西班牙，天主教联盟同新教联盟反复厮杀，法国为削弱哈布斯堡资助新教一方。1648年《威斯特伐利亚和约》确立教随国定原则并重划疆界，宗教政治格局重组，王朝战争让位于利益争夺。","4":"• 中央集权君主制：西班牙与葡萄牙建立中央集权君主制，国王将航海探险纳入国家意志，直接资助哥伦布、达·伽马等远航，并以王室名义垄断海外收益与殖民特权，王权成为海外扩张主导力量，推动远航。\n• 都铎王权与议会：都铎王朝强化王权，建立较稳定的中央集权统治，同时保留议会传统与法治习惯。议会仍掌握征税与立法权，王权与议会相互依存，为英国君主立宪政体的形成奠定制度基础。\n• 法国绝对君主制：法国自瓦卢瓦王朝后期起削弱封建贵族权力，波旁王朝路易十三、路易十四时期王权高度集中，逐步走向绝对君主制。国王控制军队、税收与教会，贵族迁居凡尔赛，专制王权确立。\n• 尼德兰联省共和国：1609年，尼德兰联省共和国与西班牙签订停战协定，事实上获得独立地位。该国由北方七省联合组成，实行联邦式的共和政体，各省保留较大自治权，中央权力有限。它打破了君主制的普遍格局，开创了早期资产阶级共和政体的先例，对后世共和思想影响深远。","5":"• 教皇子午线：1494年，西班牙与葡萄牙在教皇仲裁下签订托尔德西里亚斯条约，以一条穿过大西洋的经线为界划分海外殖民势力范围。线西归西班牙，线东归葡萄牙，史称教皇子午线。这一安排开创了以条约界定殖民权益的先例，奠定了两国早期海外瓜分的格局。\n• 早期殖民帝国：十六世纪，西班牙与葡萄牙率先建立海外殖民帝国，在美洲、非洲与亚洲广设据点，垄断跨洋贸易与航路。西班牙掠夺美洲金银，葡萄牙控制东方香料与商站，两国凭借庞大舰队称霸海洋，确立了早期全球化时代的海上秩序，深刻影响世界财富流向。\n• 主权均势观念酝酿：三十年战争期间，法国、瑞典与哈布斯堡家族为领土信仰激烈博弈。战争削弱哈布斯堡势力，各国以现实利益取代宗教旗帜结盟，主权与均势观念开始在政治中酝酿形成。","6":"• 商业革命：新航路开辟后，欧洲商业革命兴起，大量金银涌入推动了商品流通规模扩大。贸易中心由地中海转移到大西洋沿岸，里斯本、安特卫普、阿姆斯特丹与伦敦依次成为新的商业枢纽。股份公司、证券交易所与银行信用相继出现，资本主义世界市场开始形成，重商主义随之兴起。\n• 价格革命：十六世纪起，美洲白银与黄金经西班牙大量流入欧洲，导致货币供应激增而物价持续上涨，史称价格革命。地租与工资增长远落后于物价，封建地主实际收入下降，工商业者与资产阶级反而获利，社会财富与权力悄然向新兴阶级转移，加速了封建经济的解体。\n• 重商主义：十六、十七世纪，重商主义在西欧各国普遍推行，主张国家干预经济以积累金银财富。政府鼓励出口、限制进口，扶持造船、采矿与工场手工业，并建立特许贸易公司争夺海外商机。这一政策壮大了国家财政与海军力量，也推动了资本原始积累与海外殖民扩张，影响近代经济走向。\n• 圈地运动：英国圈地运动在都铎时期发展，贵族与乡绅用栅栏圈占公用土地与农民份地，改作牧场养羊。这一转变为毛纺织业提供了羊毛原料，也迫使失地农民进入城市，加速自由劳动力形成。\n• 手工工场兴起：这一时期，手工工场在西欧普遍兴起，商人向手工业者分发原料、收购成品，生产规模扩大。工场内部实行分工，劳动效率提高，资本主义生产组织初步发展，为机器大工业奠定基础。","7":"• 资产阶级壮大：新航路开辟与商业扩张使欧洲商人、工场主与银行家积累大量财富，资产阶级力量显著壮大。他们要求保护贸易、参与政治并打破封建特权束缚，却仍受等级制度与专制王权压制，与封建势力的矛盾日益加深，成为推动社会变革的潜在力量，孕育着近代政治革命的土壤。\n• 圈地流民问题：圈地运动使大批英国农民失去土地与公用权，被迫离开家园。失地人口涌入城镇难以谋生，流浪者增多，流民问题日益凸显。政府以血腥立法管束，仍难消除动荡，社会矛盾持续深化。\n• 印第安人口锐减：欧洲殖民者在美洲推行征服与奴役，战争、疾病与苦役使印第安人口锐减。殖民者占据土地与资源，原住民被压于社会底层，种族矛盾尖锐，美洲形成以欧洲人为主导的等级格局。","8":"• 文艺复兴扩展：文艺复兴率先在意大利兴起，随后扩展到法国、英国、德意志与西班牙等西欧各地。以复兴古典文化为旗帜，人文主义思潮倡导人的尊严与现世价值，批判中世纪神学束缚，文学、艺术与学术由此焕发新机，深刻影响了欧洲思想文化的走向，奠定了近代精神基础。\n• 宗教改革兴起：1517年，德意志修士马丁·路德在维滕贝格教堂门前张贴九十五条论纲，批评教会兜售赎罪券与腐化行径，否认教皇权威，主张信仰得救唯凭《圣经》。这一举动点燃宗教改革，新教各派相继脱离罗马教会，欧洲基督教世界就此分裂，推动王权与民族意识高涨。\n• 加尔文宗形成：加尔文在日内瓦推行宗教改革，以《基督教要义》阐述预定论与因信称义，建立长老制教会。其学说强调节俭、勤勉与纪律，形成加尔文宗，并随胡格诺派与苏格兰长老会传到法国等地。\n• 英国宗教改革：1534年，英国议会通过《至尊法案》，宣布国王亨利八世为英格兰教会最高首脑，断绝与罗马教廷的隶属关系。王室没收修道院土地财产，王权凌驾教会之上，英国国教确立，宗教改革由王室主导完成。\n• 反宗教改革：面对新教冲击，天主教会发起反宗教改革。1545—1563年特伦托会议重申教义、整顿神职纪律并规范礼仪，耶稣会赴各地传教办学。天主教会由此在南欧与中欧保住势力范围，信仰版图由此确立。","9":"• 美洲金银掠夺：西班牙与葡萄牙在美洲建立庞大的殖民帝国，以征服、奴役与种植园经济榨取财富。西班牙从墨西哥、秘鲁的银矿掠夺成吨白银，葡萄牙据巴西产糖，两国将美洲金银与作物源源运回欧洲，既充实了本国国库，也加速了欧洲资本原始积累与世界市场联结。\n• 三角贸易开端：十五世纪起，欧洲殖民者在西非沿海建立据点，将非洲黑人贩往美洲种植园与矿场。随着美洲劳动力需求激增，跨大西洋奴隶贸易与三角贸易由此开端，欧洲工业品换非洲奴隶，运美洲换原料，再返欧洲。这一贸易持续数百年，导致非洲人口与社会结构的长期创伤。\n• 亚洲商站建立：欧洲殖民者东来后在亚洲沿海建立商站与堡垒，控制香料贸易节点。葡萄牙占印度果阿、马六甲与中国澳门，荷兰占中国台湾与南洋多处据点，亚洲传统海洋秩序由此动摇。","10":"• 空想社会主义萌芽：1516年，英国政治家托马斯·莫尔发表《乌托邦》，借航海家之口描绘一个没有私有财产、人人劳动共享成果的理想岛国，批判当时英国圈地造成的贫富分化。这部作品第一次系统构想公有制社会，成为空想社会主义思想的萌芽，推动后世无数社会改革。\n• 太阳城构想：1623年，意大利人康帕内拉发表《太阳城》，描绘祭司统治、财产公有、普遍义务劳动的理想城邦。该书继《乌托邦》后构想理想社会制度，进一步推动早期空想社会主义发展。","11":"【史学发展】\n• 马基雅维利史论：1513年，意大利政治思想家马基雅维利著《君主论》，以权力与实力而非道德神学分析治国之道，主张君主为保国可权变行诈；此后又撰《佛罗伦萨史》，以世俗眼光考察城邦兴衰。他摆脱中世纪神学框架，把政治当作独立的人事加以研究，强调命运与德能并用，开创近代政治学与现实主义史学。\n• 国家主权学说：1576年，法国思想家博丹出版《论国家》，系统提出国家主权学说，主张主权是凌驾臣民之上、不受法律约束的最高权力，且永久属于国家，为近代民族国家确立提供依据。\n\n【文明成就】\n• 文学：莫尔1516年发表《乌托邦》，借航海家之口描绘公有共享的理想岛国，批判圈地私有之弊，成为欧洲首部空想社会主义著作——开创乌托邦文学传统，影响后世社会理想书写。\n• 天文：哥白尼1543年出版《天体运行论》，提出地球与其他行星绕太阳运转的日心说，推翻流行千年的地心宇宙观，其理论后经第谷、开普勒与伽利略的观测逐步得到证实——日心说掀起天文学革命，为近代科学摆脱神学束缚、确立以观测检验宇宙的道路开辟方向。\n• 艺术：达·芬奇创作《蒙娜丽莎》《最后的晚餐》等名画，以解剖知识与光影表现人物神韵，手稿涉及工程、解剖与飞行——代表并推动文艺复兴艺术达到高峰，展现超越时代的科学想象。\n• 物理：十七世纪初，意大利科学家伽利略改进并率先用天文望远镜观测天体，发现木星卫星、月球环形山与太阳黑子，以观测证据支持哥白尼的日心说，并将实验与数学结合研究自然，倡导以观察和实测检验理论——奠定近代实验科学的方法论基础，影响深远。\n• 数学：开普勒据第谷观测数据发现行星沿椭圆轨道运行的三大定律，精确描述行星绕日运动规律——完善天体运行数学模型，为牛顿建立万有引力定律提供依据。\n• 哲学：培根著《新工具》，倡导以观察和实验为基础的归纳法，提出知识就是力量的论断，主张由自然现象归纳验证以获取真知——为近代科学方法奠定哲学基础。"},"sources":{"table_row":"2","ppt":[]},"maps":[{"src":"maps/age-of-exploration-1.jpg","title":"新航路开辟","period":"15—16世纪","note":"看欧洲通往美洲、非洲南端和印度洋的主要航线，以及大西洋与印度洋贸易的变化。"},{"src":"maps/age-of-exploration-2.jpg","title":"早期海洋航线","period":"15—16世纪","note":"配合上一张图理解西班牙、葡萄牙航线的方向与殖民据点。"}]},{"name":"革命时代与启蒙","span":"1640—1760年代","position":"世界近现代史 · 第2阶段","sub":"→ 英国革命爆发 · → 威斯特伐利亚和约 · → 处死查理一世 · → 光荣革命","note":"总表为该阶段正文主干；PPT 对应讲次将在同一阶段内继续合并，新增考点统一标“补”。","feature":"1640年—1763年，英国革命与启蒙运动先后重塑欧洲政治与思想版图。英国经长期议会、光荣革命确立君主立宪，法国绝对君主制达于鼎盛。启蒙思想家以理性批判专制与神权，三权分立与人民主权学说广泛传播。与此同时，俄国西化、普奥崛起改变欧陆均势，英法在全球展开殖民争霸，主权国家体系与经典科学体系一并成熟。","events":"→ 英国革命爆发\n→ 威斯特伐利亚和约\n→ 处死查理一世\n→ 光荣革命\n→ 彼得一世西化改革\n→ 大北方战争","cells":{"3":"• 英国革命爆发：1640年，英国国王查理一世为筹措对苏格兰战争军费被迫召开长期议会，议会借机限制王权、抨击专制弊政并通过《大抗议书》。王权与议会矛盾最终演变为内战，议会军在内战中取胜。这场革命推翻君主专制、处死国王并一度建立共和，标志英国资产阶级革命正式爆发，也揭开近代政治革命序幕。\n• 威斯特伐利亚和约：1648年，持续三十年的欧洲大战以《威斯特伐利亚和约》签订宣告结束。和约承认各缔约国主权平等，确认荷兰与瑞士独立，并重划德意志政治版图，法国获阿尔萨斯、瑞典取得波罗的海领地。它结束宗教战争时代，以条约体系重建欧洲秩序，主权国家与均势外交原则自此确立，影响其后百年格局。\n• 处死查理一世：1649年，议会军在内战获胜，以叛国罪处死查理一世。英国废除君主制，成立共和国，其后克伦威尔任护国公实行军事独裁，国家政权落入军人集团之手，共和实验转向集权，埋下政局动荡根源。\n• 光荣革命：1688年，英国议会邀请荷兰执政威廉入主英国，废黜信奉天主教的詹姆斯二世，史称光荣革命。次年议会通过《权利法案》，限制王权、确认议会主权与臣民权利，规定国王不得擅自废止法律或征税。这场不流血政变以法律形式确立君主立宪制，为英国政治稳定与资本主义发展奠定基础。\n• 彼得一世西化改革：1698年，俄国沙皇彼得一世结束西欧考察后启动全面西化改革，仿效西方整编陆军与海军，创办工场与学堂，推行文字与服饰革新，并迁都圣彼得堡以面向海洋。这场改革使俄国军力与国力大增，跻身欧洲强国之列，正式开启俄国的近代化进程，影响深远。\n• 大北方战争：1700—1721年，俄国与瑞典爆发大北方战争。俄军在波尔塔瓦等会战中击败瑞典名将查理十二，终获全胜。战后俄国夺得波罗的海沿岸土地与出海口，营建新都圣彼得堡，由此跻身欧洲强国之列，北欧霸权就此瓦解。\n• 西班牙王位继承战争：1701—1714年，欧洲因西班牙王位继承爆发大战。英国联合荷奥对抗法西同盟，战后条约限制法国扩张，确认英国夺取海外殖民地。此役导致法国霸权受挫，英国海上利益扩大。\n• 七年战争：1756—1763年，欧洲列强因领土与殖民利益冲突爆发七年战争，英法两国在欧陆、北美与印度展开全球殖民争霸。英国凭借海军优势与财政实力最终取胜，1763年巴黎和约迫使法国让出加拿大与印度属地，西班牙割让佛罗里达。英国由此确立全球殖民优势，掌控跨洋贸易命脉，北美势力扩至密西西比河以东。","4":"• 权利法案：1689年，英国议会通过《权利法案》，规定国王无权废止法律、征税须获议会同意，臣民享有请愿、选举与持械等权利。法案以成文形式确认议会主权高于王权，国王统而不治，英国由此确立君主立宪制。它限制专制、保障财产与自由，为后世宪政发展奠定制度范本，影响欧美政体数百年。\n• 路易十四亲政：法国国王路易十四亲政后削弱贵族与地方势力，任用官僚直接治理各省，并营建凡尔赛宫以掌控上层。他宣称朕即国家，集立法、行政、军事与宗教大权于一身，推行重商主义与对外战争。在其漫长统治时期，法国绝对君主制至此确立，王权达于鼎盛。\n• 普鲁士开明专制：普鲁士在腓特烈·威廉时期大力扩军，实行中央集权与重商政策，国库军力充盈。腓特烈二世延续强权路线，扶持文化与宗教宽容，史称开明专制，普鲁士由此奠定欧洲强国地位。\n• 彼得一世改革：彼得一世改革官制与军事，废除贵族杜马，设枢密院统辖行政，分设十一院。他裁抑旧贵族，提拔军功出身的平民，仿西方编练陆海军，建立中央集权的军事体制，强化沙皇专制。","5":"• 威斯特伐利亚体系：1648年《威斯特伐利亚和约》结束三十年欧洲战争，明确确认缔约国主权平等与领土完整，承认荷兰、瑞士独立，并确立教随国定原则。以此为标志，以主权国家为主体的近代国际体系正式确立，均势外交与条约协调成为处理欧洲纷争的主要方式，常驻使节与大国会议制度由此开启。\n• 英荷战争：1652—1674年，英荷为争夺海上贸易爆发三次战争。英国凭财政与海军实力取胜，迫使荷兰接受航海条例。此役英国取代荷兰，夺取大西洋海上霸权，奠定殖民扩张基础。\n• 奥地利王位继承战争：1740—1748年，因奥地利王位继承爆发大战。普鲁士趁势夺取西里西亚，国力骤升；奥地利失地维持大国地位。此役普奥双双崛起，动摇欧陆均势，中欧格局重组。\n• 七年战争：1756—1763年七年战争以欧洲列强全面冲突为底，英法在北美、印度与海上展开决定性较量。英国凭借海军与财政优势连战连胜，1763年巴黎和约迫使法国割让加拿大、退出印度，西班牙让出佛罗里达。战后英国掌握海上霸权与广阔殖民地，确立全球殖民优势，法国海外力量自此大幅收缩。","6":"• 英国农业革命：十八世纪前后，英国农业革命渐次开端，诺福克轮作制取代休耕使土地连年产出；选种、施肥与改良农具普遍推广，粮食产量稳步提高。农业剩余支撑人口增长与非农就业，也催生乡村资本积累。农业革命为日后工业革命提供原料、市场与自由劳动力，奠定近代经济起飞的物质基础。\n• 工场分工细化：这一时期，英国手工工场在纺织、采矿与冶金等行业繁荣地发展，工场内部实行日益细致的分工，每道工序由专门工人完成。分工细化提高了劳动效率，也使操作经验与技术诀窍得以积累传承，为后来机器发明与工厂制度的出现奠定组织条件。\n• 科尔贝尔重商主义：法国大臣科尔贝尔推行重商主义，鼓励工场手工业、扶植丝织生产，兴办官办工厂。他扩建海军、建立贸易公司争夺殖民地，用保护关税限制进口，却导致农民与消费者负担加重。\n• 圈地运动加速：十八世纪圈地运动加速，议会通过法案准许贵族圈占公地。土地集中催生大农场，羊毛商品化加深。失地农民涌入工场，为工厂提供自由劳动力，积累工业资本，为工业革命奠定前提。","7":"• 资产阶级参政：光荣革命后，英国乡绅、商人与金融资产阶级因海外贸易与土地经营而财富大增，社会地位上升。他们通过议会选举与利益代言持续影响国策，逐步与旧土地贵族分享政治权力，推动政府政策向保护贸易与自由财产倾斜，阶级格局随之改变，奠定基础。\n• 贫富分化加剧：城市平民与农民在圈地、重税中处境艰难，工资增长赶不上生活成本，下层民众频繁失业流浪。社会贫富分化加剧，抗议骚乱与盗匪增多，城乡矛盾上升，统治秩序动摇。\n• 奴隶贸易高峰：十八世纪，跨大西洋奴隶贸易进入高峰，欧洲商船将大批非洲人贩往美洲种植园与矿场。奴隶途中死亡率极高，导致非洲损失大量青壮年劳动力，美洲种植园经济依赖强制劳动维持运转。","8":"• 洛克天赋人权：英国思想家洛克著《政府论》，批判君权神授，主张人生而自由平等，拥有生命、自由与财产的天赋权利。他认为统治合法性来自被统治者同意，应将立法、行政与对外权分立，以法律约束权力、以同意确立权威。其学说为君主立宪与自由宪政奠定理论基石，并深刻影响北美殖民地的独立与立宪。\n• 伏尔泰倡导理性：法国启蒙思想家伏尔泰以犀利文笔倡导理性精神、自由与宗教宽容，抨击教会的专制、迫害与愚昧，反对盲目迷信与思想禁锢。他推崇英国式的君主立宪与法治理想，主张以理性之光驱散偏见，其著作在知识分子中广泛传播，推动了启蒙思潮的兴起。\n• 三权分立思想：法国思想家孟德斯鸠著《论法的精神》，系统考察欧洲各国政制与法律，提出把国家权力划分为立法、行政与司法三部分，彼此分立又相互制衡。他主张以法治约束专制，强调法律应顺应地理与民情，这一三权分立思想确立了近代宪政设计的理论源头。\n• 人民主权学说：法国思想家卢梭著《社会契约论》，明确提出国家源于人民之间的契约，主权属于全体人民且不可分割。他主张当政权违背公意时人民有权推翻，自由只能在共同遵行的法律中获得，这一人民主权学说推动法国大革命与后来的共和主义政治传统。\n• 启蒙思潮扩展：启蒙运动发端于英国，扩展到法国并达鼎盛，伏尔泰、孟德斯鸠与卢梭等群星璀璨。其影响越过海峡，推动荷兰、德意志与意大利等国掀起理性批判思潮。","9":"• 英国海上霸权：十七世纪下半叶，英国在英荷战争后取代荷兰成为海上霸主，凭借海军与商船优势掌控跨洋贸易命脉。此后英国在北美大西洋沿岸建立十三块殖民地，并向西印度群岛扩张；在亚洲则通过东印度公司逐步渗透并控制印度沿海据点，殖民版图大幅扩展，海上殖民帝国初步形成。\n• 英法殖民争夺：法国在北美新法兰西、路易斯安那及印度据点与英国激烈争夺殖民地。双方为皮毛贸易与商站连年征战，消耗巨大。七年战争法国败于英国，导致北美与印度殖民地丧失。\n• 拉美种族等级制：西班牙在拉美建立殖民统治后，按出身把半岛人、克里奥尔人、混血种与印第安人分成严格等级。特权与血统挂钩，土著遭系统性歧视，社会结构长期固化，矛盾日益深化。","10":"• 掘地派运动：1649年，英国革命期间，温斯坦莱领导掘地派在荒地集体耕种，主张土地公有、劳动共享。这是对私有制的早期空想共产主义实践尝试，虽遭镇压而短暂，却埋下思想种子。\n• 自然法典：1755年，法国思想家摩莱里发表《自然法典》，以法理形式系统论述空想共产主义原则，主张废除私有财产、实行公有制与按能分配，由社会统一组织生产与消费。该书设想以法律消灭剥削、重建平等公社，是十八世纪空想社会主义重要文献，为后来圣西门、傅立叶与欧文的学说奠定早期理论基础。\n• 空想社会主义发展：十八世纪，马布利等思想家批判私有制，主张以公有制与节制欲望重建公正社会。他们描绘没有剥削的理想政体，强调德行与简朴，推动早期空想社会主义继续发展，影响改革思潮。","11":"【史学发展】\n• 维柯历史哲学：1725年，意大利思想家维柯出版《新科学》，首次提出人类各民族共同经历神祇、英雄与人的三个历史阶段，主张历史依内在规律循环演进。他首把历史当作有结构的整体加以研究，摆脱神学循环论与古代典范观，开创以探究历史规律为宗旨的近代历史哲学，也启发后世文化与比较史研究。\n• 伏尔泰文明史观：伏尔泰著《风俗论》，跳出王朝政治史框架，以广阔视野叙述各民族风俗与贸易。他倡导以理性衡量历史，贬抑中世纪蒙昧，确立文明史与理性主义史学取向，影响写史方法。\n• 休谟经验主义史学：苏格兰哲学家休谟著《英国史》，以经验主义考察制度演变，侧重宪政传统的脉络。他摒弃神意解释，强调史实考辨与因果推演，叙事流畅，推动经验主义史学书写。\n\n【文明成就】\n• 物理：牛顿1687年出版《自然哲学的数学原理》，系统提出运动三定律与万有引力定律，以数学语言统一描述天体与地上物体的运动，解释行星轨道、潮汐与地面物体的坠落——经典力学体系由此建立，标志近代物理学与科学革命成熟，并为工业革命提供力学基础。\n• 政治：洛克1689年出版《政府论》，系统阐述天赋人权、财产自由与同意论政府学说，主张生命、自由与财产为不可让渡的自然权利，权力须受法律与议会约束，把自由、财产与有限政府联系起来——为英国光荣革命辩护，并影响北美独立宣言与权利法案的起草，奠定自由主义政治理论基石。\n• 技术：纽科门1712年制成大气式蒸汽机，以蒸汽驱动活塞往复，用于矿井抽水，使深井排水首次实现机械化——开启蒸汽动力先声，为瓦特改良蒸汽机奠定基础。\n• 法律：孟德斯鸠1748年出版《论法的精神》，将国家政治权力明确划分为立法、行政与司法三部分，主张彼此分立又相互制衡，以防权力专断与腐败，强调法律应顺应地理与民情——系统化为近代宪政分权理论源头，奠定分权制度基础，深刻影响美国宪法与法国人权宣言。\n• 思想：卢梭1762年出版《社会契约论》，主张主权在民且不可分割，统治须基于公意——这一人民主权学说在法国大革命中形成旗帜，为共和制提供理论依据，塑造革命意识形态。\n• 音乐：巴赫创作大量宗教康塔塔，以严谨对位法与复调技艺著称，将巴洛克音乐形式与情感表现推向极致，服务教堂礼拜也滋养世俗音乐——推动巴洛克艺术臻于高峰，被公认为一代宗师。"},"sources":{"table_row":"3","ppt":[]}},{"name":"工业与政治双元革命","span":"1760年代—1815","position":"世界近现代史 · 第3阶段","sub":"→ 英国工业革命 · → 北美独立战争 · → 法国大革命 · → 拿破仑称帝","note":"总表为该阶段正文主干；PPT 对应讲次将在同一阶段内继续合并，新增考点统一标“补”。","feature":"本期以英国工业革命与法国政治革命双线并行为主线。蒸汽机与工厂制推动生产力飞跃，工业资产阶级与工人阶级先后登场；美国独立与法国大革命以天赋人权、人民主权重塑政治秩序。拿破仑战争与维也纳会议重建欧洲均势，自由与民族思潮勃兴，空想社会主义与早期工人运动随之孕育。","events":"→ 英国工业革命\n→ 北美独立战争\n→ 法国大革命\n→ 拿破仑称帝\n→ 远征俄国惨败\n→ 维也纳会议","cells":{"3":"• 英国工业革命：1760年代英国工业革命自棉纺业起步，1765年哈格里夫斯发明珍妮纺纱机，纺纱由手工转向机械。后经阿克莱特水力机与克朗普顿骡机相继改进，棉纱产量成倍增长，机器大工业序幕由此揭开，英国率先从农业社会迈入近代工业社会，并逐步确立世界工厂的领先地位。\n• 北美独立战争：1775年莱克星顿枪声揭开北美独立战争序幕，华盛顿任大陆军总司令，1777年萨拉托加大捷促成法国参战，1781年约克镇英军投降。1783年巴黎和约确认十三州脱离英国，建立美利坚合众国。此战削弱英国殖民体系，鼓舞拉美独立运动，并推动共和制度与启蒙思想在美洲传播，树立殖民地独立样板。\n• 法国大革命：1789年7月14日巴黎民众攻占巴士底狱，标志法国大革命爆发，旧制度专制堡垒被摧毁。革命废除封建特权与等级制，发表《人权宣言》，没收教会地产，推翻君主专制。它深刻重组法国社会结构，并为欧洲政治革命提供范本，近代公民社会由此发轫，废除贵族特权与行会束缚，确立公民平等地位。\n• 拿破仑称帝：1799年拿破仑发动雾月政变夺取政权，1804年加冕称帝建立法兰西第一帝国，以《拿破仑法典》与行政改革巩固革命成果，确立近代官僚体制与中央集权统治，强化国家机器。\n• 远征俄国惨败：1812年拿破仑率六十万大军远征俄国，遭严寒与游击消耗惨败撤退，帝国由盛转衰。次年反法同盟乘势反攻，法国对欧陆的霸权迅速瓦解，拿破仑的军事神话就此破灭。\n• 维也纳会议：1814—1815年维也纳会议重划欧洲版图，英俄普奥法战胜国以正统、补偿与均势三原则安排事务，恢复波旁王朝并构建五大国协调与定期会议制度。会议确立此后约百年欧洲国际体系框架与外交规则，开启大国协商维系和平的均势时代，英国由此获海上主导权，俄普奥维持欧陆均势格局。\n• 滑铁卢战败：1815年6月拿破仑在滑铁卢被威灵顿率领的英普联军击败，帝国彻底终结，本人流放圣赫勒拿岛，波旁王朝复辟。法国大革命与拿破仑战争造成的欧洲动荡至此落幕，维也纳体系全面确立并主导欧陆政局，其法典与行政遗产奠定近代民法秩序根基。","4":"• 美国独立宣言：1776年7月4日大陆会议通过杰斐逊起草的《独立宣言》，宣告人人生而平等、天赋人权与人民主权，殖民地脱离英国具有天然正当性。它成为近代民族独立与共和建国运动的理论旗帜，其自由平等理念影响波及欧洲与拉美，推动宪政思潮兴起，自由平等口号越出北美，激励诸国争取独立。\n• 美国联邦宪法：1787年费城制宪会议制定美国宪法，确立联邦制与三权分立，联邦权力高于各州，立法行政司法相互制衡，总统由选举人团产生，最高法院随后获得违宪审查权。它为新兴共和国构建稳定政体框架，深刻影响后世宪政制度设计与政治实践，奠定现代共和政体根基。\n• 法国人权宣言：1789年法国制宪议会通过《人权宣言》，确立主权在民、法律面前人人平等与基本自由原则，否定封建等级与专制特权。它成为法国大革命及近代人权思想的不朽文献与精神象征，其权利话语泽被后世，奠定现代公民权利体系的基石，其权利理念融入近代立宪运动，成为后世民权立法的渊源。\n• 雅各宾专政：1793—1794年雅各宾派实施恐怖统治，以断头台镇压反革命与异己，稳定前线却大肆滥杀。最终在热月政变中被推翻，其激烈而短暂的统治随之走向终结，标志革命高潮的落幕。\n• 拿破仑法典：1804年拿破仑颁布《法国民法典》，系统确认私有财产、契约自由与法律平等，确立资产阶级民法体系，破除封建特权与等级。它成为大陆法系各国立法仿效的蓝本与制度典范，其原则流传广远，深刻塑造近代民法秩序，它以法典形式巩固革命成果，扫清封建障碍，促进资本主义发展，其立法原则被多国继受。\n• 英国议会制：18世纪后半叶英国议会制与两党政治巩固，辉格党与托利党轮流执政，议会主权与责任政府日趋成型。它为君主立宪制提供了稳定的制度依托与成熟的政治传统，巩固君主立宪政体。","5":"• 法国革命战争：1792—1815年法国革命战争与拿破仑战争连续进行，法国输出革命并对外扩张，欧洲诸国卷入反复征战，反法同盟七度组建，版图几度重划。拿破仑废封建、行法典、燃民族主义，重塑版图与制度，改变欧洲政治面貌，开启大国均势重构的进程，推动民族意识于征战中觉醒蔓延。\n• 大陆封锁体系：1806年拿破仑推行大陆封锁体系，禁欧陆与英贸易以孤立英国，反遭经济反噬并激化欧陆内部矛盾。封锁终因难以为继而彻底破产，损害法国自身，徒劳无功。\n• 英国海上霸权：1815年拿破仑战败后，英国巩固海上霸权与殖民优势，凭借强大海军与全球贸易网络主导海洋。它成为全球首要的殖民与贸易强国，为下一阶段工业资本主义扩张奠定海洋基础。\n• 维也纳体系：1814—1815年维也纳会议建立英俄普奥法五国均势与定期协调，战胜国以正统、补偿与制衡原则安排欧洲事务，设德意志邦联与波兰会议王国。梅特涅主盟，大国以会议协调争端，欧陆暂免大战近三十年。它开启大国协商维系秩序的维也纳体系时代，确立近代多边外交传统与均势格局。","6":"• 珍妮纺纱机：1765年哈格里夫斯发明珍妮纺纱机，一人可纺多锭，棉纺业率先实现机械化，工序效率大幅提升。后经阿克莱特水力机与克朗普顿骡机改进，棉纱产量成倍增长。它触发纺织、冶金与机器制造连锁革新，工业革命由此加速，生产面貌为之一新，机器生产取代手工，英国棉纺称雄世界市场。\n• 瓦特蒸汽机：1785年瓦特改良蒸汽机投入生产，以煤炭为燃料提供稳定机械动力，机器大工业摆脱水力地理限制。工厂可设于城镇，通用动力普及推动纺织、采矿与冶金产业全面变革，产能剧增，并加速交通运输改良，工业布局随之改观，煤炭钢铁需求猛增，产业革命由纺织扩至重化工业，动力革命奠定工业化根基。\n• 工厂制确立：工厂制取代手工工场，劳动者集中厂房受机器与工时纪律约束，生产组织与内部分工发生革命性变革。劳动生产率大幅跃升，原料采购与产品销售纳入市场体系，近代工业体系渐次成形并向外扩散，改变社会阶级结构，推动工业化向纵深发展。\n• 英国圈地运动：圈地运动高潮剥夺农民土地，造就大量自由劳动力，同时推动农业商品化与集约经营。它为工业化提供廉价劳力与原料的双重支撑，也引发深刻的社会剧变与流民问题。\n• 煤铁产量攀升：煤铁产量随机器需求持续攀升，运河与硬化公路改善国内交通，原料与市场联结更为紧密。工业区位摆脱河流限制，向内陆城镇与矿区进一步扩展，推动工业布局改观。\n• 棉纺品出口：英国棉纺织品凭借机器低成本大量出口，在国际市场压倒手工制品，初显世界工厂地位。工业优势转化为贸易顺差与国力优势，进一步巩固其经济霸权，领先全球。","7":"• 工业资产阶级：工业资产阶级随工厂制兴起而壮大，凭借财富要求打破土地贵族对议席与政权的垄断。它成为推动议会改革与自由贸易的新兴政治力量，改变阶级格局，登上舞台。\n• 近代工人阶级：近代工人阶级伴随工厂制形成，在机器轰鸣与长工时下出卖劳动力，与资本家形成鲜明阶级对立。童工女工普遍使用，居住与劳动条件恶劣。它构成工业化社会的基本阶级之一，并逐步走向阶级觉醒与联合，酝酿早期工人运动，工人居住拥挤、工时漫长，催生互助与罢工斗争，早期工会随之萌芽。\n• 城市贫民窟：城市人口随工厂聚集激增，住房拥挤、供水与卫生匮乏致贫民窟与疫病蔓延。公共卫生危机成为工业化伴生而难以回避的严峻社会病症，引发改革呼声与立法。\n• 海地独立革命：海地革命推翻法国殖民统治并废除奴隶制，黑人建立首个独立黑人国家。它震动美洲种植园秩序，殖民地社会结构与种族格局随之发生剧变，动摇大西洋奴隶制秩序。","8":"• 启蒙运动高潮：启蒙运动于本期达至高潮，伏尔泰、卢梭、孟德斯鸠等以理性批判专制与神权，倡导自由平等、分权与宽容，为美法革命提供了思想武器。他们公开抨击教会蒙昧，推动教育世俗化，百科全书派广传新知，专制合法性遭普遍质疑，旧制度根基随之动摇，近代公共舆论由此发端。\n• 国富论刊行：亚当·斯密1776年刊行《国富论》，倡导自由放任经济，主张分工增进财富、市场由看不见的手调节，反对重商主义干预。它奠定古典政治经济学与自由贸易理论的深厚根基，英国据其学理废除谷物法，古典学派主导十九世纪经济思潮，自由贸易作为国策的地位由此确立。\n• 卢梭共和思想：卢梭的人民主权与共和思想经雅各宾派付诸实践，深刻影响法国革命进程。其公意理论成为反专制与建共和的重要精神资源与行动依据，推动共和理念传播。\n• 浪漫主义兴起：浪漫主义文学与艺术兴起，重情感、想象与个人自由，以反对启蒙理性的冷峻与机械。它重塑文化对人与世界的感知方式与价值尺度，开启新审美取向。\n• 保守主义回应：伯克《法国革命论》警惕激进颠覆，主张尊重传统与渐进改良。它代表保守主义对法国大革命的回应，开启近代保守主义政治思想之脉络，影响后世，流派绵长。","9":"• 东印度公司：英国东印度公司在印度巩固并扩张殖民统治，逐步兼并土邦、征收田赋、垄断贸易。它将印度纳入帝国附庸地位，变为其原料产地与广阔经济腹地，巩固殖民控制。\n• 海地革命独立：海地革命1791—1804年推翻法国殖民统治，废除奴隶制，建立拉美首个独立黑人国家。杜桑·卢维杜尔领导起义，历经苦战挫败拿破仑远征军。它极大鼓舞殖民地解放运动，沉重冲击大西洋奴隶制体系与殖民秩序，震动欧美列强，杜桑虽遭诱捕而独立鼓舞拉美解放浪潮，奴隶制殖民体系为之重创，殖民旧序动摇。\n• 废奴隶贸易：英国1807年立法禁止奴隶贸易，反映人道舆论与经济利益变化。虽未禁奴隶制本身，却标志跨大西洋奴隶贸易走向式微与道德转向，影响渐扩，潮流所向。\n• 拉美独立运动：拉美独立运动1810年兴起，玻利瓦尔等领导西属美洲反殖民斗争，推翻宗主国统治。大陆陆续建立一系列新独立的共和国，重塑美洲政治版图，瓦解殖民。","10":"• 平等派密谋：巴贝夫1796年组织平等派密谋，主张废除私有、财产公有与平均分配。它是早期无产阶级平均共产主义的重要政治尝试，标志无产阶级政治运动萌芽。\n• 卢德工人运动：卢德运动1811年起捣毁机器，早期工人以破坏机器反抗失业与降薪，属自发抗争。它缺乏组织与理论指导，最终被政府镇压而失败，暴露早期工人运动局限。\n• 空想社会主义：圣西门、傅立叶、欧文创立空想社会主义学说，批判资本主义剥削与异化，构想合作工厂、自由劳动公社与和谐新村。欧文在美办新和谐村试验，它虽未指明革命主体，却为科学社会主义提供直接思想前驱与理论素材，奠定社会主义学说的思想根基。\n• 工人互助会：英国工人互助会与早期工会组织萌芽，以互助救济与集体谈判维护劳工权益。它标志工人阶级开始以组织化方式争取自身利益与社会地位，意义深远，奠基运动。","11":"【史学发展】\n• 启蒙史学叙事：伏尔泰、休谟等启蒙史家以理性书写文明进程，破除神学史观束缚，重估制度与风俗得失。他们奠定近代世俗史学叙事的方法取向与基本立场，影响深远，开宗立派。\n• 罗马衰亡史：吉本1776—1788年著《罗马帝国衰亡史》，以严谨考据完整叙述帝国衰落历程，剖析道德腐化与制度衰败的病因，归咎于基督教与蛮族冲击。他征引钱币铭文考辨史实，强调史料批判先于叙述，体例精严、文笔典雅，开创政治史与文明史并重的史学格局，奠定近代史学的叙事典范。\n• 历史主义思潮：赫尔德等德意志史家强调民族精神与文化史，以民族特质理解历史个性。它推动历史主义思潮兴起，丰富了史学研究的视野与路径，影响德国史学，流派独树。\n\n【文明成就】\n• 经济：亚当·斯密1776年著《国富论》，系统论述社会分工、市场与自由贸易，提出劳动价值论与看不见的手，奠定古典政治经济学基石——分工增进生产率之说成为后世共识，自由贸易终成英国政策基石，深刻影响近代经济政策走向与经济学说演进，绵延泽被百余年。\n• 科技：瓦特1785年制成改良蒸汽机，以分离冷凝大幅提升效率，提供可普遍应用的通用机械动力，广泛用于矿井抽水、工厂驱动与机车船舶，又推动铁路与轮船相继问世——英国产能跃居世界首位，工业优势转为贸易与海军霸权，机器大工业由此普及，开启蒸汽动力新纪元，奠定英国世界工厂地位。\n• 化学：拉瓦锡1789年著《化学纲要》，以定量实验确立质量守恒定律，并以氧化燃烧论推翻燃素说，革新化学命名体系——被后世尊为近代化学之父，近代化学体系由此奠定，化学自此成为系统科学。\n• 法律：拿破仑1804年颁《法国民法典》，系统编纂私有财产、家庭与契约规则，破除封建特权，已婚妇女无行为能力等旧规随之革除，产权关系得以明晰，堪称成文法之典范——成为大陆法系各国立法仿效的蓝本，平等自由原则影响深远广泛，奠定近代民法秩序与法理根基，影响及于全球。\n• 音乐：1804年贝多芬完成《英雄交响曲》，突破古典音乐格局，张扬个性与情感，以宏大篇幅与强烈音响震撼乐坛——开创浪漫主义音乐先河，标志音乐由宫廷走向个人表达，革新乐风，气象一新。"},"sources":{"table_row":"4","ppt":[]}},{"name":"维也纳体系与工业资本主义","span":"1815—1870年代","position":"世界近现代史 · 第4阶段","sub":"→ 维也纳体系确立 · → 法国七月革命 · → 欧洲革命浪潮 · → 克里米亚战争","note":"总表为该阶段正文主干；PPT 对应讲次将在同一阶段内继续合并，新增考点统一标“补”。 亚非拉分表已按每阶段重点压缩并入。","feature":"维也纳会议后欧洲进入以均势协调为特征的工业资本主义阶段。工业革命向法德美俄扩散，铁路与自由贸易推动生产力飞跃；自由主义、民族主义勃兴，促成意大利与德意志统一及改革浪潮。殖民势力东扩至亚洲，工人运动与科学社会主义诞生，史学走向科学化，资本主义世界体系至此基本成型并持续扩张。\n\n【亚非拉地区】\n总体：工业革命后的欧洲列强以商品输出与炮舰把亚非拉强行拉入同一个不平等分工体系：拉美借拿破仑战争造成的宗主国危机率先独立，却只是把殖民统治从西班牙换成英国资本；亚洲的古老王朝被迫开国，中国一步步陷入半殖民地，印度改归英王直辖，日本以维新跻身近代国家；非洲内陆仍以奴隶贸易尾声与沿海据点为主，大规模占领尚未开始。旧的王朝、部落与殖民地秩序在火力差距面前接连瓦解，独立后的拉美却始终未能挣脱大地产与单一出口的结构，考迪罗军人独裁随之循环往复。这一时期是殖民世界体系由商业资本阶段转入工业资本阶段的起点，也是三个区域在世界体系中被分配不同角色的开端：拉美成原料产地，亚洲成半殖民地，非洲暂留边缘。这一分工格局，奠定了此后百年三地发展分岔的基本框架。\n区域：亚洲：古老的王朝帝国在炮舰与不平等条约下被迫开国，三条道路在此期定型：中国经两次鸦片战争步入半殖民地，总理衙门与洋务企业是自救的开始；印度在大起义后被废除莫卧儿皇帝的名义、改归王室直辖，土邦与英属省并立；日本以佩里叩关为转折，经幕府倒台走向明治维新。\n区域：非洲：非洲在此期呈现内层变动与外层压力的叠合：西岸奴隶贸易在英国西非分舰队巡查下走向终结，棕榈油与花生取代奴隶成为出口支柱；内陆有富拉尼圣战建立索科托哈里发，祖鲁王国在恰卡治下崛起，埃及的穆罕默德·阿里推行军事与工业改革并两度进军苏丹。\n区域：拉丁美洲：独立战争的成果在此期转化为十几个共和国的建制：玻利瓦尔缔造的大哥伦比亚1830年分裂为三国，圣马丁让渡秘鲁后归隐欧洲，西属美洲的共和实验与巴西帝制并存，英国以贷款与贸易取代西班牙成为新的经济中枢。\n区域：三区域关联：三区域被卷入世界体系的时间差在本期定型：拉美的独立由欧洲旧秩序的崩解点燃，亚洲的开国由英国炮舰贸易直接推动，非洲尚在两者之外。","events":"→ 维也纳体系确立\n→ 法国七月革命\n→ 欧洲革命浪潮\n→ 克里米亚战争\n→ 俄国农奴制改革\n→ 意大利统一","cells":{"3":"• 维也纳体系确立：1815年维也纳会议确立维也纳体系，战胜国以正统、补偿与均势三原则重划欧洲版图，建五大国协调与定期会议制度，设德意志邦联。此后大国以会议协调争端，欧洲维持总体和平，俄奥普英居于主导。它开启约百年的大国协商秩序，确立欧洲协调的外交常态与均势格局。\n• 法国七月革命：1830年欧洲革命波及法、比、波，法国七月革命推翻复辟的波旁王朝，建立奥尔良王朝，选举资格收紧。它直接冲击维也纳会议确立的欧洲秩序，震动各国，革命浪潮再起。\n• 欧洲革命浪潮：1848年欧洲革命席卷法德奥意诸国，自由派与民族派纷纷起事，要求宪政、自由与民族统一，巴黎二月革命推翻七月王朝。虽多遭镇压，却动摇专制统治并播下统一与改革的种子，马克思主笔莱茵报，革命催生共产主义同盟，自由宪政诉求深入民心，民族统一终成时代洪流，推动欧洲政治版图重塑。\n• 克里米亚战争：1853—1856年克里米亚战争，英法与俄争夺黑海与近东霸权，塞瓦斯托波尔久攻方下，俄国惨败暴露农奴制落后。维也纳协调就此破裂，巴黎和约标志欧洲均势重组。\n• 俄国农奴制改革：1861年俄国农奴制改革，亚历山大二世下令废除农奴人身依附，农民获人身自由与份地，却背负沉重赎金且受村社束缚。它为资本主义发展松绑，推动工业化与市场扩大，却保留大量封建残余，矛盾犹存，埋下革命伏笔，司法与军事改革相继跟进，俄国加速向工业国转型，然农奴制残余仍碍发展。\n• 意大利统一：1861—1870年意大利在撒丁王国领导下完成统一，加富尔以外交谋略联法对奥，加里波第率志愿军远征南部，先后驱逐奥地利与法国势力，收复威尼斯与罗马外围地区。1861年意大利王国建立，1870年攻占罗马并定都于此，结束千年割据，统一市场与民族认同俱成，民族国家得以确立。\n• 美国南北战争：1861—1865年美国内战，北方联邦在林肯领导下击败南方蓄奴州，葛底斯堡与维克斯堡扭转战局，1865年废除奴隶制。它维护联邦统一并拓展中央权力，为工业资本主义扫清障碍，奠定美国崛起为世界强国的基础，宅地法促西部开发，南方重建拓展统一市场，美国工业产值后来居上，联邦权威空前强化。\n• 明治维新运动：1868年日本明治维新开始，倒幕派推翻德川幕府，废藩置县，推行殖产兴业、文明开化与富国强兵，仿西制建近代国家与宪法。日本迅速走上资本主义与强国之路，脱亚入欧，崛起为东亚新兴列强，地税改革与殖产兴业壮实业，日俄战争显国威，亚洲首个近代化强国确立，列强格局为之受冲，东亚秩序变。\n• 奥斯曼衰落：奥斯曼帝国持续衰落，疆域萎缩、财政窘迫，巴尔干与近东成为列强争夺的东方问题焦点。它常引发大国干涉与局部战争，史称东方问题，纠葛难解，危机频仍。\n• 德意志统一：1870—1871年普鲁士在俾斯麦领导下于普法战争击败法国，1871年统一德意志各邦，北德意志联邦扩为帝国，建立君主立宪的第二帝国，威廉一世在凡尔赛称帝。法国割让阿尔萨斯与洛林并赔款五十亿法郎，丧失陆上优势，德国工业军力骤增，欧陆均势重新组合，法德成仇，埋下日后大战隐患。\n• 巴黎公社起义：1871年巴黎公社起义建立工人政权，存续两月余即被镇压。它作为无产阶级专政的首次尝试，为国际工人运动留下宝贵经验与教训，标志工人政权萌芽。\n\n【亚非拉地区】\n• 英国侵缅战争：1824年起英国以边境纠纷为由三次发动侵缅战争，贡榜王朝节节败退，先后割让阿拉干与丹那沙林，1885年攻占曼德勒。缅甸逐步沦为英国殖民地并被并入英属印度管辖，贡榜王朝就此灭亡\n• 爪哇人民起义：1825年日惹王子蒂博尼哥罗因领地被夺与宗教矛盾起兵，各地农民与伊斯兰教士群起响应，荷兰殖民军陷入苦战。1830年荷兰以谈判为名诱捕蒂博尼哥罗，起义结束，荷兰此后强化对爪哇的经济掠夺\n• 鸦片战争与南京条约：1840年英国以禁烟为借口发动侵华战争，清军在定海、镇江接连失利，1842年清政府被迫签订《南京条约》，割让香港岛、赔款两千一百万银元、开放广州厦门福州宁波上海五口通商。协定关税与领事裁判权使关税与司法主权开始丧失，东南沿海的自然经济由此瓦解，中国自此开始沦为半殖民地","4":"• 英国议会改革：英国1832年议会改革重划选区，取消衰败选区，扩大选民至新兴工业城镇与中产阶层，使议席向工业发达的北方倾斜。土地贵族传统优势大为削弱，工业资产阶级由此获得参政渠道，政治趋于开放，此后1846年又废除谷物法，议会制度沿渐进之路演进，开启此后系列的政治改革。\n• 法国政体更迭：法国历经七月王朝、第二共和国、第二帝国多次政体更迭，共和与君主势力反复角力。宪政秩序在动荡中缓慢走向稳定与制度化，共和终得确立，政体落定。\n• 俄国农奴改革：俄国1861年改革废除农奴制，农民获人身自由与份地，却仍受村社与赎金束缚。专制体制未变，资本主义只能在夹缝中缓慢发展，埋下革命动荡伏笔。\n• 美国废奴改革：美国内战1865年废除奴隶制，第十三条宪法修正案生效，联邦权力显著强化。南方重建启动，统一市场与自由劳动制度得以确立，国家重归一体，版图稳固。\n• 日本废藩置县：日本明治政府废藩置县，削夺藩侯权力归中央直辖，统一币制与律令，建立中央集权体制。这为维新改革与近代国家建构奠定行政基础，巩固皇权，政令归一。\n• 铁血统一德意志：俾斯麦以铁血政策统一德意志，经1864年普丹、1866年普奥、1870年普法三场王朝战争，先后击败丹麦、奥地利与法国，败奥收取荷尔施泰因，败法夺占阿尔萨斯。1871年建立君主立宪第二帝国，皇帝与容克掌实权，俾斯麦任首相总揽外交，开启德国强国之路与欧陆变局，推动德国崛起重塑均势。\n\n【亚非拉地区】\n• 印度殖民税收体系：1810年代起英国在印度推行柴明达尔与莱特瓦尔两种土地制度，以包税地主或个体农户为纳税人固定田赋，并配以司法与警察机构。土地成为可买卖的私产，失地农民随之增加，殖民财政的基础由此奠定，田赋在岁入中始终占据首位，包税与高利贷的结合使农村债务不断累积\n• 爪哇强制种植制：1820至1830年代荷兰在爪哇推行强制种植制，规定农民划出土地种植咖啡甘蔗等出口作物并以实物抵税，由村社头人负责督缴。殖民行政由此深入乡村，村社组织被改造为征税单位\n• 英国直辖印度：1858年英国废除东印度公司的统治权，改由王室直接治理，设印度事务大臣与总督，并以女王诏书承诺不扩张领土、尊重土邦与王公权利。殖民行政由此正规化，印度事务从此归伦敦直接掌握，官僚与军队的组织形式也随之改造，殖民的文官体系由此在印度长期运转","5":"• 欧洲协调机制：维也纳体系建立英俄普奥法五大国均势与欧洲协调机制，以国际会议处理争端、维护正统秩序与领土安排。它开启大国协商时代，维持欧洲约三十年总体和平，协调有效，奠定近代多边外交传统与均势格局，神圣同盟维系正统，革命屡被压制，梅特涅体系盛极而衰，近代多边外交传统由此确立。\n• 神圣同盟会议：神圣同盟与会议制度以君主互助维护正统秩序，力图镇压革命于萌芽。它是维也纳体系的主要维系工具，终渐失效而暴露旧秩序脆弱性。\n• 克里米亚战争：1853—1856年克里米亚战争，英法与俄争夺黑海与近东霸权，塞瓦斯托波尔久攻方下，新式步枪与电报初显战场作用，俄国惨败暴露农奴制落后。欧洲协调彻底破裂，巴黎和约限制俄舰于黑海，列强关系进入重新组合阶段，均势崩解，俄势受挫，俄军败于新式武器，农奴制危机暴露，近东均势崩解而英法得势东方。\n• 大陆均势重塑：1860—1870年意大利与德意志先后完成统一，撒丁与普鲁士领导新兴民族国家改写欧洲版图。意大利驱逐外敌定都罗马，德意志于普奥普法战后建第二帝国。大陆均势被重塑，法俄相对削弱而德意崛起，欧陆再平衡，推动法德抗衡新格局形成。\n• 德意志崛起：普法战争后德意志崛起为欧陆第一强国，法国割让阿尔萨斯、洛林并赔款五十亿法郎，丧失陆上优势。德国工业与军力迅速超越法国，欧洲均势就此倾斜，法德宿怨深种，埋下日后对抗与大战的伏笔。\n\n【亚非拉地区】\n• 条约体系确立：两次鸦片战争后清政府与英法美俄相继订约，协定关税、领事裁判、最惠国待遇与租界构成条约体系的骨架。中国被纳入西方主导的东亚秩序，朝贡关系逐步瓦解，此后每一次交涉都以条约为依据，租界与海关外籍税务司成为列强在华的常设机构\n• 东亚朝贡体系瓦解：1854年日本开国后列强相继订立通商条约，琉球与朝鲜随后被卷入，中国与周边国家的朝贡往来难以维持。以中国为中心的东亚秩序由此加速崩解，日本则转而谋求以条约方式重新定位自身，琉球被日本吞并、朝鲜被迫开港，朝贡往来与册封体制在数十年间相继终止\n• 天津与北京条约：1858年《天津条约》与1860年《北京条约》规定公使驻京、增开通商口岸并允许外国船只航行长江。外交与外贸的新规则由此确立，中国的内政开始受到条约约束","6":"• 工业革命扩散：工业革命自英国向法国、德意志、美国、俄国扩散，蒸汽动力、铁路与机器生产普遍应用，纺织采煤冶金同步发展。各国相继迈入工业化轨道，城市与工厂激增，世界生产力大幅跃升，国际力量对比随之改写，法国里昂丝织、鲁尔煤钢、美国制造相继崛起，世界工厂由英国独占到多极并存，格局改写。\n• 铁路时代来临：铁路时代来临，1825年史蒂芬森建成斯托克顿至达灵顿首条蒸汽机车铁路通车，随后路网在各国迅速延展。铁路降低运费、连通市场与腹地，重塑经济地理与军事调动能力，加速原料与商品流通，影响深远，铁路促煤铁消耗，钢铁煤炭业勃兴，时空距离骤缩，全国市场形成，工业革命纵深推进，影响至深。\n• 废除谷物法：1846年英国废除谷物法，取消谷物进口关税，自由贸易原则确立，地主利益让步于工业资本与消费者。它标志英国全面转向自由放任经济政策，推动欧洲关税下降与贸易勃兴，引领世界市场加速形成，曼彻斯特学派倡自由贸易，欧洲关税普遍下降，世界市场加速连成一体，英国稳坐世界工厂，霸权显。\n• 重工业扩张：工厂制普及使煤、铁、钢产量猛增，机器制造与冶金工业扩张，重工业比重上升。它为后续技术革新与军工发展提供坚实的物质基础，推动产能提升。\n• 金融资本发展：股份制公司与银行信用体系发展，资本集中与融资日趋便利，企业规模扩大。金融资本与生产结合，推动经济保持高速增长态势，活力充沛，资本涌流。\n• 经济大萧条：1873年经济大萧条爆发，生产过剩与价格长期下跌，自由资本主义由扩张转入调整。美国银行危机引发连锁衰退，企业破产。它酝酿垄断组织兴起与政策转向，标志自由竞争资本主义向垄断阶段转折。\n\n【亚非拉地区】\n• 东南沿海自然经济解体：五口通商后洋纱洋布大量涌入，松江太仓一带的土布销路被夺，农家纺织与农业的结合开始松解，茶丝出口则使部分农家卷入世界市场。耕织结合的传统格局由此破裂，沿海农村的社会关系与人口流向随之改变，破产农民成为劳动力的后备军\n• 印度棉花出口扩张：1850年代美国内战造成棉花短缺，印度棉花出口随之激增，古吉拉特与德干的种植结构趋于单一。粮价随种植面积缩减而上涨，农民处境因此更加不稳\n• 印度铁路与电报网：1853年孟买至塔纳首条铁路通车，此后干线向内地延伸并连接各大产区，电报线同期铺设以传递商情与军令。英国以此运兵与输出原料，印度的运输格局、市场联系与军事动员方式被彻底改造，铁路也成为此后灾荒救济与人口流动的通道","7":"• 宪章运动兴起：宪章运动1838—1848年争取普选，工人提出普选等六点要求，先后三次递交请愿书，成立全国宪章协会，运动前后持续十年。虽未全胜，却唤醒阶级意识并迫使议会让步。它是早期工人政治运动的重要里程碑，推动参政诉求与工会发展，为日后工会合法化与工党兴起奠定群众基础。\n• 产业工人壮大：产业工人队伍随工业化迅速扩大，在工厂纪律下出卖劳力，劳资矛盾上升为社会化大生产中的主轴性社会冲突，推动早期工人组织萌芽。\n• 俄国农民矛盾：俄国农奴制下农民受地主剥削与人身束缚，赎金沉重，耕地不足，农民与地主矛盾尖锐。它成为日后改革与革命的深层动因，埋下动荡种子，民怨蓄积。\n• 城市贫民窟：城市贫民窟随工业人口聚集而蔓延，童工女工遭长时低薪雇佣，居住与劳动条件恶劣。相关的社会问题日益突出而引人注目，催生改良呼声，治理承压。\n\n【亚非拉地区】\n• 印度柴明达尔与农民对立：柴明达尔制下新地主包揽田赋并层层加征，失地农民沦为佃农与雇工，土兵多出自同一社会阶层且与农民声息相通。1857年起义中土兵成为主力，正说明矛盾已在农村与军营同时积蓄，起义的爆发具有深厚的社会根源，种姓与宗教的界限并未阻止土兵与农民的联合行动\n• 买办阶层与赔款摊派：通商口岸出现依附于洋行的买办阶层，经办贸易与汇兑并迅速致富，赔款则以摊派形式转嫁到田赋与厘金之上。农民与地主的矛盾由此加剧，抗粮抗租之举随之增多，沿海与内地同时不靖，厘金的设立与银价的波动进一步加重负担，城乡的抗争在各地连绵不断\n• 日本倒幕同盟：下级武士因俸禄削减与晋升无望而不满，与豪农豪商结成同盟，萨摩长州等西南诸藩成为倒幕基地。幕府的统治基础由此瓦解，1868年的政权更替得以实现","8":"• 自由主义思潮：自由主义思潮兴盛，主张宪政限权、自由贸易与个人自由，反对专制与重商主义干预，强调法治与财产权。它成为工业资产阶级改革与建制的思想旗帜，推动议会改革与民族统一，引领欧洲制度变迁，密尔著论自由与代议制政府，自由党成政治中坚，改革呼声遍欧洲，制度变迁加速，思潮浩荡。\n• 民族主义勃兴：民族主义勃兴，以语言文化认同凝聚政治共同体，主张民族自决与建国，马志尼组建青年意大利党奔走呼号。它推动意大利、德意志统一与东欧被压迫民族独立，激化列强民族矛盾。民族国家在欧洲相继确立，政治地图由此改写，民族主义亦埋下列强争衡的隐患。\n• 保守主义体制：保守主义以梅特涅体制维护君主专制与正统秩序，压制革命与自由呼声。它通过国际会议与警察网络维系维也纳体系，终渐失效而暴露旧秩序危机。\n• 实证主义创立：孔德创立实证主义，倡以科学方法研究社会，建构社会学年表，主张以观察与实证取代形而上学。它深刻影响史学与社会科学，开创社会科学新方法。\n• 社会主义转变：空想社会主义向科学社会主义转变，马克思批判继承其思想遗产，结合工人运动与唯物史观。它使社会主义由空想走向科学，奠定理论根基，学说焕新。\n\n【亚非拉地区】\n• 兰学与西博尔德：日本兰学在医学与兵学上持续发展，1823年德国人西博尔德在长崎鸣泷开设塾讲授西医与博物学。兰学者由此形成师承网络，为开国后的西学传播准备了人才\n• 梵社与印度教改革：1828年拉姆·莫汉·罗易在加尔各答创立梵社，主张回到吠陀本义、废除殉葬与偶像崇拜，并推广英语与近代科学教育。印度近代的宗教与社会改革潮流由此开端，其后继者推动寡妇再嫁与女子教育，改革与复古两种取向长期并存，其主张在此后由泰戈尔家族与梵社的后继者延续\n• 海国图志与经世主张：魏源受林则徐嘱托编成《海国图志》，系统介绍各国地理、政制与军事技术，提出师夷长技以制夷的主张。经世致用的取向由此转向了解西方，该书东传日本后为幕末志士所重，成为东亚应对冲击的共同思想资源，此后王韬与郭嵩焘等续有译介，师夷的主张逐步转为设厂与遣使的具体建议","9":"• 征服阿尔及利亚：法国自1830年起征服阿尔及利亚，历经十余年战争方平反抗，北非殖民推进，移民与军事据点不断扩张。它开启对马格里布的长期占领与控制，掠夺资源并建行政体系，扩大殖民版图。\n• 鸦片战争爆发：鸦片战争1840—1842年英国以武力打开中国门户，迫使清廷签订南京条约，割香港、开五口通商并协定关税，外国取得领事裁判权，另被迫赔款两千一百万银元。殖民势力向东亚扩张，中国自然经济解体，关税与司法主权受损，日渐沦为半殖民地，埋下日后列强瓜分危机的隐患。\n• 印度殖民统治：英国加深印度殖民统治，掠夺原料并倾销商品，取消土邦、直接治理，东印度公司随之撤销，改由英王政府直辖。1857年印度民族大起义爆发，反英浪潮席卷北印，章西女王率众苦战，终遭镇压。殖民剥削层层加深，民族矛盾空前尖锐，反抗浪潮屡屡续起，暴露殖民统治的深刻危机。\n• 拉美经济依附：拉美新独立国家巩固疆界与政体，但经济仍依附英美列强，出口初级产品、进口制成品，外资控制矿产与铁路。政治频仍动荡，考迪罗独裁盛行，半殖民地色彩浓厚，埋下发展困境伏笔。\n• 殖民据点扩张：东南亚与非洲沿岸殖民据点持续扩张，列强建商站、夺港口与势力范围，控制航路与贸易节点。新加坡、香港、阿尔及尔相继落入殖民之手，全球贸易网与殖民瓜分在序幕阶段加速铺开，争霸渐趋激烈。\n\n【亚非拉地区】\n• 爪哇人民起义：1825至1830年爪哇人民起义是东南亚早期规模最大的反殖斗争，以宗教号召与游击战对抗荷兰正规军，战火波及中爪哇大部。起义失败后荷兰转而强化经济掠夺\n• 缅甸抵抗英国：1850年代贡榜王朝在两次战败后试图以改革图强，仍未能阻止英国的第三次入侵，曼德勒最终陷落。缅甸由此丧失主权，被并入英属印度管辖\n• 巴布教起义：1848至1852年巴布教起义既反抗卡扎尔王朝的压迫，也抵制外国势力的渗透，反映伊朗反封建与反干涉的双重诉求。教派诉求与民族诉求由此交织在一起","10":"• 共产党宣言：1848年《共产党宣言》发表，马克思、恩格斯阐明阶级斗争与无产阶级的历史使命，号召全世界无产者联合起来，正义者同盟改组为共产主义者同盟，纲领随之问世。科学社会主义就此诞生，揭示资本主义必然灭亡的规律，无产阶级终得思想旗帜，奠定国际共运的理论基石。\n• 第一国际成立：1864年第一国际即国际工人协会在伦敦成立，联合各国劳工组织，马克思起草成立宣言并参与领导，协调罢工斗争与跨国声援。它推动国际工人运动由分散走向联合，阶级意识跨越国界传播，为巴黎公社提供组织与思想脉络，标志工人运动进入跨国联合新阶段。\n• 巴黎公社起义：1871年巴黎公社起义，无产阶级首次夺取政权并试行专政，推行公职选举、工人管理工厂等举措，官员领取普通工人薪金，教会财产收归公有，存续两月余，旋遭凡尔赛军镇压。其原则与教训深刻影响后续社会主义革命，标志无产阶级专政的首次实践，精神垂范后世。\n• 工人政党发展：各国工人政党与工会逐步发展，以议会斗争与罢工争取权益。组织化劳工成为重要政治力量，社会主义运动在合法空间壮大，推动阶级意识传播。","11":"【史学发展】\n• 兰克科学史学：兰克创立科学史学，倡导依据档案批判辨伪、如实直书，强调客观立场与政治史叙事，反对哲学臆断。他主持巨著《罗马教皇史》，奠定近代专业史学的学术规范与方法，泽被学林，史学由此走向独立，创办史学研讨班，档案批判法传世，史学成大学建制学科，客观方法确立，学林景从。\n• 唯物史观创立：马克思创立唯物史观，提出物质生产与经济动因决定历史进程，阶级与社会形态的演进自有规律，否定观念决定论。《资本论》继之而起，以剩余价值揭明剥削本质。唯物史观为历史研究提供科学方法论，揭示资本主义运动规律，奠定历史唯物主义学派格局，史论为之一新。\n• 实证主义史家：泰纳等实证主义史家以科学方法研究历史，重环境、种族与时代三因素，借鉴自然科学路径处理文献与因果。他著《英国文学史》以实证析文化，拓展史学研究视野，方法出新，推动史学向社会科学靠拢。\n• 普鲁士史学：普鲁士官方史学服务于民族统一叙事，颂扬君主与战争、建构德意志使命感。它为统一运动提供历史正当性与舆论支撑，巩固统一运动合法性。\n\n【文明成就】\n• 工程：史蒂芬森1825年建成世界首条蒸汽机车铁路，连接斯托克顿矿城与达灵顿港口，证明铁路巨大运力与商业价值——拉开铁路时代与近代交通革命序幕，改变运输方式与时空间距，推动工业与城镇扩张。\n• 物理：法拉第1831年发现电磁感应，阐明电与磁相互转化的规律，为发电机与变压器奠定原理基础。他首创磁场力线说解释电磁作用，其发现后由西门子转化为实用电机，电力应用由此起步，电气工业渐兴——开启人类大规模利用电能的新纪元，推动社会由蒸汽时代迈向电气时代。\n• 生物：达尔文1859年著《物种起源》，以自然选择阐明生物进化机制，依据环球考察与化石证据推翻神创论，正式创立生物进化论——物种可变之说震动整个学界，人猿同祖之论尤为惊世，生物学与宗教界随之展开激烈论战，进化思想深深重塑科学世界观，奠定现代生物学的科学基础。\n• 医学：巴斯德1860年代以实验证微生物致腐致病，创立微生物学，提出巴氏灭菌法并研制狂犬疫苗——推翻自然发生说，推动消毒灭菌与疫苗接种，奠定现代预防医学的科学基础。\n• 科技：西门子1866年制成自激式发电机，将机械能稳定转为电能，使电力可规模供应而不依赖电池——为电气工业、照明与有轨电车提供关键技术支撑，推动电力广泛应用，标志人类由蒸汽迈向电气时代。\n• 化学：门捷列夫1869年编制元素周期表，依原子量排布并大胆预言镓、锗等未知元素，揭示元素性质随原子量递变的周期规律——奠定近代无机化学体系框架，指引后续元素发现，推动化学成为系统科学。\n• 文学：狄更斯著《双城记》《雾都孤儿》等现实主义小说，刻画底层苦难、童工境遇与都市贫困，揭露工业化时代的社会不公与法制弊病——成为批判现实主义文学代表，警世醒人，推动社会改革呼声。\n\n【亚非拉地区】\n• 近代世界史著述的开创：魏源《海国图志》与徐继畬《瀛寰志略》成书于鸦片战争前后，以译述与地图介绍各国形势、沿革与政制，并评述其强弱得失。中国的世界史著述由此开端，传统的四夷记述逐步让位于分国叙述，此后同文馆与江南制造局翻译馆续有译刊\n• 东印度公司官员的印度史编修：东印度公司官员与东方学者整理梵文与波斯文文献，编修印度史、法典与地志，为殖民行政提供依据。其叙述以欧洲进步与东方停滞为框架，构成殖民史学的雏形\n• 水户学派与国学：日本水户学派续修《大日本史》，以名分论为纲，国学与兰学则并行发展，各自取径不同。史学在幕末成为政治论争的工具，为倒幕提供了历史依据\n\n【亚非拉地区·发展成就】\n• 交通：1853年印度孟买至塔纳首条铁路通车——英国殖民当局为运兵与输出原料而修，其后线路通向内陆腹地、电报线路随之架设，殖民交通的骨架由此成形并沿用至二十世纪，亚洲的铁路时代由此开启，客货的运量逐年增长而内陆的市镇沿站兴起，赈济与移民的效率随之提高\n• 教育：1857年加尔各答孟买马德拉斯三所大学创立——依伦敦大学模式设文理工科并以英语授课，培养出的近代知识阶层通晓英语与西方法政知识，这批人日后成为印度民族运动与近代学术的骨干，英语教育的影响自此长期延续，三校的学科设置与考试制度长期沿用，印度近代学术与公务人员皆由此培养\n• 工业：1860年代江南制造局与福州船政局设立——中国最早的近代军事工业，引进机器生产与西方技术人员，并附设翻译馆与学堂培养译才与技工，为洋务运动时期的军工与造船业奠定底子，也开启了官办工业的模式"},"sources":{"table_row":"5","ppt":[]}},{"name":"帝国主义、第一次世界大战与俄国革命","span":"1870年代—1920年代初","position":"世界近现代史 · 第5阶段","sub":"→ 第二次工业革命 · → 1905年俄国革命 · → 萨拉热窝事件 · → 马恩河战役","note":"总表为该阶段正文主干；PPT 对应讲次将在同一阶段内继续合并，新增考点统一标“补”。 亚非拉分表已按每阶段重点压缩并入。","feature":"本期自19世纪70年代—1918年，第二次工业革命推动垄断资本主义形成，列强步入帝国主义阶段并加速瓜分世界。欧洲两大军事集团对峙终致第一次世界大战，战争引发社会总动员与旧体制震荡。俄国十月革命建立首个社会主义国家，德意志、奥匈、俄罗斯与奥斯曼四大帝国崩溃，维也纳式旧秩序走向终结。\n\n【亚非拉地区】\n总体：第二次工业革命后，垄断资本为争夺原料产地与销售市场展开全球扩张，柏林会议把抢占非洲的行动定成有规则的竞赛，二十余年间非洲九成以上土地被划入各国势力范围，亚洲被分割为殖民地与半殖民地，拉美则以出口经济和外国资本的形式更深地嵌入世界市场。铁路、矿山、种植园与殖民行政体系自上而下铺开，把内陆乡村卷入征税、劳役与商品交换的网络，殖民地经济被彻底改造为原料附庸。到一战爆发前全球领土基本被瓜分完毕，各地的反抗也从王公与部落的旧式抵抗，转向政党与知识分子领导的早期民族主义运动。这是亚非拉被整体纳入资本主义世界体系的完成阶段，此前松散的贸易联系变成了严密的领土与制度控制；这场瓜分所固定的边界与依附结构，成为此后百年三地独立与冲突的母本。\n区域：亚洲：亚洲在瓜分浪潮中裂为三种境地：奥斯曼与波斯在英俄大博弈的夹缝里以借款与让权维持半独立，债务管理局由列强直接接管关税；法属印度支那联邦与英属缅甸、马来亚把东南亚大部变为直辖殖民地；中国在甲午战后遭遇瓜分狂潮，租借地与势力范围遍布沿海。\n区域：非洲：柏林会议之后列强以协定与武力并用推进占领：英国推行开普至开罗的纵贯计划，在苏丹遭马赫迪王国顽强抵抗，1898年恩图曼一战方告得手；法国自西向东扩张，与英国在法绍达对峙后退让；萨摩里·杜尔领导的抗法游击坚持十余年。\n区域：拉丁美洲：独立已久的拉美在此期深度商品化：巴西1889年废除帝制建立共和国，咖啡取代蔗糖成为头号出口；墨西哥在迪亚斯统治下铁路与矿山外资激增，土地集中达到顶点。\n区域：三区域关联：同一波瓜分在三区域呈现三种形式：非洲被直接占领并划定人为边界，亚洲以租借地与势力范围被间接分割，拉美在政治版图定型之后以债务与铁路被资本渗透。\n区域：亚洲：大战把亚洲推入觉醒的密集期：中国从巴黎和会的外交失败走向五四运动，再经国共合作进入国民革命；印度在罗拉特法与阿姆利则惨案后掀起甘地领导的非暴力不合作，国大党从精英团体变为群众政党；凯末尔在安卡拉另立政府，废除色佛尔条约并建立土耳其共和国。\n区域：非洲：北非的抗议率先成型：埃及1919年革命迫使英国在1922年承认名义独立而保留运河驻军，摩洛哥里夫共和国在阿卜德·克里姆领导下把西班牙军队拖入游击战直至1926年。\n区域：拉丁美洲：美国资本在战后全面接手：石油与铜矿把墨西哥、委内瑞拉卷入世界市场，联合果品公司在加勒比沿岸建立香蕉种植园秩序。\n区域：三区域关联：一战把三区域绑上同一场战争机器：印度的兵员、非洲的搬运工与拉美的硝石同时供应欧洲战场，战时动员抬高了对宗主国的期待。","events":"→ 第二次工业革命\n→ 1905年俄国革命\n→ 萨拉热窝事件\n→ 马恩河战役\n→ 凡尔登与索姆河战役\n→ 美国对德宣战","cells":{"3":"• 第二次工业革命：1870年代电力、内燃机与化学工业突破推动欧美进入电气时代。新技术带动钢铁、石油、汽车与电力工业迅猛发展，工业组织与城市生活发生根本变化，生产力空前提高，主要资本主义国家由此步入帝国主义阶段，对世界市场的争夺日趋激烈，争霸格局最终形成。\n• 1905年俄国革命：罢工与武装起义席卷各大城市，沙皇专制遭受沉重冲击，工人代表苏维埃首次登上政治舞台。革命虽被镇压，却为日后革命埋下伏笔，影响深远。\n• 萨拉热窝事件：1914年6月奥匈帝国皇储斐迪南在萨拉热窝遇刺身亡，成为一战直接导火索。奥匈借机对塞尔维亚宣战，俄德法英相继卷入，战火由巴尔干蔓延至全欧，进而扩大为波及多洲的全球战争。列强全面动员参战，总体战形态由此形成，人类陷入空前规模的现代战争。\n• 马恩河战役：1914年8月法英军队挫败德军西线速决战计划，迫使德军撤退转入防御。此后西线陷入僵持，双方堑壕长期对峙，战争进入消耗阶段，西线僵局由此形成。\n• 凡尔登与索姆河战役：1916年德法在凡尔登展开血战，同年索姆河战役爆发，交战双方投入巨量兵力与火力，伤亡总数高达数百万，新式重炮与毒气被广泛使用。西线战场由此陷入旷日持久的消耗战，总体战形态全面确立，各国动员全社会资源支撑战事，代价空前沉重，战争形态从此改变。\n• 美国对德宣战：1917年德国无限制潜艇战威胁美国航运，美国以此参战。美军使协约国人力与物资获巨大补充，力量对比明显倾斜，协约国胜局由此奠定。\n• 俄国十月革命：1917年11月布尔什维克在列宁领导下推翻临时政府，建立世界上第一个无产阶级专政的社会主义国家。新政权与德国媾和退出战争，颁布土地与和平法令，改变俄国命运并影响二十世纪全球政治格局。革命推动各国工人运动与殖民地解放运动发展，社会主义实践新纪元由此开辟。\n• 一战结束与帝国崩溃：1918年11月第一次世界大战以同盟国战败告终，德意志、奥匈、俄罗斯与奥斯曼四大帝国在战火中崩溃瓦解。战后欧洲版图被彻底重划，旧帝国秩序倾覆，战胜国主导的凡尔赛体系试图重塑世界，列强矛盾在苛刻条约中埋下新冲突种子。\n\n【亚非拉地区】\n• 国大党成立：1885年印度国民大会党在孟买成立，由退休英印文官休姆促成，最初成员多为受过英语教育的律师、记者与教师，每年集会提出参政、减税与文官考试等要求。印度民族运动由此由分散请愿转为有组织的常年活动，此后温和派与激进派的分野也在党内逐渐显现\n• 甲午战争与马关条约：1894年甲午战争爆发，清军在平壤与黄海接连失利，北洋水师覆没于威海卫，1895年签订《马关条约》，割台湾与澎湖、赔款两亿两白银。条约允许日本在华设厂，列强随之援例要求租借港湾与划定势力范围，中国的半殖民地化由此加深，台澎的割让尤使朝野震动\n• 菲律宾独立与抗美战争：1896年菲律宾爆发反西班牙独立战争，1898年美军介入，次年转为抗美战争，阿基纳尔多部以游击战相持。1902年美国宣布平定，菲律宾由西班牙殖民地转为美国属地，民族意识则在战败后进一步发展","4":"• 英国议会改革：1867年与1884年两次改革法相继通过，把选举权扩至城市工人与农业劳动者，扩大选民基础。英国代议制民主在渐进调整中缓慢推进，民主制度由此巩固。\n• 德意志帝国宪法：1871年宪法颁布，确立联邦制与君主立宪政体，但帝国皇帝掌握军事、外交与官吏任免大权，各邦保留相当自治权利。容克地主与资产阶级联盟把持实权，议会权力有限，民主成分受到严重限制。德意志由此实现统一却未走上自由宪政之路，专制传统在宪法框架内得以强化。\n• 法兰西第三共和国宪法：1875年宪法经议会表决通过，确立共和政体，议会实行两院制，总统与内阁分享行政权并对议会负责。共和派在长期政治斗争中最终战胜保王势力，法国以法律形式巩固共和制度，资产阶级民主制度得以确立并延续。法国政局由此趋于稳定，共和成为难以逆转的政治共识。\n• 俾斯麦社会保障立法：1880年代俾斯麦政府陆续推行疾病、工伤与养老保险立法，建立起世界上最早的国家社会保障制度。这些法案在压制社会民主党的同时缓和阶级矛盾，为现代福利国家奠定初步基础，此后欧洲各国相继效仿。社会保险由此成为国家治理的重要工具，工人生活获得制度化保障。\n• 日本明治宪法：1889年颁布明治宪法，确立二元制君主立宪，天皇总揽统治权，议会权限有限，贵族院与军部强大。日本在保留专制色彩的同时建立近代宪政框架，军国体制由此奠定。\n• 妇女选举权运动：19世纪末英美等国妇女争取选举权运动兴起，新西兰1893年率先授予妇女投票权，澳大利亚与北欧相继跟进。女性政治权利逐步获承认，社会性别观念开始转变，平等潮流由此开启。\n\n【亚非拉地区】\n• 清末新政：1901年起清政府推行新政，编练新军、兴办学堂、奖励实业并派员出洋考察，1905年废科举、设学部与巡警部，1908年又颁宪法大纲并筹备谘议局。改革的本意在维持王朝，却培养出新军与留学生这两支日后推翻它的力量，各省谘议局与资政院亦相继设立，立宪派由此取得公开活动的场所\n• 伊朗立宪体制：1906年伊朗颁布宪法并召开议会，规定议会立法、内阁对议会负责并保障臣民权利，教法学家设委员会审查立法是否符合教义。立宪体制短暂确立，此后在俄英压力下反复中断，议会制度却成为此后政治诉求的常设形式，此后议会两度被解散而宪法条文得以保留\n• 青年土耳其恢复宪法：1908年青年土耳其党人在马其顿起兵，迫使素丹恢复1876年宪法并召开议会，取消新闻检查与秘密警察，次年废黜阿卜杜勒哈米德二世。宪政虽告恢复，统一与进步委员会仍以军政力量掌控实权，帝国的改革此后趋于集权，帝国此后在巴尔干的战事中接连失利","5":"• 三国同盟与三国协约：1882年德奥意缔结三国同盟，此后英法俄组成三国协约，欧洲由此分裂为两大对立军事集团。双方竞相扩充军备、缔结盟友，任何局部冲突都可能牵动全局，火药桶般的紧张局势使大战风险持续累积。欧洲和平愈发脆弱，外交斡旋空间日益收窄，欧洲均势由此动摇。\n• 英德海军竞赛：英德海军军备竞赛成为两大集团对抗的焦点，德国大力扩建无畏舰挑战英国海上霸权，英国则以双强标准维持优势予以回应。巨额军费加剧财政与社会紧张，海上均势成为欧洲安全的敏感神经，两国关系因此持续恶化。海洋霸权之争难有妥协余地，军备对抗不断强化，和平秩序由此动摇。\n• 两次巴尔干战争：1912年与1913年两次巴尔干战争接连爆发，巴尔干各族在列强怂恿下争夺领土，地区矛盾极度尖锐，巴尔干被称为欧洲火药桶，危机一触即发。大战风险由此积聚，欧洲火药桶就此形成。\n• 意大利倒戈：1915年意大利脱离三国同盟转投协约国，换取战后领土许诺，同盟国阵营出现裂痕，欧洲军事集团力量对比发生重要变化。集团同盟并非铁板一块，同盟阵营由此动摇。\n• 布列斯特和约：1918年苏俄与德国签订布列斯特和约，退出第一次世界大战，东线战事终结，苏俄得以腾出手巩固政权，欧洲东部军事与政治格局随之重组。东线秩序由此重塑，苏俄政权巩固。\n\n【亚非拉地区】\n• 门户开放照会：1899年美国提出门户开放照会，要求在华贸易机会均等并保持中国领土与行政完整，各国先后答复保留，义和团事起后再度申明。列强在华划分势力范围由此形成均势，美国得以分享而不必占领领土，美国此后多次以照会的形式申明这一原则\n• 英日同盟：1902年英日同盟缔结，双方承认彼此在华与在朝利益并约定战时中立或参战，此后两度续约。日本由此获得欧洲强国的承认，跻身列强行列，此后在东亚的行动更趋强硬，同盟成为其扩张的国际凭藉，日本随即以此为依据发动对俄战争并取得南满权益\n• 日俄战争与亚洲战胜欧洲：1904至1905年日俄战争以日本战胜告终，经美国调停签订《朴茨茅斯和约》，南满权益与库页岛南部归日本。这是亚洲国家首次战胜欧洲强国，殖民地与半殖民地的观感由此为之一变，此后民族运动多以日本为参照，美国由此开始介入东亚的均势","6":"• 工业科技突破：第二次工业革命推动电力、内燃机、化学合成与炼钢技术取得重大突破，新兴工业部门迅速成长并取代纺织等传统行业成为主导。生产社会化程度空前提高，技术革新成为经济增长的主要引擎，产业升级明显加快，欧美工业产值大幅跃升，世界经济格局随之重塑。\n• 垄断组织兴起：垄断组织以卡特尔、辛迪加、托拉斯与康采恩等形式成为生产主导，企业规模空前庞大，资本与生产高度集中。自由竞争逐步让位于垄断资本对市场的控制与操纵，少数巨型企业支配价格、原料与销售，经济结构发生深刻变化。垄断资本主义由此全面确立，资源日益集中于大资本之手。\n• 世界经济长期萧条：1873至1896年资本主义世界陷入长期萧条，企业大量倒闭，利润持续下滑。危机加速生产集中，垄断组织在困境中扩张，自由竞争进一步转向资本集中，垄断格局由此形成。\n• 列强资本输出：19世纪末主要资本主义国家资本输出规模超过商品输出，成为列强对外经济扩张的主要手段。过剩资本大量涌向殖民地与落后地区，用于修筑铁路、开采矿产并控制金融财政，资本输入国经济依附加深，不平等格局强化。世界被纳入统一的资本循环，金融资本支配力显著上升。\n• 贸易保护主义：列强为争夺市场与原料竞相设置关税壁垒，贸易保护在世纪末重新抬头，自由贸易原则受削弱，各国市场日益割裂，经济摩擦加剧。全球贸易增速放缓，保护主义由此强化。\n\n【亚非拉地区】\n• 资本输出取代商品输出：《马关条约》后列强在华设厂合法化，铁路、矿山与借款成为主要形式，势力范围随之划定，关税与盐税常被用作借款抵押。对华经济侵略由商品输出转为资本输出，民族资本的生存空间被大幅压缩，收回利权的呼声由此而起\n• 奥斯曼国债管理处：奥斯曼帝国因外债于1881年设立国债管理处，由欧洲债权人代表掌管盐、丝与烟酒等专税。财政主权由此落入外人之手，帝国的借款与支出皆受其节制\n• 印度铁路网成型：1900年前后印度铁路达四万余公里，干线连接产区与口岸，运费与班次皆以出口与军事需要为准。次大陆内部市场由此连成一片，灾荒时的粮食调运也随之改变","7":"• 垄断资产阶级崛起：第二次工业革命催生垄断资产阶级，少数大资本家族掌控经济命脉并深度介入政治生活。社会财富加速向顶端集中，中下层处境相对恶化，阶级分化加剧，贫富鸿沟日益扩大，社会矛盾更趋尖锐。财富集中引发广泛社会焦虑，改革呼声随之高涨，阶级对立由此深化。\n• 城市工人阶级壮大：城市工人阶级随工业化迅速扩大，工会组织在主要工业国普遍建立，罢工与集体谈判成劳资博弈常态。劳工权益意识觉醒，工人运动在争取八小时工作制、提高工资与社保方面取得成果，政治影响力上升，阶级力量格局由此重塑。\n• 大众社会形成：19世纪末大众社会逐步形成，城市人口集聚，报纸与轨道交通普及，消费文化与都市休闲兴起，娱乐、体育与大众传媒成生活重要组成。市民生活方式明显改观，现代大众文化由此形成。\n• 妇女运动高涨：19世纪末英美北欧妇女争取选举权与社会地位运动持续高涨，女性投身教育与职业，挑战传统性别分工，两性平等观念在公共讨论中传播。社会风气为之松动，性别平等潮流由此开启。\n• 欧美农业危机：19世纪末农业危机令欧美农民处境困难，谷价下跌、债务沉重，俄美农村矛盾突出，小农大批破产涌向城市，乡村秩序在夹击下动摇。农业人口加速向工业转移，旧农结构由此瓦解。\n\n【亚非拉地区】\n• 新型知识分子与民族资产阶级：亚洲各国出现接受近代教育的知识分子与民族资产阶级，创办报刊、学会与新式学堂，以白话与时论鼓吹改革与独立，其来源多为殖民行政与外贸所催生的中间阶层。这批人构成此后民族运动的领导层，其社会来源与殖民教育直接相关\n• 孟买工人大罢工：1908年孟买纺织工人因提拉克被判而举行六天大罢工，工厂与交通同时停顿，警察开枪造成伤亡。印度工人阶级由此登上政治舞台，罢工与民族运动首次结合\n• 绅士与留学生的分化：中国绅士与留学生群体在庚子后迅速分化，立宪派主张开国会与保皇，革命派主张排满与共和，双方以报刊论战并各自联络会党与新军。知识界的分裂直接塑造了辛亥后的政局","8":"• 社会达尔文主义：社会达尔文主义在欧美知识界广泛传播，将生存竞争与优胜劣汰学说生硬套用于人类社会。它为殖民扩张、种族压迫与帝国主义争霸提供所谓科学依据，并渗入教育与社会舆论，深刻影响列强的对外政策与社会心态。弱肉强食被奉为天然法则，其流毒在后来战争中充分显现，理性价值由此动摇。\n• 极端民族主义：民族主义在帝国主义时代演进为极端形态，强调本族优越、对外扩张与军事荣耀，贬低其他民族的文化与价值。它成为列强争霸与殖民掠夺的意识形态工具，欧洲各国间的对立情绪因此不断加剧，战争意愿被持续煽起。爱国情绪被扭曲为侵略借口，欧洲大陆局势日趋紧张，和平秩序由此动摇。\n• 尼采唯意志论：尼采的唯意志论与非理性哲学挑战启蒙以来的理性主义传统，强调意志、权力与个人超越，深刻影响现代思想，亦被后世极端势力片面援引。理性权威由此动摇，非理性思潮兴起。\n• 新康德主义：新康德主义与实证主义在哲学界产生广泛影响，前者强调价值与认识论批判，后者倡以科学方法研究社会，共同塑造世纪之交的学术氛围。经验研究渐成主流，现代哲学取向由此奠定。\n\n【亚非拉地区】\n• 辨喜与新吠檀多：辨喜1893年出席芝加哥世界宗教会议后声名大著，此后在印度宣扬新吠檀多哲学，主张以吠檀多的宇宙观容纳科学与社会改革，并创办罗摩克里希那传道会。宗教改革由此回应殖民文化的冲击，民族自信亦随宗教信仰而重建，其影响远及欧美的东方学团体\n• 泰戈尔的孟加拉语创作：泰戈尔以孟加拉语写诗、小说与戏剧，描绘乡村生活与内心冲突，并将宗教抒情与世俗题材融于一体。孟加拉语文学由此进入繁荣期，民族文学的语言根基就此奠定\n• 黎刹与社会毒瘤：黎刹以小说《社会毒瘤》与《起义者》揭露西班牙教士与官员的腐败，主张改革而非立即独立。菲律宾的启蒙与民族意识由此觉醒，其殉难更成为独立运动的象征","9":"• 柏林会议瓜分非洲：1884至1885年柏林会议召开，列强确立有效占领原则，要求实际管辖方可确权。这一规则消除列强间的部分争执，却也加速对非洲内陆的疯狂分割。欧洲各国在地图上划定殖民地边界，非洲传统政治版图被强行重组，列强瓜分非洲步伐骤然加快，殖民掠夺由此加速。\n• 世界殖民体系形成：19世纪90年代世界领土被列强瓜分完毕，亚洲、非洲与大洋洲广大地区沦为殖民地或半殖民地，资本主义世界殖民体系最终形成。全球绝大多数人口被纳入帝国统治，原料产地与商品市场被牢牢控制，世界被整合进单一的资本秩序，全球依附格局就此固化，殖民秩序由此确立。\n• 埃塞俄比亚抗意战争：1896年埃塞俄比亚在阿杜瓦战役中击败意大利侵略军，成功维护独立，成为近代非洲唯一未被殖民列强征服、保持国家独立的古老文明国家。其胜利鼓舞非洲人民抗殖斗争，民族自信由此确立。\n• 门户开放政策：19世纪末列强在中国竞相争夺势力范围，划分租借地与势力圈，美国1899年提出门户开放政策，主张机会均等，意在维护其在华商业利益。列强在华利益博弈更趋复杂，中国危机由此强化。\n• 印度民族运动：印度国民大会党领导的民族运动兴起，提拉克等激进派倡导自主抵制与自产运动，动员群众参与政治，印度民族主义在反英斗争中逐步壮大。英国殖民统治由此动摇，独立呼声日高。\n• 义和团运动：1900至1901年义和团以扶清灭洋为号召反抗列强瓜分中国，遭八国联军镇压，清政府被迫签订不平等条约，中国半殖民地化程度进一步加深，民族危机空前严重。清廷威信由此动摇，国势衰颓。\n\n【亚非拉地区】\n• 国大党与有组织运动：1885年国大党成立后，印度民族运动由分散请愿转为有组织的常年活动，每年集会提出参政、减税与文官考试等要求，并在各省设支部与报刊。此后温和派的请愿与激进派的抵制交替进行，运动的规模逐年扩大，各省的集会与请愿自此有了常设的组织\n• 菲律宾独立与抗美战争：1896至1902年菲律宾先抗西班牙后抗美国，阿基纳尔多的共和国在美军镇压下失败，伤亡与死亡人数极多。菲律宾由此由西班牙属地转为美国属地\n• 孟加拉分治与抵制英货：1905年英国分割孟加拉，印度以司瓦德西与抵制英货相抗，自产布匹与自办教育同时兴起，提拉克提出司瓦拉吉即自治的口号。自治的要求由此公开化，国大党内部激进派渐占上风，1907年两派在苏拉特公开分裂，抵制英货的做法此后在各地反复被采用","10":"• 第二国际成立：1889年第二国际在巴黎成立，联合各国社会主义政党与工会，推动五一节纪念与八小时工作制，组织跨国工人团结行动。工人运动由此获得更具规模的跨国协调平台，劳工权益诉求在国际层面得到持续表达与放大，社会主义影响扩及全球，改良路线由此确立。\n• 伯恩施坦修正主义：伯恩施坦提出修正主义理论，主张通过议会选举与合法斗争逐步改良实现社会主义，否定资本主义即将崩溃的论断。这一主张在德党及各国社会党内部引发激烈论争，迫使马克思主义作出回应时代变化的理论调整。争论围绕暴力革命与和平过渡展开，考茨基等理论家批驳，第二国际由此动摇。\n• 列宁主义形成：列宁主义在帝国主义时代形成，提出先锋队理论、无产阶级专政学说与帝国主义论，主张以武装革命推翻资产阶级统治并建立新型国家。它为俄国革命提供指导思想，也为殖民地半殖民地的民族解放运动提供切实可行的革命战略，深刻塑造二十世纪左翼政治版图，革命格局由此重塑。\n• 社会民主党壮大：各国社会民主党与工会组织不断壮大，利用合法平台争取普选权、劳工立法与社会福利，工人生活改善，阶级矛盾通过制度渠道得到一定缓解。改良主义广受拥护，制度改良由此巩固。\n• 苏维埃首次出现：1905年革命中工人代表苏维埃作为群众自治机构首次出现，成为罢工与武装斗争领导中心，为后来十月革命苏维埃政权提供最初组织经验。工人自治形式由此萌芽，革命传统由此奠定。","11":"【史学发展】\n• 兰普雷希特文化史：兰普雷希特著德国史倡导文化史路径，关注民众心理与集体精神，与强调政治事件的兰克学派展开论战，拓宽史学研究视野与对象。史学取向随之分流，文化史新路开启。\n• 鲁滨孙新史学：美国鲁滨孙倡导新史学，主张史学与社会科学结合，关注现实问题与社会变迁，打破传统政治史框架，推动历史研究走向更广阔社会维度。史学研究由此焕发生机，新史学取向确立。\n• 斯宾格勒文化形态史观：斯宾格勒在西方的没落中提出文化形态史观，将文明比拟为生命有机体，经历生长、成熟与衰亡的周期性过程，认为西方文化已进入暮年并将走向终结。这一理论对两次大战间的悲观思潮与文明反思产生深远影响，其学说在德语世界广受追捧并引发长期争议，文明反思由此深化。\n\n【文明成就】\n• 科技：爱迪生研制耐用白炽灯并建起城市供电系统——电力照明走入千家万户，人类夜生活与生产时段被彻底改变，工厂得以突破白昼限制连续运转，电气时代在日常生活与工业生产层面同时真正降临。技术革新直接重塑城市作息，照明革命由此开启电气社会化的新阶段。\n• 工程：本茨与戴姆勒分别制成以汽油内燃机驱动的三轮与四轮汽车——证明内燃机可用于陆上交通，现代汽车工业由此开端。交通运输摆脱对蒸汽与畜力的依赖，公路网络随后扩展，人类社会机动化时代正式起步，时空距离被重新定义，出行方式被彻底改写，机动时代由此开启。\n• 医学：巴斯德于1885年研制狂犬病疫苗——建立人工免疫方法，使致命传染病可被预防，为现代疫苗学与公共卫生体系奠定基石。医学预防新纪元由此开启。\n• 物理：伦琴于1895年发现爱克斯射线——开创放射影像诊断，使体内病灶首次无需切开即可观测，革新医学检查手段，为现代影像学与外科诊断奠定基石。现代医学诊断由此奠定。\n• 技术：马可尼实现无线电报通信——使远洋船只与大陆即时联络成为可能，打破海洋信息阻隔，为全球通讯网络与海上安全提供关键技术支撑。信息时代由此开启。\n• 化学：居里夫妇于1898年发现镭与钋两种放射性元素——开拓放射化学研究，揭示物质放射特性，为原子科学与医学治疗提供全新物质与理论起点。原子科学由此奠定。\n• 科技：诺贝尔于1901年设立诺贝尔奖——以巨额遗产奖励物理、化学、生理医学、文学与和平领域成就，推动国际科学交流，塑造现代学术荣誉体系。学术荣誉体系由此确立。\n• 物理：爱因斯坦于1905年提出狭义相对论、1915年提出广义相对论——以质能方程与时空弯曲揭示时空相对性与引力本质，革新经典物理学的绝对时空观，牛顿以来的经典力学框架被彻底改写，为人类认识宇宙运动与时空结构奠定全新理论基础，现代宇宙学由此开启。\n\n【亚非拉地区】\n• 印度民族主义史学：印度史家以民族主义立场重写殖民时期的历史，重新评价1857年起义并整理马拉塔与锡克的史料。殖民史学的欧洲中心叙述由此受到挑战，民族史的框架逐渐成型\n• 日本东洋史学科：日本在东京帝国大学设史学科，兰学的实证传统与德国史学方法合流，东洋史与西洋史分科并立。史学的学院化由此完成，研究也为殖民扩张提供了知识支撑\n• 梁启超与新史学：1902年梁启超发表《新史学》，倡史界革命，批评旧史只叙朝廷而不叙国民，主张以进化眼光考察群体与社会，此后又作中国史叙论以规划通史体例。中国近代史学由此开出新格局，此后各家无不回应其说，此后各家通史与断代史的编纂无不以其说为起点\n\n【亚非拉地区·发展成就】\n• 交通：1900年前后印度铁路网达四万余公里——干线连接内地产区与沿海口岸，运费与班次以出口与军事需要为准，是当时亚洲最大的铁路系统，次大陆的内部市场由此连成一片，粮食的调运与人口的流动亦随之改变，此后铁路成为印度人口流动与粮食调运的主要通道\n• 科技：1900年代日本造船与铁路技术实现自主——三菱与川崎等厂能自制大型船舶与机车，技师由本国学校培养，明治以来引进的技术至此转为自主设计与制造\n• 工业：1912年塔塔钢铁厂出铁——由印度民族资本创办、设备购自英美，厂址设于比哈尔的萨克奇。高炉出铁改变了钢料全靠进口的局面，产能在此后逐年爬升而跻身亚洲大厂之列，技师的培训与矿山的配套在厂外同步展开，民族重工业自此有了可照搬的大型样板，也为战时的军需与战后的建设提供了钢料"},"sources":{"table_row":"6","ppt":[]},"maps":[{"src":"maps/ww1-balkans.jpg","title":"巴尔干与近东格局","period":"1878—1914年","note":"看奥斯曼衰落、俄奥英争夺和巴尔干民族问题怎样成为一战前火药桶。"},{"src":"maps/ww1-alliances.jpg","title":"一战前两大军事集团","period":"1882—1914年","note":"看三国同盟与三国协约的形成和欧洲大国阵营对立。"},{"src":"maps/ww1-fronts.jpg","title":"第一次世界大战主要战线","period":"1914—1918年","note":"看西线、东线、南线和海上战场的空间分布与主要作战方向。"}]},{"name":"两战之间与第二次世界大战","span":"1919—1945","position":"世界近现代史 · 第6阶段","sub":"→ 凡尔赛和约与欧洲重划 · → 经济大萧条 · → 纳粹德国上台 · → 德国闪击波兰","note":"总表为该阶段正文主干；PPT 对应讲次将在同一阶段内继续合并，新增考点统一标“补”。 亚非拉分表已按每阶段重点压缩并入。","feature":"本期自1918—1945年，第一次世界大战落幕却未带来持久和平。凡尔赛体系埋下复仇种子，1929年大萧条重创各国经济，德意日法西斯借危机上台并不断扩张侵略，国际联盟无力约束。第二次世界大战由局部战争演为全球性冲突，反法西斯同盟最终取胜，原子弹首次用于实战。战争摧毁法西斯政权，旧殖民体系走向动摇，欧洲中心地位衰落，美苏两极格局在战争废墟上初现雏形，世界历史由此进入新的纪元。\n\n【亚非拉地区】\n总体：大萧条通过初级产品价格的暴跌把危机整个转嫁给殖民地，出口经济崩溃使农民与种植园工人陷入绝境，抗税、罢工与宗教运动随之高涨。宗主国转向封闭的帝国特惠制与更严厉的镇压，日本与意大利则以武力扩张寻找出路，中国东北与埃塞俄比亚接连成为侵略的对象。拉美各国在进口替代的早期尝试中强化国家干预，墨西哥的卡德纳斯改革与巴西的瓦加斯体制是其中代表，国家开始取代市场成为发展的主导者。法西斯扩张与殖民压迫的叠加，使反法西斯战争与民族解放运动在此期连成同一场斗争；当宗主国自身也走向战争与独裁，殖民统治的道德基础与实际控制力同时瓦解，其合法性至此已彻底破产。这是殖民体系由盛转衰的转折年代，此前的统治自信被危机彻底打碎。\n区域：亚洲：危机在亚洲表现为双重挤压：农产品价格崩塌使佃农与种植园工人首先失业，日本以侵占中国东北转嫁国内矛盾，1937年全面侵华把亚洲推入战争前线。\n区域：非洲：非洲在危机中首当其冲：可可与咖啡价格暴跌使西非农民收入过半蒸发，黄金海岸1937年发起拒售可可运动抵制压价；铜带矿区的大罢工在北罗得西亚与加丹加相继爆发。\n区域：拉丁美洲：出口的崩塌把拉美推向国家主导的转型：阿根廷1930年政变开启军人干政的十年，智利与哥伦比亚转向关税保护与国家开发机构，进口替代由应急变为战略。\n区域：三区域关联：大萧条把三区域放进同一场价格灾难：咖啡、可可与橡胶的买主同在欧美，三地出口收入在1932年前后跌至谷底。\n区域：亚洲：亚洲在战后十年完成独立的第一波：印度以蒙巴顿方案分治为印巴两国，缅甸与锡兰相继脱离英帝国，印尼经外交与军事的双重较量迫使荷兰移交主权，菲律宾在美国恢复统治后提前独立。\n区域：非洲：非洲的政治版图未变而力量在积累：1945年曼彻斯特泛非大会把非殖民化写进议程，恩克鲁玛回国后创建大会人民党，以积极行动运动迫使英国在1951年授予自治；埃及1952年自由军官革命推翻法鲁克王朝，纳赛尔次年接管权柄。\n区域：拉丁美洲：战时繁荣把拉美的工业推进一步，红利随战争结束消退：阿根廷庇隆以劳工联盟为底盘上台，把民族主义与社会立法捆在一起；玻利维亚1952年革命把锡矿收归国有并扩大选举权。\n区域：三区域关联：二战同样在三区域征兵征粮，结局却分三种：亚洲在战后十年批量独立，非洲以组织化积蓄力量等待引爆，拉美以主权国家身份坐上旧金山制宪会议。","events":"→ 凡尔赛和约与欧洲重划\n→ 经济大萧条\n→ 纳粹德国上台\n→ 德国闪击波兰\n→ 不列颠空战\n→ 苏德战争与太平洋战争","cells":{"3":"• 凡尔赛和约与欧洲重划：1918年一战结束，1919年凡尔赛和约签订，战胜国按民族自决原则重划欧洲版图，波兰、捷克斯洛伐克与南斯拉夫等新国家相继成立，并建立国际联盟试图维护和平。德国被迫承受领土割让与巨额赔款，和约苛刻条款在德国民众中埋下强烈复仇情绪，和平并不稳固。\n• 经济大萧条：1929年10月纽约股市崩溃引发经济大萧条，银行倒闭、工厂停产、失业人数激增，危机迅速从美国席卷整个资本主义世界。生产锐减、贸易萎缩、社会苦难深重，自由放任的经济秩序遭受空前冲击，各国被迫寻求新出路，制度自信由此动摇，危机成为时代转折点。\n• 纳粹德国上台：1933年纳粹党在德国上台执政，希特勒兼掌总统与总理大权，利用国会纵火案取缔反对政党并控制舆论，建立全面独裁统治。纳粹以扩张领土与种族净化为政策目标，次年退出国联并公开扩军，秘密警察横行，欧洲战争策源地由此形成，和平秩序遭遇严峻挑战。\n• 德国闪击波兰：1939年9月德国闪击波兰，英法等国随即对德宣战，第二次世界大战在欧洲全面爆发。德军以闪电战迅速席卷西欧，数月间占领丹麦、挪威与法国，战火蔓延北非并波及全球。人类再次陷入规模空前的惨烈厮杀，和平努力彻底破产，旧秩序由此崩溃，世界被拖入全面战争。\n• 不列颠空战：1940年不列颠空战中，英国皇家空军挫败德国空军夺取制空权企图，迫使希特勒放弃登陆计划，英国守住本土，成为欧洲抗德重要堡垒。德国闪电战首次受挫，英国防线由此巩固。\n• 苏德战争与太平洋战争：1941年苏德战争与太平洋战争相继爆发，德国入侵苏联、日本偷袭珍珠港，两大战场同时打开。战争范围扩及欧洲、亚洲与美洲三大洲及四大洋，苏德战场围绕莫斯科死战，太平洋战场中途岛海战转折，第二次世界大战演变为真正的全球性战争，全球战争格局由此形成。\n• 斯大林格勒战役：1942至1943年斯大林格勒战役中，苏军以顽强防御消耗并围歼德军重兵集团，最终全歼被围敌军。此役扭转东线战局，德军由战略进攻转入全面防御，成为第二次世界大战欧洲战场的根本转折点，轴心国战略攻势就此衰竭，东线天平开始向盟国倾斜，盟国胜势由此奠定。\n• 诺曼底登陆：1944年诺曼底登陆成功，盟军在法国开辟西欧第二战场，与东线苏军形成夹击之势，纳粹德国陷入两线作战，欧洲战局加速走向终结，德国败局由此奠定。\n• 第二次世界大战结束：1945年德意志与日本先后无条件投降，第二次世界大战以反法西斯同盟胜利告终，数千万人丧生。欧洲与东亚旧秩序彻底瓦解，联合国在旧金山成立，纽伦堡审判惩治战犯，殖民体系走向衰落，战后世界被美苏重新划分，历史翻开新页。\n\n【亚非拉地区】\n• 世界经济大危机波及亚洲：1929年危机爆发后亚洲的初级产品出口价格暴跌，米价、橡胶与锡价的跌幅尤大，种植园与小农的现金收入同时锐减，信贷随之枯竭。殖民地与半殖民地的财政随关税锐减而紧缩，此后各地的抗租抗税与罢工显著增多，民族运动的经济基础由此动摇\n• 食盐进军与文明不服从：1930年甘地率信徒自萨巴尔马蒂赴丹迪海岸自制食盐以违抗专卖法，各地随之展开抵制与罢业，1931年甘地欧文协定签订后停息。印度独立的诉求由此公开化，此后国大党的群众动员能力显著提高，其组织的网络深入县乡，此后国大党与穆斯林联盟的裂痕加深\n• 礼萨汗的铁路与教育改革：1930年代礼萨汗在伊朗推行铁路与教育改革，纵贯铁路开工而德黑兰大学设立，女子师范与世俗学校由此设立，德黑兰大学的设立使高等教育转为世俗，女子入学亦被允许","4":"• 魏玛共和国：魏玛共和国实行议会民主，颁布保障民权与共和原则的宪法，却长期陷于恶性通胀、政治暴力与政党分裂的危机之中。一九二三年鲁尔被占引发恶性通胀，马克沦为废纸，民主制度根基脆弱，经济与社会动荡相互叠加，终为纳粹攫取权力敞开缺口，共和实验由此崩溃，极权阴影步步逼近。\n• 意大利法西斯上台：1922年意大利法西斯进军罗马上台执政，墨索里尼建立独裁统治，解散议会与反对党，压制新闻与集会自由。政权以社团主义统合经济与社会，通过选举改革法案操纵选举，与教廷签订拉特兰条约。欧洲首个法西斯极权政权由此诞生，为后来德日体制提供先例，专制体制由此确立。\n• 罗斯福新政：美国罗斯福新政以国家干预经济，通过公共工程、金融改革与社会保障立法应对大萧条，扩大联邦政府的经济职能。新政以赤字财政与宏观调控稳定社会，开创国家调控与市场并行的新治理模式，自由主义经济被改写，国家干预传统由此确立，政府角色彻底重塑。\n• 纳粹极权体制：1933年纳粹德国废除议会制，取缔一切政党与工会，建立党国一体的极权体制。政权以秘密警察监控全社会，建立集中营关押异见者，个人自由被剥夺，法律沦为独裁工具，国家机器全面服务于种族迫害与对外扩张，纳粹意识形态灌输至全社会，极权统治由此确立。\n• 日本军部政权：日本军部在政党政治失序中控制政权，架空议会与文官，君主立宪体制名存实亡，军国主义主导外交与扩张，亚洲战争策源地由此形成，东亚局势动荡。\n• 苏联1936年宪法：1936年苏联宪法以法律形式确立高度集中的政治经济体制，以计划经济与一党领导为核心，强调重工业与国防建设，权力高度集中于中央与领袖个人。斯大林模式由此全面定型，成为此后数十年苏联体制的基本框架，体制特征固化，影响波及整个阵营，苏联体制框架确立。\n• 佛朗哥独裁政权：1939年佛朗哥在西班牙内战中取胜，建立军事独裁政权，取缔共和制度与反对力量，长枪党一党独大，西班牙战后长期游离于西欧民主体系之外。共和制度由此瓦解，专制统治延续。\n\n【亚非拉地区】\n• 日本军部主导政治：1930年代日本的军部逐步主导政治，政党内阁在一连串的恐怖与政变中倒台，二二六事件后军部大臣现役武官制恢复，议会沦为追认的机关。政党政治由此终结，此后国家以统制与军需为中心走向战时的体制，言论与结社的管制同时加强\n• 土耳其的一党制与国家主义：1930年代土耳其实行一党制，国家主义与世俗的改革深化，五年计划与国有企业的设置同时推行，语言的改革亦在此时展开\n• 伊朗强化中央集权：1930年代礼萨汗在伊朗强化中央集权与军事的力量，征兵制与警察网覆盖全国，部落的自主权被大幅压缩，部落的迁徙被限制而酋长的任免归国家，道路与电报同时延伸","5":"• 凡尔赛华盛顿体系：凡尔赛—华盛顿体系确立一战后大国均势，战胜国重划欧洲与远东版图，建立国际联盟以集体安全维护和平。华盛顿会议签海军条约限造舰，九国公约重申门户开放。然而和约严苛、赔款与罪责条款苛刻，体系排斥苏俄与德国，旧秩序由此动摇。\n• 国际联盟软弱：国际联盟缺乏强制力与大国一致，对日本侵华、意大利侵埃等侵略行为无实际约束力，集体安全流于空谈，绥靖氛围下侵略气焰愈发嚣张。国际组织威信扫地，均势秩序由此动摇。\n• 慕尼黑协定绥靖：英法等国对德意日侵略推行绥靖政策，1938年慕尼黑协定牺牲捷克斯洛伐克，以领土让步换取短暂和平。此前德国已吞并奥地利、重占莱茵兰，意大利侵略埃塞俄比亚未受制裁。这一妥协非但未平息冲突，反而助长轴心国侵略野心，绥靖政策彻底崩溃，和平幻想随之破灭。\n• 苏德互不侵犯条约：1939年苏德签订互不侵犯条约，约定势力范围划分，欧洲外交格局骤然重组，波兰命运被暗中交易，大战前夜大国博弈更趋诡谲。欧洲大陆均势崩解，旧外交格局由此瓦解。\n• 联合国家宣言：1942年联合国家宣言发表，美英苏中等二十六国结成国际反法西斯同盟，在政治上协调战略、在军事上配合作战。统一的反法西斯战线正式形成，各大洲战场相互配合，租借物资援助源源不断，轴心国渐陷孤立，战争力量对比开始逆转，同盟胜势由此奠定。\n• 雅尔塔会议：1945年雅尔塔会议规划战后世界秩序，美英苏三大国划分势力范围、确立联合国框架与安理会否决权，奠定战后两极格局的雏形。会议决定德国分区占领、波兰边界西移，既安排对战败国的处置与和平重建，也埋下美苏对峙的冷战伏笔，影响此后数十年，两极格局由此形成。\n\n【亚非拉地区】\n• 英法绥靖与亚洲殖民地：1930年代英法在欧洲实行绥靖，对亚洲殖民地的控制力随之下降，兵力与经费被抽调回本土，殖民地的防务因此更为空虚，民族运动所受的压力亦相对减轻\n• 苏联援助中国抗战：1930年代苏联援助中国的抗战并提供贷款，军事的顾问与志愿的航空队同时来华，物资经西北的通道运入，两国的外交关系由此回暖而国内的舆论亦受其影响\n• 李顿调查团报告：1932年国际联盟派出李顿调查团，报告承认日本在东北的特殊权益而不承认伪满洲国，主张以国际共管的方式解决。国联未能制止日本的侵略，此后集体安全的体系由此露出破绽，此后日本索性退出国联而扩建军备，东亚的秩序自此无以为继，各国的观感为之一变","6":"• 大萧条与金本位：大萧条暴露生产相对过剩与信用泡沫的深层危机，各国纷纷放弃金本位、竞相货币贬值以自保，贸易壁垒高筑，资本与商品流动受阻。世界经济陷入长期萎缩与相互割裂，既有自由市场体系遭遇严重挫败，保护主义盛行一时，全球经贸秩序紊乱，既有秩序由此瓦解。\n• 罗斯福新政经济：美国罗斯福新政以国家调控、公共工程与金融整顿摆脱危机，通过以工代赈与社保立法稳定民生，政府首次大规模介入经济运转。新政以需求管理拉动复苏，开创国家资本主义新路径，市场原教旨暂退场，政府与市场关系由此重塑。\n• 苏联五年计划：苏联实施五年计划，优先发展重工业与军事工业，以指令性计划快速推进国家工业化，在短时间内由农业国转变为工业国。强制集体化配合工业化积累，这一模式为反法西斯战争的胜利奠定重要物质基础，工业化成就举世瞩目，苏联工业实力由此奠定。\n• 货币集团割裂：各国实行贸易保护，英镑区、美元区、法郎区等货币集团割裂世界市场，各国以邻为壑转嫁危机，国际经贸秩序陷入碎片化与对抗。全球化进程严重倒退，世界市场由此瓦解。\n• 德国战时统制经济：德国扩军备战，经济转入战时统制轨道，国家全面管控生产与劳力，军工产业急剧膨胀，民用消费被压缩，社会被动员服务于侵略战争。战争机器全速运转，侵略体制由此确立。\n• 布雷顿森林体系：1944年布雷顿森林会议确立以美元为本位的国际货币体系，建立国际货币基金组织与世界银行，为战后自由贸易与金融稳定奠定制度框架。美元居主导地位，国际货币新秩序由此确立。\n\n【亚非拉地区】\n• 危机中出口价格暴跌：危机中亚洲的出口农产品与原料的价格暴跌，米、橡胶与锡的跌幅尤大，农民的现金收入锐减而债息与地租照旧。农村的债务与土地集中由此加剧，此后抗租与抗税的事件在各地连绵不断，乡村的社会秩序长期不稳，此后土地的兼并与高利贷的活动同步扩张\n• 印度农业萧条：1930年代印度的农业萧条，地价与粮价同时下跌而田赋与债务照旧，佃农的债务与土地的集中由此加剧，地价与粮价的下跌使农民的债务实际加重，土地由此加速集中\n• 伊朗的铁路与工业：1930年代伊朗修建纵贯的铁路，国家推动基础设施与工业，水泥、纺织与糖厂相继设立而关税予以保护，铁路的贯通使内地与港口连成一片，财政亦以此增加岁入","7":"• 大萧条失业：大萧条造成欧美大规模失业，工厂停摆、薪资骤降，无数家庭陷入长期贫困，社会动荡明显加剧。失业大军流落街头，退伍老兵进军华盛顿讨薪遭驱散，极端政治势力借机崛起并夺取政权，阶级与族群冲突激化，社会危机四处蔓延，西方民主制度由此动摇。\n• 纳粹种族迫害：纳粹政权推行系统性种族迫害，颁布纽伦堡种族立法剥夺犹太人公民权，犹太人遭排斥、剥夺财产并关押驱逐，水晶之夜席卷德奥，犹太商店被毁，最终在集中营与灭绝营中被批量屠杀。这一反人类罪行规模空前，成为人类历史上最黑暗的暴行之一，人类良知由此动摇。\n• 法国人民阵线：各国工人与左翼运动在大萧条中高涨，法国人民阵线于1936年上台，推行劳资改革与每周四十小时工时、带薪休假，工人权益获阶段性改善，左翼政治影响扩大，社会党首次进入政府。左翼力量由此巩固。\n• 妇女参战生产：第二次世界大战中妇女大量进入军工与运输生产，填补男性兵员空缺，家庭与社会角色变化，女性经济自立增强，战后社会地位提升。传统性别分工被改写，平等进程由此开启。\n\n【亚非拉地区】\n• 危机使农民与种植园工人破产：危机使亚洲的农民与种植园工人大批破产，失业者与失地者同时增多，抗租抗税的斗争此起彼伏而城市的罢工亦相继发生。此后各地的民族运动多以经济的诉求相号召，农村的动荡成为这一时期普遍的现象，地主与放贷者转而依附高压的殖民当局\n• 苏区的土地革命：1930年代中国的苏区开展土地革命，没收地主的土地分给农民，设贫农团与农会主持分配并组织赤卫队，妇女与青年亦被动员。农民的拥护由此成为红军的兵源与粮源，此后土地的政策成为国共争夺的关键，农民协会与贫农团在各地设立，妇女与青年亦被动员参加分配\n• 殖民地的强制劳役与移民：日本在殖民地推行强制的劳役与移民，东北与朝鲜的矛盾由此激化，劳工与开拓团的冲突时有发生，抗日的武装亦在此间兴起，劳工的逃亡与反抗持续不断","8":"• 法西斯主义意识形态：法西斯主义在危机年代形成，鼓吹民族扩张、领袖至上与极权统治，否定自由民主与个人权利，宣扬暴力与战争崇高论。它为侵略战争与种族压迫提供系统的思想武器，深刻毒化欧洲政治文化，极权思潮泛滥成灾，理性价值由此动摇。\n• 现代主义思潮：现代主义文艺在两次大战间兴起，反叛传统写实风格，以意识流、抽象与荒诞等手法表现现代人的异化与焦虑。它在绘画、文学与音乐领域开辟全新的艺术表达路径，艺术更趋主观与多元，传统审美被颠覆，表现手法空前自由，艺术多元格局由此形成。\n• 存在主义哲学：存在主义哲学在危机年代兴起，萨特与海德格尔强调个体抉择、自由与焦虑，直面荒诞处境，对战后西方思想与文学产生深远影响。人的自由与处境成核心议题，战后思想图景由此深化。\n• 和平主义思潮：第一次世界大战后和平主义与反战思潮在各国广泛流行，知识界与民众拒斥战争，推动裁军与国际合作呼声，幻想以集体安全避免再度流血。绥靖心理悄然滋生，集体安全信念由此动摇。\n\n【亚非拉地区】\n• 中国社会史论战：1930年中国社会史论战展开，各家以唯物史观为分析的工具，争论中国社会的性质与历史的分期，亚细亚生产方式成为焦点。此后马克思主义史学的框架由此确立，史学与政治的抉择自此相连而不再限于考订，此后各家以刊物与专集往复辩难\n• 中国左翼文学运动：中国的左翼文学运动兴起，鲁迅以杂文与短篇批判现实而茅盾以《子夜》写都市与乡村的破产，左联组织刊物与读书会。文学由此承担批判与动员的职能，此后抗战的文艺亦沿此路而行，左联的刊物与读书会深入学校与工厂，青年读者的队伍迅速扩大\n• 尼赫鲁与社会主义思想：尼赫鲁在国大党内传播社会主义的思想，主张独立即解放而须以计划与土地改革解决贫困，并在各省的集会中申论。此后国大党的纲领由此左倾，独立后的经济政策亦以此为源头，各省的集会与青年的团体成为其主张的传播渠道","9":"• 凯末尔革命：土耳其凯末尔革命推翻苏丹统治，废除君主与哈里发制度，建立政教分离的世俗共和国。政权推行文字、法律、教育与服饰的全面改革，以拉丁字母取代阿拉伯文，颁布民法典废除宗教特权，开启自上而下的现代化转型，为后进国家提供样板，民族主义国家由此确立。\n• 甘地非暴力运动：印度甘地在二十世纪二十年代领导非暴力不合作运动，以绝食、抵制英货与和平游行反抗英国殖民统治，动员广大民众参与政治。运动迫使殖民当局作出让步，印度民族主义力量空前壮大，反殖斗争走向群众化，独立呼声日益高涨，殖民统治根基由此动摇。\n• 中东形式独立：埃及于1922年、伊拉克于1932年等取得形式上独立，虽仍受英国影响，但殖民直接统治松动，中东民族主义浪潮逐步兴起扩散。半独立状态渐成，民族觉醒由此开启。\n• 中国抗日战争：中国人民抗日战争以巨大民族牺牲牵制日本陆军主力，持久抗战消耗敌军有生力量，徐州与武汉会战粉碎日军速胜企图，成为世界反法西斯战争的东方主战场。它为盟国战略反攻赢得宝贵时间，中国抗战地位获得国际社会广泛承认，跻身联合国创始会员国，国际地位由此奠定。\n• 非殖民化初现：第二次世界大战削弱老牌殖民帝国实力，宗主国无力维持海外统治，亚非民族独立运动高涨，殖民体系出现裂痕，非殖民化潮流在战后初现。殖民帝国黄昏降临，独立浪潮由此开启。\n\n【亚非拉地区】\n• 朝鲜与台湾的反日斗争：1930年代朝鲜与台湾的反日斗争在高压下延续，刊物与社团屡遭取缔而抗争转入秘密的形式，海外的独立团体继续活动，语言的出版亦受严格的限制\n• 东北抗日义勇军与游击队：1931年后东北的抗日义勇军与游击队持续抵抗日本的占领，马占山与杨靖宇等部先后转战，山林与乡村成为依托。抵抗虽未能收复失地，却牵制了日军的兵力并维系了民心的归向，义勇军与共产党的游击队在此时合流，此后的抗日联军由此形成\n• 食盐进军与文明不服从：1930至1934年甘地领导食盐进军与文明不服从的运动，各地抵制英货与罢业同时展开，监狱与纠察成为日常。印度独立的诉求由此公开化，此后圆桌会议的谈判亦未能满足其要求，1935年政府法的改革亦被视为不足，全国的抗争在此后转为持久的蛰伏与重组","10":"• 共产国际成立：共产国际即第三国际1919年成立，由苏联主导协调各国共产主义运动，先后召开七次代表大会，推动建党、支援革命罢工并输出意识形态。它提出人民阵线与反帝统一战线策略，把各国左翼力量纳入统一指挥，深刻影响全球工人政党与民族解放组织，国际共运格局由此重塑。\n• 欧洲共产党抵抗：欧洲各国共产党在反法西斯统一战线中发挥重要作用，组织游击抵抗与工人斗争，挫败占领当局，战后政治影响力显著上升，左翼力量壮大。抵抗运动功不可没，左翼阵营由此巩固。\n• 工人运动分裂：社会民主党与共产党在阶级路线与对苏态度上分裂，工人运动出现议会改良与革命专政两条路线，左翼阵营内部矛盾加剧。国际工人运动由此走向分流，左翼阵营动摇。\n• 苏联模式影响：苏联社会主义模式通过五年计划确立，以公有制与指令经济为核心，影响东欧与各国共产党，为国际工人运动提供另类范本，亦暴露集中僵化弊端。社会主义阵营格局由此重塑，发展道路分化。","11":"【史学发展】\n• 年鉴学派创立：法国年鉴学派1929年创立，倡导跨学科的总体史，关注经济、社会与心态的长时段深层结构，打破传统政治事件史的垄断。它主张史学研究结合地理、经济与社会科学，深刻影响二十世纪全球史学研究的取向与方法，史学取向焕然一新，新史学格局由此确立。\n• 汤因比文明史观：英国汤因比著历史研究，以文明为单位比较兴衰，提出挑战与应战模式，构建宏观史学体系，对全球文明史书写产生持久影响。文明比较史观由此流行，新史学视野确立。\n• 马克思主义史学：马克思主义史学在苏联确立主导地位并向世界传播，以唯物史观解释历史演进，强调经济基础与阶级斗争，深刻塑造社会主义阵营的史学叙事。史学成重要意识形态工具，叙事体系由此确立。\n\n【文明成就】\n• 思想：弗洛伊德创立精神分析学说——以潜意识、本能压抑与童年经验解释人格与行为，借梦的解析与压抑机制开拓心理学与人性研究新领域。这一理论重塑对内心世界的理解，其俄狄浦斯情结说影响文学与艺术，深刻影响二十世纪人文社会科学走向，思想版图由此深化。\n• 物理：海森堡与薛定谔分别建立矩阵力学与波动力学——共同奠定量子力学体系，革新微观物理认知，为现代技术与材料科学提供理论基石。微观世界革命再掀高潮，科学革命由此确立。\n• 医学：弗莱明于1928年发现青霉素的抑菌作用——开创抗生素疗法，使细菌感染不再致命，医学迈入化学治疗新纪元，挽救亿万生命。人类平均寿命由此延长，医学新纪元开启。\n• 思想：凯恩斯于1936年著就业、利息和货币通论——创立宏观经济学，主张国家以财政与货币政策主动调控需求、对抗失业与萧条。这一理论为政府干预经济提供系统学理依据，直接催生布雷顿森林体系与福利国家，英美据此确立美元本位，战后经济政策指导思想由此确立。\n• 艺术：毕加索于1937年作格尔尼卡——以破碎形体与黑白灰控诉法西斯暴行，描绘小镇遭轰炸惨状，激发欧洲反战舆论，成反战艺术里程碑，现代主义绘画政治介入达前所未有高度。反战信念由此确立。\n• 工程：曼哈顿计划制成原子弹——人类首次掌握核武器，二战末期用于实战，轰炸广岛与长崎造成空前伤亡，核时代就此来临，战争形态被彻底改写，美苏核竞赛拉开序幕。核时代由此开启，战略格局重塑。\n\n【亚非拉地区】\n• 郭沫若《中国古代社会研究》：1930年郭沫若《中国古代社会研究》出版，以唯物史观划分中国社会的发展阶段，用甲骨与青铜的材料论证奴隶制的存在。此后中国马克思主义史学的框架由此确立，其与论战的往复相互激荡，此后各家以甲骨文与青铜器的材料往复论证，奴隶制与封建制的分期成为焦点\n• 中国社会史与社会性质论战：1930年代中国展开社会史与社会性质的论战，各家围绕奴隶制、封建制与亚细亚生产方式往复辩难，刊物与专集大量刊行。马克思主义史学由此成型，此后范文澜与翦伯赞的通史皆以此为基础，刊物与专集大量刊行而青年学人竞相参与，史学的取向由此转变\n• 马克思主义史家群体：范文澜与翦伯赞等在抗战前后形成马克思主义的史家群体，通史与专史的编写同时进行，唯物史观成为共同的取向，延安与重庆两地的史学工作各有侧重，教材与通俗读物同时刊行\n\n【亚非拉地区·发展成就】\n• 交通：1930年代伊朗纵贯铁路建成——贯通波斯湾与里海，礼萨汗以此强化中央对地方的控制，伊朗国内的统一市场随之形成，沿线的城市与粮产区连成一片，部落的迁徙与地方的割据由此受到限制，军队的调动与赋税的征收亦更为便利，运费的下降使内地与港口的联系加强\n• 工业：1930年代日本重化工业与造船业扩张——在危机与军需的双重刺激下扩张，钢铁、造船与化学工业的产能倍增，为随后的战时经济奠定产能基础，财阀与国家资本共同主导，造船厂与飞机厂的规模跃居世界前列，工人由农村招募而来，军需的订单使失业的问题得以缓解，产业的集中亦随之加深\n• 科技：1930年代中国地质调查与工业技术研究推进——地质调查所等机构积累大量资料，为战时内迁与后方建设储备技术力量，矿产与水文的调查覆盖西南与西北，工程的人员亦由此培养"},"sources":{"table_row":"7","ppt":[]}},{"name":"冷战、去殖民化与全球化","span":"1945—1991","position":"世界近现代史 · 第7阶段","sub":"→ 雅尔塔会议 · → 杜鲁门主义 · → 马歇尔计划 · → 两极军事同盟","note":"总表为该阶段正文主干；PPT 对应讲次将在同一阶段内继续合并，新增考点统一标“补”。 亚非拉分表已按每阶段重点压缩并入。","feature":"本期始于第二次世界大战结束，终于苏联解体，世界由战争年代转入两强对峙与和平竞争并存的漫长阶段。美苏以核武器与意识形态相互牵制，欧洲分裂为东西阵营，亚洲非洲拉丁美洲的民族独立浪潮则冲垮了西方殖民帝国。与此同时，西欧走向联合，东亚经济起飞，信息技术革命悄然改换人类生产与交往方式，全球化由贸易网络扩展为覆盖全球的分工体系。\n\n【亚非拉地区】\n总体：万隆会议与不结盟运动把新独立国家组织成一支独立的政治力量，1960年被称为非洲年，一年之内十余个非洲国家独立，非洲统一组织随后成立，殖民帝国在二十年间基本退出亚非。新国家普遍推行国有化、进口替代与一党制，试图用国家力量在短期内完成工业化，联合国的席位结构也随之改变，南方国家第一次在表决中占据数量优势。拉美则在美国干预、游击战争与军人威权之间反复摇摆，古巴革命把反霸议程带入西半球。第三世界作为政治概念正式成型，发展取代独立成为这一时期的中心议程：从争取政治独立转向争取经济平等与建立国际新秩序。这条发展主线贯穿整个时期，并一直延续到独立后探索的阶段，成为后殖民时代三地共同的政治语言。\n区域：亚洲：亚洲在此期被冷战切成两半：东南亚条约组织与巴格达条约组织布下同盟之网，印支战争升级为越南战争，印尼在1965年事件后转向军人政权。\n区域：非洲：非殖民化的重心在此期移到非洲：加纳1957年率先独立，1960年一年之内十七国建国被称为非洲年；刚果在独立当月爆发危机，卢蒙巴被杀与雇佣兵割据显示新国家的脆弱。\n区域：拉丁美洲：古巴革命在1959年改写区域政治：猪湾入侵与导弹危机把冷战推到加勒比，美国以进步联盟提供援助而以干预阻止左转，1964年巴西政变与1973年智利政变相继建立军人官僚政权。\n区域：三区域关联：政治独立在本期收官：亚洲的大半已在1940年代完成，非洲以1960年为引爆点在二十年间基本完成建国，拉美早在十九世纪交卷。\n区域：亚洲：亚洲的分化在本期达到顶点：韩国与台湾地区借重化工业与电子装配完成产业升级，中国1978年改革开放把出口导向推向更大规模，四小龙之名由此确立。\n区域：非洲：葡萄牙帝国在1975年崩溃后，安哥拉与莫桑比克旋即卷入代理人内战，津巴布韦1980年独立，纳米比亚到1990年才建国。\n区域：拉丁美洲：1982年墨西哥宣布无力偿付外债，拉美失去的十年由此开始：通胀与紧缩轮番折磨各国社会，华盛顿共识在1989年把私有化与贸易自由化定为标准药方。\n区域：三区域关联：冷战结束把三区域放回同一个外部环境：苏联援助与阵营分工消失，市场与贷款成为主要来源。","events":"→ 雅尔塔会议\n→ 杜鲁门主义\n→ 马歇尔计划\n→ 两极军事同盟\n→ 朝鲜战争爆发\n→ 越南战争泥潭","cells":{"3":"• 雅尔塔会议：1945年2月美英苏三国首脑在雅尔塔举行会议，商定了德国分区占领、波兰疆界重组与远东对日作战等战后安排，事实上划定了美苏两强分治欧亚的势力范围。同年10月联合国正式成立，安理会以美苏英法中五国为常任理事国，确立大国一致与集体安全原则，取代已告失效的国际联盟。\n• 杜鲁门主义：1947年3月美国总统杜鲁门在国会发表咨文，宣布美国将支持各国自由民族抵抗武装少数群体与外界压迫的征服企图，这一被称为杜鲁门主义的声明把遏制苏联扩张定为对外政策纲领。它标志着美苏战时同盟正式破裂，两大阵营在政治、军事与意识形态上的对立由此全面拉开序幕，冷战就此开始。\n• 马歇尔计划：1948年美国国务卿马歇尔提出援欧计划，以贷款与物资援助西欧重建战后经济，四年间接济十六国超过百亿美元。该计划既缓解了西欧的食品与燃料短缺，也使美国得以稳住西欧市场与政治局面，并推动法德化解宿怨走上合作，为日后西欧煤钢联营、共同市场与更深的区域联合奠定合作基础。\n• 两极军事同盟：1949年4月美国联合加拿大与西欧十国在华盛顿签署北大西洋公约，建立集体防务的军事同盟。1955年苏联与东欧七国缔结华沙条约，组成相对阵营。两大军事集团以核武与常备军相互对峙，欧洲从此被铁幕分隔为北约与华约覆盖的东西两极，双方军备竞赛不断升级，冷战格局在军事上正式定型。\n• 朝鲜战争爆发：1950年6月朝鲜战争爆发，美军在仁川登陆后越过三八线向北推进，中国人民志愿军赴朝参战，战事演变为中美两国的大规模局部战争。交战双方在三八线附近反复拉锯三年，1953年签订停战协定。这场战争使冷战对抗从欧洲扩展至东亚，巩固了美国在亚太的军事存在与同盟体系，也造成半岛长久分裂。\n• 越南战争泥潭：1960年代美国深陷越南战争，为遏制北越扩张而投入数十万军队，却陷入丛林游击战泥潭。国内反战示威与兵役冲突不断，军费巨额攀升拖累经济，社会因战争严重分裂。1973年美国撤军，1975年西贡易手，这场延续多年的热战以美国战略目标落空告终，其全球干预信心与国际声望均遭受重挫。\n• 古巴导弹危机：1962年10月苏联将核导弹运入古巴，美国以海上封锁相逼，双方一度进入战备最高等级，人类首次逼近核大战边缘。经秘密谈判，苏联撤走导弹，美国承诺不入侵古巴。这场危机促成两国设立热线与随后限制战略武器谈判，也使核对抗的灾难后果被各国重新掂量与克制，核威慑观念由此深入人心。\n• 美苏关系缓和：1970年代美苏关系走向缓和，双方于1972与1979年两度签署限制战略武器条约，约束核武数量增长。高层互访增多，经贸与科技交流恢复。缓和缓解了东西欧紧张，却未消除根本分歧，阿富汗战争爆发后即告中止。\n• 东欧国家剧变：1989年起东欧社会主义国家接连发生政权更迭，波兰团结工会胜选，匈牙利开放边境，柏林墙倒塌，捷克斯洛伐克与罗马尼亚等均改弦易帜。苏联放弃武力干预，默许阵营瓦解。这场被称为东欧剧变的连锁变革，在一年之内冲垮了战后四十余年苏联在东欧的经营，雅尔塔体系出现巨大裂口，冷战走向尾声。\n• 两德重新统一：1990年10月民主德国并入联邦德国，分裂四十余年的德国重新统一。统一在美苏英法四国放弃占领权的前提下完成，标志着战后欧洲格局的根本转折。两德统一使苏联阵营失去重要缓冲，加速了东欧政治地图改写与东欧剧变进程，也成为雅尔塔体系开始走向瓦解的明确信号，欧洲分裂局面出现松动。\n• 苏联最终解体：1991年底苏联最高苏维埃通过决议，宣告这个存在近七十年的联邦国家正式停止存在，戈尔巴乔夫辞去总统职务。十五个加盟共和国各自独立，俄罗斯继承其主要国际地位。苏联解体意味着冷战以西方胜出收场，延续近半个世纪的两极格局就此终结，世界随之转入美国独大、诸强并起的一超多强新阶段。\n\n【亚非拉地区】\n• 伊拉克革命与卡塞姆政权：1958年伊拉克的自由军官推翻哈希姆王朝，卡塞姆建立共和国并退出巴格达条约组织。阿拉伯的民族主义由此在两河流域获得支点，君主制的合法性在整个中东受到冲击\n• 日本经济高速增长：1960年代日本在高速增长期实现年均两位数的产值增长，重化工业与汽车电子的产能跃升，1968年其经济总量升至世界第二。国民的收入与消费结构随之彻底改变\n• 不结盟运动第一次首脑会议：1961年不结盟运动第一次首脑会议在贝尔格莱德召开，二十五国与会而铁托、纳赛尔与尼赫鲁是主要的推动者。会议确立了不与两大阵营结盟的共同立场，第三世界由此获得组织的形式","4":"• 日本和平宪法：1947年5月日本施行以麦克阿瑟草案为基础的新宪法，规定天皇仅为国家象征，主权属于国民，并第九条明文放弃战争权与保有战斗力之名义。宪法确立议会内阁制，众议院为权力重心，多党轮替与司法独立得以维持。这部和平宪法约束了日本重整军备，也塑造了战后日本以经济立国、不涉大战的政治路线。\n• 西德基本法：1949年联邦德国基本法生效，确立议会民主政体，联邦与各州分权，宪法法院保障公民自由。基本法以防御性民主设计防范极权回潮，为西德重建法治与稳定秩序奠定根基，成为政治稳定的制度支柱。\n• 麦卡锡主义：1950年代初美国参议员麦卡锡借反共之名指控政府内外潜伏亲苏分子，大量人士遭解职或列入黑名单。这场被称为麦卡锡主义的风潮压制言论自由与异见，至1954年其本人受国会谴责方渐平息。\n• 法国第五共和国：1958年法国通过新宪法，建立第五共和国，戴高乐出任首任总统并扩大行政权力，得以解散议会、直接掌理外交军务。这一体制强化政府稳定，结束第四共和国频换内阁的软弱局面，重塑了法国政制。\n• 美国民权法案：1964年美国国会通过民权法案，以联邦立法禁止公共场所与就业中的种族歧视，并保障黑人平等选举权。该法案是长期民权抗争的成果，由约翰逊总统签署生效，从法律上废除了南方各州的种族隔离制度，推动美国社会向种族平等迈出关键一步，也鼓舞了随后的女权与平权运动。\n• 水门政治危机：1974年水门事件曝光总统竞选团队窃听对手，尼克松企图掩盖而引发宪政危机，面临弹劾前夕宣布辞职，成为美国首位离任总统。事件促使国会立法约束行政特权与竞选经费，总统权力受到明确制约。\n\n【亚非拉地区】\n• 发展型官僚体制推动工业化：1960年代韩国与新加坡等以发展型的官僚体制推动工业化，经济企划院之类的机构握有资源的分配权而其决策相对独立。技术官僚的地位由此上升\n• 印度政治的集中化：1971年英迪拉甘地在胜选后强化中央的权力，以国大党的多数推行银行的国有化与宪法的修正，废除土邦的特权并削弱最高法院的审查。中央与地方的关系由此趋于紧张，此后紧急状态的施行亦由此铺垫，反对派的力量由此被大幅压缩而司法的独立受到侵蚀\n• 孟加拉国由议会制转入军人执政：1971年孟加拉国建立议会制的共和国，此后政局动荡而在1975年后转入军人的执政。议会的框架被保留而实权握于军方之手，政党的作用长期受限","5":"• 雅尔塔体系：1945年雅尔塔会议后，美苏依密约划分势力范围，东欧归入苏联轨道，西欧倚靠美国保护，德国与维也纳分属两大阵营，欧洲被铁幕割裂为东西两半。这一由大国交易定下的秩序压制了小国自主选择，成为冷战对峙的地缘骨架，并延续至1989年东欧变局方被打破，势力范围格局主导欧洲政局，小国命运由大国摆布。\n• 联合国成立：1945年联合国正式成立，以维持和平与安全为宗旨，安理会五常任理事国享否决权，确立大国一致与集体安全原则。组织成为全球最大多边平台，也成为中小国家发声与协调立场的场所。\n• 代理人战争：1950—1980年代美苏为避免直接开战，于亚非拉扶持代理人展开对峙，朝鲜越南阿富汗中东与非洲之角频现局部热战，军援密战与政变交织。代理人战争使冷战烈度外溢至第三世界，造成多地长期动荡与伤亡，也牵动两大阵营在全球的势力消长，并深刻影响相关地区的政治走向与发展轨迹。\n• 美苏关系缓和：1970年代美苏走向缓和，双方限制战略武器谈判约束核竞赛，欧洲安全会议确认战后边界，高层互访增多。缓和暂降东西方紧张，推动经贸科技交流，却未消除对立，阿富汗战事起即告中断，对抗重燃。\n• 中美三角外交：1972年尼克松访华打开对华关系，1979年中美正式建交，中美苏三角外交改写格局。美国借联华制衡苏联，中国得以摆脱孤立、引进技术，两极对峙出现弹性空间，国际战略平衡因此生变。\n• 新思维外交：1980年代戈尔巴乔夫提出新思维外交，放弃以武力管控东欧，同意东欧国家自主抉择，并同西方展开裁军谈判。苏联放松控制使阵营松动，为随后东欧剧变与冷战落幕铺平道路，帝国维系成本日益沉重。\n• 雅尔塔体系瓦解：1991年雅尔塔体系随苏联解体而瓦解，欧洲分裂局面终结，美国成为唯一超级大国，中德日欧与诸区域力量并起，一超多强之多极化趋势显现。战后由大国分赃定下的世界秩序退出历史，国际格局转入权力更分散的新阶段，地区冲突再度突出，美国虽独大却难独自应对全球难题。\n\n【亚非拉地区】\n• 不结盟运动与第三种力量：1961年不结盟运动兴起，第三世界由此成为冷战中的第三种力量，与会国既拒绝加入军事的集团亦争取发展的援助。两极的格局由此出现松动的地带，此后联合国的议程亦因这一集团而转向发展，援助与贸易的谈判自此有了多边的场合\n• 东南亚国家联盟成立：1967年东南亚国家联盟成立，五国以区域的合作缓和彼此的争端，此后逐步扩展为区域协商的机制。区域的自主意识由此获得组织的依托\n• 中国恢复席位与中美缓和：1971年中国恢复联合国的席位而在1972年与美缓和，亚太的格局由此改变，中苏的对立与美苏的缓和是两条并行的线索。东亚的冷战由此由阵营的对抗转为多角的博弈，日本的自主空间亦随之扩大，东南亚各国此后得以在两大之间自行择路","6":"• 布雷顿森林体系：1945年国际货币基金组织与世界银行依布雷顿森林会议决议相继成立，前者维持汇率稳定并提供短期借贷，后者资助战后重建与开发。会议确立美元与黄金挂钩、他币与美元固定的汇兑安排，美元由此成为世界主要储备与结算货币，美国取得国际金融体系的主导地位，资本主义经济圈得以组织协调。\n• 关贸总协定：1947年关税与贸易总协定签署，二十三国互减关税、取消贸易壁垒，重建多边自由贸易框架。总协定成为战后世界贸易组织前身，推动全球贸易在数十年间持续增长，为工业品与原料跨国流通提供规则。\n• 欧洲煤钢共同体：1951年法国西德等六国签订条约，成立欧洲煤钢共同体，将煤钢生产置于超国家机构共管之下。这一安排消除了法德重燃战火的经济基础，使两国利害相缠，成为西欧经济一体化起步的关键一步。\n• 欧共体成立：1967年欧洲经济共同体与煤钢、原子能共同体合并为欧共体，成员国间取消内部关税、统一对外税率并实现人员资本流动。欧共体使西欧经济联合走向深化，提升了欧洲在国际贸易中的整体分量。\n• 布雷顿森林崩溃：1971年美国宣布停止美元兑换黄金，布雷顿森林体系确立的固定汇率安排难以维持，各国货币相继浮动。这一以美元为中心、黄金为锚的国际货币秩序由此崩溃，战后二十余年稳定的汇兑格局终结，世界转入浮动汇率与汇率频繁波动的新阶段，美元独大地位受到挑战，各国货币政策自主性随之上升。\n• 石油禁运危机：1973年中东战争期间石油输出国组织以减产禁运抬价，原油价格数倍上涨引发西方经济滞胀，即物价攀升与失业并存而增长停滞。传统凯恩斯主义以扩张需求拉动就业的手段失灵，各国被迫在抑制通胀与维系就业间艰难权衡，宏观经济政策面临重新审视与转向，自由市场主张趁势抬头。\n• 新自由主义：1980年代英国首相撒切尔与美国总统里根推行新自由主义，降低税率、压缩公共开支、国营企业民营化并放宽市场管制，削弱国家干预经济的尺度。这一转向扭转了战后福利国家扩张的潮流，重塑英美经济结构，也对许多国家的经济政策产生了广泛效仿影响，自由市场话语占据上风。\n• 亚洲四小龙：1960—1980年代韩国台湾香港新加坡以出口导向战略发展劳动密集产业，借低廉劳力与外力资本实现工业化，被称为亚洲四小龙。东亚由此迅速起飞，成为战后非西方地区发展的突出范例。\n• 经济全球化：1980年代跨国公司在全球配置产销网络，微处理器与通信设备普及推动信息革命，货物资本技术跨越国界流动加速。经济全球化由此明显提速，生产分工伸展至世界各国，世界经济联系更趋紧密。\n\n【亚非拉地区】\n• 外向型制造业与出口加工区：1960年代日本与东南亚的外向型制造业迅速扩张，出口加工区在各地普遍设立，关税的减免与廉价的劳工吸引外资设厂，电子与纺织是主要的门类。东亚由此嵌入世界的市场，其增长的引擎亦由内需转为出口，区域的产业分工在此期初步成形\n• 由进口替代转向出口导向：1960年代东南亚先推行进口替代而后转向出口导向的战略，关税的保护让位于汇率的贬值与出口的补贴，外资的设厂由此加速。这一转向决定了此后数十年的增长路径，亚洲新兴工业体由此成形，外资的技术与管理经验随之大量流入而本土的配套企业逐步成长\n• 石油美元推动基础设施建设：1970年代中东的产油国以石油美元推动基础设施的建设，港口、炼厂与海水淡化的工程同时上马，外籍的技术与劳工大批进入。城市的面貌在数年间改观","7":"• 英国福利国家：1948年英国工党政府宣布建成福利国家，以国民保险、公费医疗与充分就业为支柱，其后西欧各国相继建立覆盖生老病死的教育医疗与失业救济体系。社会保障制度普遍确立，缓解了贫富落差与劳资冲突，也形成了战后数十年稳定的社会契约与中左政党政策的基调，贫富差距明显收窄。\n• 美国民权运动：1950—1960年代美国黑人以非暴力抗争争取平等，马丁·路德·金领导蒙哥马利罢乘与华盛顿大游行，抵制公交与公共场所隔离。运动迫使联邦法院与国会改法，1964年民权法与1965年选举权法终以立法废除种族隔离，写下民权进程的重要篇章，种族秩序由此改写，平等权利逐步落地生根。\n• 西方女权运动：1960年代西方妇女发起第二次浪潮，要求同工同酬、堕胎自由与反家暴立法，挑战职场与家庭中的性别歧视。运动推动多国修订法律、扩大女性就业与受教育机会，性别平等议题进入公共议程。\n• 欧美学生运动：1968年欧美青年学生走上街头，反对越战、抨击大学与体制僵化，巴黎五月风暴几令法国停摆。这场以青年为主体的反叛冲击传统权威与保守风气，留下长远文化印记，也促动教育制度局部改革。\n• 大众消费社会：战后西方经济恢复带动大众消费社会形成，汽车冰箱洗衣机等耐用消费品进入普通家庭，带薪休假与郊区生活普及。休闲与物质生活水准普遍提高，塑造中产日常的崭新面貌与共有的生活方式。\n• 绿色政治萌芽：1970年代环保与反战运动兴盛，绿党在前西德等国登场。绿色政治由此萌芽，环境保护列为政党纲领，改写战后以增长为唯一目标的议事框架，生态平衡开始被视为与繁荣并列的诉求。\n• 战后婴儿潮：战后生育高峰形成婴儿潮，人口年轻化与城市向外扩展并进，郊区住宅与配套商业兴起，接受高等教育者增多，中产阶层规模明显扩大。社会结构向橄榄形转变，消费与选举格局随之改写。\n\n【亚非拉地区】\n• 新兴中产阶级与产业工人：工业化与城市化催生新兴的中产阶级与产业的工人，社会的结构由此分化，白领与蓝领的处境各不相同而政党的社会基础随之改变。消费的市场在此期迅速扩大，劳资的立法与工会的组织亦由此成为政治的议题，教育的扩张与职业的流动同时加快\n• 印度尼西亚大规模镇压左翼：1965至1966年印度尼西亚对左翼展开大规模的镇压，数十万人被杀或监禁而共产党的组织被彻底摧毁，农村的阶层关系随之重组。社会的撕裂在此后长期未能愈合，军方的统治亦由此获得长久的合法性依据，其后果在此后数十年间始终是政治的禁忌\n• 中东的外籍劳工阶层：1970年代中东的产油国大量引入外籍的劳工，建筑与家政的行业多由埃及、也门与南亚的人充任，新的移民阶层由此形成。汇回本国的款项在此后成为重要的外汇来源","8":"• 法国存在主义：战后法国存在主义风行，萨特以自由选择承担责任立论，加缪借局外人与西西弗神话反思战争荒诞与人性处境。思潮强调个体在无意义世界中自我造就，成为战后欧洲思想的重要底色。\n• 法兰克福学派：法兰克福学派以阿多诺霍克海默马尔库塞为代表，批判理论剖析大众文化如何消解批判、极权统治的思想根源，揭示资本与权力对意识的塑造。著作批判工具理性，为战后左翼思想提供理论资源。\n• 新左派思潮：1960年代新左派与反文化思潮兴起，青年以经典异化论质疑资本主义秩序，反对越战与消费异化，提倡平等解放与另类生活。这场文化反叛冲击主流价值，延展为广泛社会批评，并与工人运动呼应。\n• 后现代主义：1970—1980年代后现代主义崛起，法国哲人德里达以解构法拆解文本固定意义，福柯剖析知识权力与规训机制，利奥塔宣称宏大叙事失效。思潮质疑理性中心与普遍真理，波及文学史学与建筑，成为战后人文学科的重要转折，也改变学术书写方式，边缘声音获得空间，学科边界被重新划定。\n• 生态主义思潮：生态主义与和平主义汇成绿色思潮，因担忧增长破坏自然与核战威胁人类，主张限制军备、呵护环境、缩减能耗。二者进入社会运动与政党主张，反思唯增长的发展信条，为绿色政治提供思想土壤。\n• 后殖民理论：全球化与后殖民理论萌芽，学者指出西方中心叙事遮蔽非西方经验，挑战帝国知识中的权力偏见。新视野推动史学与人类学转换研究立场，使非西方主体性进入学术论述。\n\n【亚非拉地区】\n• 学生运动与新左派思潮：1960年代亚洲的学生运动与新左派的思潮在各地同时涌动，反战与反专制的诉求相互交织，日本的校园斗争规模最大。学生在此后成为政治的重要力量\n• 不结盟运动正式成立：1961年不结盟运动正式成立，第三世界由此作为政治的概念被确立，与会国约定不在两大阵营中选边并支持民族独立的斗争。这套主张为新兴国家提供了共同的语言，此后联合国的表决亦多依此分野，这一概念由此成为新兴国家自我理解的核心\n• 阿拉伯民族主义与复兴社会主义：阿拉伯的民族主义与复兴的社会主义在中东广泛传播，纳赛尔的主张与复兴党的纲领分别影响埃及、叙利亚与伊拉克，共和的革命与土地的改革是其主要的内容。世俗的民族主义在此期达到顶点，其衰落在日后的战败中显露","9":"• 印度独立分治：1947年英国公布印度独立法，次年印度与巴基斯坦按宗教分治立国，结束了英国在南亚近二百年的殖民统治。分治伴随大规模教派仇杀与人口迁徙，留下克什米尔等悬案。南亚殖民体系瓦解鼓舞了亚洲各地独立运动，帝国退潮转为不可逆转的潮流，亚洲民族国家群起，殖民体系瓦解波及其他大陆。\n• 奠边府战役：1954年越南人民军在奠边府围歼法军主力，迫使法国结束印度支那战争。抗法胜利使越南北方摆脱殖民控制，法国在东南亚的殖民统治走向终结，也为日后越南南北分裂埋下伏笔。\n• 亚非万隆会议：1955年亚非二十九国在万隆集会，倡导和平共处五项原则与反对殖民主义，呼吁经济文化合作。会议显示新兴国家自主外交姿态，成为不结盟运动与南南合作的思想先声，第三世界集体意识开始成形。\n• 非洲独立年：1960年非洲有十七个殖民地摆脱宗主国取得独立，史称为非洲年，涵盖尼日利亚、刚果、塞内加尔等多国。这一年独立浪潮冲垮了英法比在非洲的殖民架构，非洲政治地图陡然改写，民族主义成为大陆主导力量，殖民统治在黑非洲迅速退潮，白人政权孤立，殖民列强被迫调整全球战略部署。\n• 不结盟运动：1961年南斯拉夫埃及印度等国发起不结盟运动，主张中立于美苏集团、反帝反殖并维护主权。运动汇集第三世界国家，使其以整体姿态登上冷战舞台，争取国际事务发言权，并在联合国形成可观票仓。\n• 阿尔及利亚独立：1962年阿尔及利亚经八年抗法战争终获独立，法国失去北非最大属地。独立暴露殖民战争代价，促使法国调整海外政策，第四共和国殖民帝国随之加速瓦解，巴黎转向欧洲一体化重心。\n• 七十七国集团：1970年代七十七国集团在联合国贸易会议联合发声，推动南北对话与建立国际经济新秩序，要求改善原料价格与债务条件。发展中国家以此争取经济平等，抗衡旧有不平等分工，原料出口国协调立场。\n• 纳米比亚独立：1990年纳米比亚在联合国监督下举行选举并宣告独立，结束了南非对该地的委任统治与种族管治。这是非洲最后一块殖民地获得解放，标志欧洲在非洲的殖民体系最终瓦解，大陆政治独立任务基本完成，种族隔离孤点亦将终结，南部非洲政治格局随之改写，非统组织成员国终告完整。\n• 南非废种族隔离：1994年南非举行不分种族的大选，曼德拉领导的非洲人国民大会胜出，白人少数种族隔离统治终结。这场和平政权转移结束了长达数十年的隔离制度与国际孤立，南非重新融入国际社会，成为非洲民主转型的象征，种族和解获国际称道，新宪法确立权利平等与多种族共治，族群关系步入修复轨道。\n\n【亚非拉地区】\n• 伊拉克革命推翻君主制：1958年伊拉克的军官团起事，推翻亲西方的哈希姆王朝并建立共和国。革命在中东各地激起回应，军队自此成为区域变革的发起者，反西方的力量由此多了一个支点\n• 巴勒斯坦解放组织成为主要代表：1970年代巴勒斯坦解放组织成为中东民族运动的主要代表，以难民营与邻国的基地为依托开展武装与外交的活动，1974年获得联合国的观察员地位。巴勒斯坦的问题由此进入国际的议程，此后中东的谈判始终绕不开此点\n• 东帝汶与南亚的独立自治运动：1970年代东帝汶与南亚地区的独立与自治运动持续，殖民撤退后的边界与民族的争端一并浮现。小国的命运在此后长期受制于大国与邻国的博弈","10":"• 经济互助委员会：1949年苏联联合东欧成立经济互助委员会，统筹成员国计划与物资调剂，构建社会主义阵营的经济一体化。经互会减少对西方依赖，却也加深苏联对东欧的经济主导，成员国分工受莫斯科安排。\n• 南斯拉夫自治：1950年代南斯拉夫脱离苏联模式，实行工人自治与企业自我管理，探索以自治社会主义替代中央指令。这一尝试提供非苏联计划经济的另类样板，却为社会主义阵营内的改革派提供思想参照。\n• 匈牙利事件：1956年匈牙利民众要求改革，政府改组引发苏军坦克镇压，数千人死伤，纳吉被处决。事件表明苏联不容阵营内背离，东欧改革空间遭强力封控，也令各国对莫斯科的服从更趋表面化。\n• 布拉格之春：1968年捷克斯洛伐克布拉格之春推进政治与经济改革，放松审查、扩大多元，苏军率华约入侵终止尝试。改革被外力扼杀，凸显阵营内部主权有限，也促使部分改革者放弃对体制内革新的幻想。\n• 中国改革开放：1978年中国中共十一届三中全会决议实行改革开放，逐步放弃指令计划，设立经济特区，引入市场与外资，转向社会主义市场经济体制。这一转折使中国经济此后数十年高速增长，数亿人脱离贫困，也深刻改变了东亚乃至全球的经济版图，重塑国际分工，并带动周边国家产业链重组。\n• 西欧工人运动：1980年代西欧工人运动高涨，法国与意大利因紧缩与国企私有化爆发频繁罢工，工会同政府激烈博弈。浪潮反映福利收缩引发的社会紧张，迫使执政者在市场取向与社会保障间权衡。\n• 戈尔巴乔夫改革：1985年戈尔巴乔夫上台推行改革，以公开性与重建为名整顿政治与经济，试图以有限竞争与分权挽救苏联体制。改革松动了集权控制，却引发民族分离与权威失落，反而加速联盟解体，未能实现既定重构目标，帝国走向终局，各共和国相继宣告主权独立，中央政令日渐废弛，苏共地位亦被修改。\n• 苏联经济模式：苏联模式以指令计划统管产销，重军工轻民生，效率渐降、短缺普遍。长期积弊使经济失去活力，技术落后、增长乏力，终难以为继，成为体制崩解的深层根源，也令阵营内改革压力不断积聚。","11":"【史学发展】\n• 布罗代尔史学：法国史家布罗代尔为年鉴学派第二代代表，著地中海与菲利普二世等书，以长时段结构观取代事件史，强调地理气候经济等深层结构对历史的塑造，倡导总体史。其方法重造了二十世纪史学研究的问题意识与时空尺度，影响遍及社会经济史各领域，历史研究视野由此拓宽。\n• 全球史观兴起：全球史观于战后兴起，美国学者斯塔夫里阿诺斯以全球通史、麦克尼尔以世界史纲要倡导跨文明比较，反对以欧洲为唯一中心的叙事，把各文明视为互动整体。新视野推动史学打破地域局限，关注海上贸易与疾病传播等联结世界的长程脉络，重写世界史，大学讲堂普遍采纳新体例。\n• 社会文化史：社会史与新文化史兴盛，学者把目光从帝王将相下移到底层民众与日常，研究劳工妇女家庭与记忆符号。重心转移使历史书写更贴近普通人的经验与意义世界，边缘群体进入史册。\n• 后殖民史学：后殖民史学兴起，学者重审帝国档案中的知识权力，指出西方中心叙事遮蔽殖民地主体。新研究从被压迫者视角改写近代史，挑战旧有文明等级论，使非西方经验获得独立的史学位置与表述。\n• 计量史学派：计量史学以统计与数据重探人口物价等课题，冷战史借多国档案开放走向实证，方法趋于多元。新工具使结论更可验证，也拓宽了史料运用的边界，史学与社会科学方法彼此渗透。\n\n【文明成就】\n• 技术：1946年美国宾州大学研制成电子数值积分计算机，以电子管实现高速运算，开启信息技术革命——此后晶体管与集成电路相继问世，计算能力指数上升，计算机从军用科研走向企业与家庭，重塑人类处理信息的方式，信息社会初现轮廓，自动化生产与管理逐步普及。\n• 艺术：1950至1960年代法国新浪潮电影兴起，特吕弗与戈达尔以跳接实景即兴打破成规，革新电影语言——作者论抬高导演地位，影响世界艺术电影走向，促动各国年轻导演以低成本个人化方式创作。\n• 生物：1953年沃森与克里克据射线衍射数据提出遗传物质脱氧结构的双螺旋模型，阐明基因复制机制，分子生物学由此诞生——该发现打通遗传学与生物化学，疾病成因与药物研发获得新解释路径，农业育种亦受启发，奠定基因工程与生命科学的基石，人类认识生命进入分子层面。\n• 航天：1957年苏联发射首颗人造卫星，开启航天时代；1961年加加林乘飞船绕地飞行，成为进入太空第一人——美苏空间竞赛促动火箭与遥感技术飞跃，人类活动范围首次越出大气层，带动材料与通信等众多领域共同进步，导航与气象卫星相继升空服务民用，各国航天竞赛由此加速。\n• 文学：1967年哥伦比亚作家加西亚·马尔克斯出版长篇小说百年孤独，以马孔多家族折射拉美百年命运，魔幻现实主义文学达至巅峰——作品融神话与史实，使拉美文学获得全球读者与声誉。\n• 工程：1969年美国阿波罗飞船载宇航员登月，人类首次踏足月球表面，电视实况传遍全球——壮举彰显航天工程能力，激发各国后续探月与空间探索热情，太空竞赛以美国领先暂告段落。\n• 科技：1969年美国国防部资助的网络实现四节点互联，成为早期计算机网络雏形——分组交换技术使信息可迂回传递，为日后覆盖全球的互联网奠定技术原型，计算机网络由军用研究走向民用扩展。\n• 物理：1970年代英特尔等厂推出微处理器，个人计算机与半导体产业勃兴，芯片走入办公与家庭——信息技术成本骤降，改变生产管理与日常通信方式，铺垫数字时代，计算能力普及至个人。\n• 思想：1978年美国学者萨义德出版东方学，剖析西方有关东方的知识体系如何服务于殖民权力，揭示学术论述中的偏见与支配关系——该书开创后殖民理论，推动文学与史学重新审视东西方知识建构的不平等格局，殖民地话语获反思，帝国叙事受到普遍质疑。\n\n【亚非拉地区】\n• 民族独立史的系统编纂：1960年代亚洲各国展开民族独立史的系统编纂与教科书的工程，档案的整理与口述的采集由国家主持，通史的叙事以抵抗与独立为主线。史学由此与国民教育紧密绑定，其与殖民时期的写法彻底分途，教科书的国家标准在此期被普遍确立而学术的自主空间受挤压\n• 依附理论与世界体系论的影响：依附理论与世界体系论影响亚洲经济史的研究思路，中心与外围、不平等交换与长时段的周期成为常用的概念，殖民地的经济由此被置于世界的体系之中理解。亚洲的史学由此获得跨区域的视野，其与欧洲中心的分期框架的分野更为分明\n• 印度底层研究群体：1970年代印度的底层研究群体主张从下层书写历史，以农民与部落的反抗为对象而批评精英主义与殖民主义的两种叙事，档案的读法亦由此改变。这一主张在此后影响了南亚以外的史学，底层的概念由此进入通行的语汇，农民起义与部落抗争的史料被重新发掘\n\n【亚非拉地区·发展成就】\n• 交通：1964年日本东海道新干线通车——世界首条高速铁路的商业运营线，东京与大阪之间的行程缩短一半，干线的运力由此倍增而沿线的城市带加速成形，此后高速的技术输出至多国\n• 工业：1960至1970年代日本重化工业与汽车电子产业——高速增长期形成完整的工业体系，钢铁、石化与造船的产能居于世界前列，汽车与电子的出口在此后迅速扩大，日本由此成为世界第二大经济体，技术的引进与自主的开发在此期并行，国民的收入与消费结构随之彻底改变\n• 能源：1970年代中东产油国石油工业与港口建设——产油国收回定价权与股权，原油的产能与炼化的能力同步扩张，深水港口与油轮的码头相继建成，国家的岁入在数年间增长数倍，石油美元由此成为国际金融的巨流，基建的开支与对外的援助随之大幅增加，产油国在世界经济中的权重由此彻底改变"},"sources":{"table_row":"8","ppt":[]}},{"name":"当代世界","span":"1991年至今","position":"世界近现代史 · 第8阶段 · 补充页","sub":"世界多极化 · 经济全球化 · 区域一体化 · 新科技革命 · 中国机遇与挑战","note":"两张总表均止于1991年前后。本阶段主要依据第25节后半部分整理，未覆盖细年事件将标“补充，待核对”。","isNew":true,"feature":"冷战结束后，世界政治由一超优势逐步向多极力量并存的格局演变，经济全球化与区域一体化加速推进。信息技术、互联网、人工智能和生物科技不断改变生产方式与国际竞争，发展中国家群体性崛起，同时地区冲突、金融风险、恐怖主义和全球治理赤字持续存在。中国在融入全球经济体系的同时，也面临大国竞争、技术封锁和周边安全问题。","events":"→ 苏联解体与冷战终结\n→ 一超多强与世界多极化\n→ 经济全球化与区域一体化\n→ 新科技革命与信息社会\n→ 地区冲突、全球治理与中国机遇挑战","cells":{"3":"• 1991年苏联解体，两极格局终结；美国一度形成一超优势，欧盟、日本、俄罗斯、中国和新兴经济体力量上升，世界多极化趋势加强。\n• 1990年代出现全球化高潮；2008年国际金融危机、逆全球化思潮和大国竞争使全球化进入调整期。\n• 地区冲突、恐怖主义、能源安全和公共卫生危机持续影响国际秩序。","4":"• 俄罗斯、东欧和中亚国家经历政治与经济转型；新兴国家探索不同发展道路。\n• 全球治理依靠联合国、世界贸易组织、二十国集团等机制，但规则改革和大国协调困难增加。","5":"• 海湾战争、巴尔干冲突、阿富汗战争和伊拉克战争等重塑地区格局，反恐成为冷战后国际安全的重要议题。\n• 单极秩序、多极化和多边主义之间的张力长期存在。","6":"• 经济全球化以跨国公司、国际贸易、投资和金融流动为载体，全球产业链形成。\n• 欧盟、东盟、亚太经合组织、北美自由贸易区等区域组织发展，区域一体化成为重要趋势。\n• 1990年代以后信息产业、互联网和数字经济迅速发展。","7":"• 全球中产阶层扩大，但贫富差距、失业、人口迁移和老龄化问题突出。\n• 发展中国家城市化加快，全球南方在国际事务中的分量上升。","8":"• 民主化浪潮、民族主义、宗教复兴、多元文化和后现代思潮并存。\n• 信息技术改变公共舆论与文化传播方式，也带来数字鸿沟和网络安全问题。","9":"• 殖民体系在1990年代彻底终结，南非结束种族隔离。\n• 发展中国家通过南南合作、区域组织和联合国争取经济与政治权益。","10":"• 中国、越南等国推进市场化改革；东欧和前苏联地区经历转型。\n• 社会民主、福利国家改革、民粹主义和反全球化运动并存。","11":"• 新科技革命以计算机、互联网、人工智能、航天、生物技术和新能源为代表。\n• 全球史、跨国史和后殖民研究发展，历史研究更加重视全球联系与非西方视角。"}}],"cross":{"3":"【脉络梳理】\n→地理大发现与早期殖民（1500—1640）：哥伦布西航抵美洲、达伽马通印，葡西分据海上航路，世界航路网初成\n→革命时代与启蒙（1640—1760年代）：英国长期议会开革命，光荣革命立君主立宪，启蒙思想席卷欧陆\n→双元革命与拿破仑战争（1760年代—1815）：英国工业革命起步，法美建共和，拿破仑战争播宪政于欧陆\n→维也纳体系时代（1815—1870年代）：维也纳会议立均势，1848革命撼秩序，德意统一与美国内战重塑版图\n→帝国主义与一战（1870年代—1918）：第二次工业革命兴，两大集团对撞，一战崩四大帝国、十月革命建苏俄\n→两次大战之间与二战（1918—1945）：凡尔赛和约重划欧洲，大萧条促纳粹上台，二战全球性战争终结\n→冷战与全球化（1945—1991）：雅尔塔体系分东西，美苏冷战与核对抗，东欧剧变、苏联解体冷战终\n【演变趋势与逻辑】\n从区域冲突到全球总体战争、从欧洲中心到美苏两极，总体呈规模扩大与世界联体趋势。地理大发现使哥伦布、达伽马开辟新航路，世界由孤立海域连为整体。英国革命与光荣革命确立议会主权，启蒙思想为法国大革命提供理论武器。工业革命与法国大革命构成双元革命，拿破仑战争将法典与宪政播及欧陆。维也纳会议重建均势，1848革命与德意统一、美国内战重塑版图。第二次工业革命后列强结成同盟与协约两大集团，萨拉热窝事件引爆一战，四大帝国随之崩溃。凡尔赛和约未消矛盾，大萧条使纳粹上台，二战成为全球性战争。战后雅尔塔体系分割欧洲，美苏冷战与核对抗持续，至东欧剧变与苏联解体，冷战终结。","4":"【脉络梳理】\n→地理大发现与早期殖民（1500—1640）：西葡建中央集权君主制，英国都铎保留议会，法国走向绝对君主制\n→革命时代与启蒙（1640—1760年代）：英国立君主立宪，法王权鼎盛，普俄行开明专制，君权仍居主导\n→双元革命与拿破仑战争（1760年代—1815）：美国宪法立联邦与三权分立，法国人权宣言主权在民，拿破仑法典成民法典范\n→维也纳体系时代（1815—1870年代）：英国1832议会改革扩选民，俾斯麦铁血统一建君主立宪，美内战争强联邦\n→帝国主义与一战（1870年代—1918）：德1871宪法皇权重，法第三共和立，俾斯麦创社保立法，妇女争选举权起\n→两次大战之间与二战（1918—1945）：魏玛共和陷危机，意法西斯独裁，罗斯福扩干预，纳粹建极权体制\n→冷战与全球化（1945—1991）：日和平宪弃战权，西德基本法立民主，美民权法废隔离，福利国家普遍建\n【演变趋势与逻辑】\n从绝对君主制到君主立宪与共和、从代议扩展到法西斯极权再归民主，总体呈制度由集权走向多元制衡。地理大发现后西葡建中央集权君主制，法国渐走绝对君主制，王权凌等级会议。英国革命与光荣革命以《权利法案》确立议会主权，君主立宪由此奠基。美国宪法立联邦与三权分立，法国《人权宣言》主权在民，拿破仑法典固民法。工业革命壮大资产阶级，英国1832扩选民，俾斯麦统一德意志建君主立宪。第二次工业革命催垄断资本，俾斯麦创社保立法，各国妇女争选举权。一战后魏玛共和陷危机，意德建法西斯极权，罗斯福新政扩政府干预。战后日本和平宪、西德基本法立民主，美民权法废隔离，西欧福利国家建。","5":"【脉络梳理】\n→地理大发现与早期殖民（1500—1640）：西葡1494年订托尔德西里亚斯条约，教皇子午线划分殖民范围\n→革命时代与启蒙（1640—1760年代）：1648年威斯特伐利亚和约确立主权国家平等，均势外交成型\n→双元革命与拿破仑战争（1760年代—1815）：1815年维也纳会议建五国均势与欧洲协调，拿破仑帝国终结\n→维也纳体系时代（1815—1870年代）：五大国均势与神圣同盟维系正统秩序，普法后德意志崛起重塑欧陆均势\n→帝国主义与第一次世界大战（1870年代—1918）：1882年德奥意缔结三国同盟，英法俄继组成协约国集团，英德海军竞赛令欧洲裂为两大阵营\n→两次大战之间与二战（1918—1945）：1919年凡尔赛—华盛顿体系重划版图，1945年雅尔塔会议规划战后世界秩序\n→冷战与全球化（1945—1991）：美苏依雅尔塔体系分东西阵营，1991年苏联解体终结两极，多极化趋势显现\n【演变趋势与逻辑】\n从威斯特伐利亚体系到冷战两极格局、总体呈由欧洲均势走向全球多极化趋势。1648年威斯特伐利亚和约以主权平等与势力均衡取代宗教权威，欧洲列强以此约束彼此扩张；拿破仑战争后维也纳会议以五大国协调维系百年和平，但工业与民族主义使德意志、意大利统一，旧均势被打破。俾斯麦同盟体系未能阻止英德对抗，两大军事集团在一战中碰撞，凡尔赛—华盛顿体系因惩罚性安排与国联软弱而失衡。第二次世界大战后雅尔塔体系确立美苏两极，代理人战争频仍；苏联解体后欧盟、中国等力量上升，一超多强格局形成。国际体系的每次重组，皆因大国实力消长与战争结局推动，主权国家始终为秩序主体。","6":"【脉络梳理】\n→地理大发现与早期殖民扩张（1500—1640）：商业革命使贸易中心由地中海移向大西洋沿岸，重商主义推动积金银，世界市场初现\n→革命时代与启蒙（1640—1760年代）：英国农业革命提高粮产，手工工场分工细化，科尔贝尔重商扶工商\n→工业与政治双元革命（1760年代—1815）：珍妮机开棉纺机械化，瓦特蒸汽机供通用动力，工厂制取代工场\n→维也纳体系与工业资本主义（1815—1870年代）：工业革命向各国扩散，1825年铁路时代来临，1846年英国废谷物法\n→帝国主义与第一次世界大战（1870年代—1918）：第二次工业革命兴电气内燃机，垄断成生产主形式，资本输出超商品\n→危机、法西斯与第二次世界大战（1918—1945）：大萧条促各国弃金本位，罗斯福新政行调控，苏联五年计划工业化\n→冷战与全球化（1945—1991）：布雷顿森林立美元本位，1973年石油危机显滞胀，新自由主义促全球化\n【演变趋势与逻辑】\n从商业资本主导的重商主义，到蒸汽机与工厂制的大工业，再到垄断资本与国家干预的经济，世界生产呈社会化与全球化加深趋势。地理大发现令美洲金银入欧，价格革命冲击封建地租，商业资产阶级由此壮大并推动变革。工业革命在英国发生后，瓦特蒸汽机与铁路革新交通，工厂制取代工场，工业资产阶级分享政权。第二次工业革命催生电力、内燃机与垄断组织，资本输出取代商品输出成扩张主轴。1929年大萧条暴露自由市场失序，罗斯福新政与凯恩斯主义令干预常态化；战后布雷顿森林体系与关贸总协定塑美元本位自由贸易。1973年石油危机引滞胀，撒切尔与里根转而推行新自由主义，信息技术推生产入全球分工。","7":"【脉络梳理】\n→地理大发现与早期殖民扩张（1500—1640）：商人工场主资产阶级壮大，封建矛盾加深，圈地令农民失地流民涌\n→革命时代与启蒙（1640—1760年代）：英国乡绅资产阶级与贵族分享政权，城市平民受圈地重税压迫，奴隶贸易达高峰\n→工业与政治双元革命（1760年代—1815）：近代工人阶级工厂制形成，工业资产阶级反贵族垄断，城市贫民窟卫生恶化\n→维也纳体系与工业资本主义（1815—1870年代）：宪章运动争普选，劳资矛盾成主轴，俄农奴与地主对立尖锐\n→帝国主义与第一次世界大战（1870年代—1918）：垄断资产阶级崛起加剧分化，工会罢工持续发展，妇女争选举权高涨\n→危机、法西斯与第二次世界大战（1918—1945）：大萧条致欧美失业骤增，纳粹迫害镇压犹太人，妇女大量入军工生产\n→冷战与全球化（1945—1991）：西欧建成福利国家普设社保，美国民权运动反种族隔离，女权环保反战等新运动兴\n【演变趋势与逻辑】\n从封建等级制下的贵族平民对立，到资产阶级与无产阶级的阶级分野，再到福利国家与新社会运动并存，社会矛盾总体呈对抗趋缓、诉求多元趋势。地理大发现后资产阶级凭贸易积财，与旧贵族冲突加剧，圈地使农民沦为流民。工业革命造就工厂制与近代工人阶级，劳资矛盾取代等级对抗成为主轴，宪章与工会斗争随之展开。第二次工业革命壮大垄断资产阶级，工人组织与立法博弈；1929年大萧条造成空前失业，社会矛盾骤然尖锐。纳粹以种族迫害转移危机，二战改变妇女家庭与社会角色。战后西欧建立福利国家缓和阶级冲突，美国民权、女权与环保反战运动则把抗争由经济诉求扩至身份权利，社会更趋多元。","8":"【脉络梳理】\n→地理大发现与早期殖民扩张（1500—1640）：文艺复兴北扩，路德1517年发论纲启改革，加尔文宗成于日内瓦\n→革命时代与启蒙（1640—1760年代）：洛克著政府论倡天赋人权，孟德斯鸠倡三权分立，卢梭社会契约论张人民主权\n→工业与政治双元革命（1760年代—1815）：启蒙理性挑战神权专制，斯密国富论倡自由放任，浪漫主义反理性重情感\n→维也纳体系与工业资本主义（1815—1870年代）：自由主义主宪政自由贸易，民族主义推统一独立，孔德创实证主义\n→帝国主义与第一次世界大战（1870年代—1918）：社会达尔文主义助殖民，极端民族主义兴起，尼采唯意志论挑战理性\n→危机、法西斯与第二次世界大战（1918—1945）：法西斯主义鼓吹扩张极权，现代主义反叛传统，存在主义强调个体\n→冷战与全球化（1945—1991）：萨特加缪以存在主义反思战争人性，法兰克福学派析大众文化，后现代主义解构理性\n【演变趋势与逻辑】\n从文艺复兴与宗教改革对神权的剥离，到启蒙理性确立的个人与权利，再到现代主义与后现代对理性的反思，思想演进总体呈人本化与世俗化并走向多元。地理大发现后文艺复兴北扩，路德与加尔文的改革瓦解教会权威，民族圣经助世俗阅读。洛克、孟德斯鸠、卢梭的启蒙著作，使政治正当性由神授转契约分权。工业革命带来斯密的自由放任与浪漫主义的情感反叛；维也纳时代自由、民族与实证主义并行。第二次工业革命伴生社会达尔文主义与极端民族主义，为一战前帝国主义提供话语。两次大战间的危机催生法西斯主义、存在主义与现代主义文艺；战后萨特与法兰克福学派等后现代思想家消解启蒙理性，思想更趋多元。","9":"【脉络梳理】\n→地理大发现与早期殖民（1500—1640）：西葡在美洲建殖民帝国大肆掠夺金银，三角贸易跨大西洋贩卖黑奴\n→革命时代与启蒙（1640—1760年代）：英国取代荷兰成海上霸主，扩张北美与印度殖民地，英法全球争霸\n→双元革命与民族独立（1760年代—1815）：海地1791年革命废奴独立，拉美独立运动起而反西班牙殖民\n→维也纳体系与殖民扩张（1815—1870年代）：鸦片战争打开中国门户，1857年印度民族大起义反抗英国殖民\n→帝国主义与瓜分世界（1870年代—1918）：1884年柏林会议确立有效占领，列强瓜分非洲建成全球殖民体系\n→两次大战之间与二战（1918—1945）：凯末尔革命建世俗共和国，甘地领导非暴力不合作反抗英国统治\n→冷战与去殖民化（1945—1991）：1947年印度独立终结英国南亚统治，1990年纳米比亚独立标志非洲殖民体系瓦解\n【演变趋势与逻辑】\n从早期殖民征服到全球殖民体系崩溃、总体呈殖民扩张由盛转衰与民族独立浪潮高涨趋势。葡西开辟航路后在美洲建帝国、掠金银，三角贸易将非洲卷入奴隶贸易；英法荷争夺海上霸权，英国最终取得全球优势。工业革命后列强以枪炮与不平等条约打开亚非门户，柏林会议确立有效占领原则，至十九世纪九十年代世界被瓜分完毕。第一次世界大战削弱帝国，俄国革命与民族自决思想传播；两次大战间凯末尔、甘地等领导抗争，中国抗战成为世界反法西斯东方战场。第二次世界大战后老牌帝国衰落，印度独立、非洲年与纳米比亚独立标志殖民体系终结，不结盟运动使第三世界登上国际舞台。","10":"【脉络梳理】\n→地理大发现与早期殖民（1500—1640）：莫尔1516年发表《乌托邦》，构想理想社会，空想社会主义由此萌芽\n→革命时代与启蒙（1640—1760年代）：温斯坦莱1649年领导掘地派，早期空想共产主义实践尝试\n→双元革命与工人抗争（1760年代—1815）：圣西门傅立叶欧文创空想社会主义，卢德运动捣毁机器自发抗争\n→维也纳体系与工人运动（1815—1870年代）：1848年《共产党宣言》立科学社会主义，1871年巴黎公社首试无产阶级专政\n→帝国主义与工人政党（1870年代—1918）：1889年第二国际成立推八小时工作制，列宁主义形成提先锋队理论\n→两次大战之间与二战（1918—1945）：1919年共产国际协调各国共运，苏联五年计划确立社会主义模式\n→冷战与社会主义阵营（1945—1991）：1978年中国改革开放转市场经济，1991年苏联解体致阵营瓦解模式分化\n【演变趋势与逻辑】\n从早期乌托邦空想到科学社会主义、总体呈工人运动由思想萌芽走向制度实践趋势。莫尔著《乌托邦》构想理想社会，工业革命后圣西门、傅立叶、欧文批判私有制并设计公社方案；卢德运动以捣毁机器表达自发反抗。1848年马克思、恩格斯发表《共产党宣言》，第一国际联合各国工人，1871年巴黎公社首次实践无产阶级专政。第二国际推动八小时工作制，列宁主义以先锋队理论回应帝国主义；俄国1905年与1917年革命使苏维埃登上舞台。第一次世界大战后共产国际协调各国共运，苏联五年计划树立社会主义样板；1978年中国改革开放调整体制，1991年苏联解体致阵营分化，工人运动转入多元格局。","11":"【脉络梳理】\n→地理大发现与早期殖民（1500—1640）：马基雅维利著《佛罗伦萨史》，摆脱神学框架以人事论政\n→革命时代与启蒙（1640—1760年代）：维柯1725年著《新科学》开历史哲学，伏尔泰倡理性主义文明史\n→双元革命与启蒙史学（1760年代—1815）：吉本著《罗马帝国衰亡史》，赫尔德以民族精神重写文化史\n→维也纳体系与科学史学（1815—1870年代）：兰克倡档案批判与如实直书，马克思创唯物史观重经济基础\n→帝国主义与新史学（1870年代—1918）：兰普雷希特倡文化史挑战兰克，鲁滨孙新史学结合社会科学\n→两次大战之间与二战（1918—1945）：1929年布洛赫、费弗尔创年鉴学派倡总体史，汤因比以文明比较构建宏观史学\n→冷战与全球史转向（1945—1991）：布罗代尔以长时段结构史重塑总体史，全球史观挑战西方中心\n【演变趋势与逻辑】\n从人文主义与理性主义史学到全球史与后现代史学、总体呈史学由叙事转向跨学科总体史趋势。马基雅维利以人事取代神意，维柯《新科学》开创历史哲学，伏尔泰倡文明史与理性批判；吉本、休谟以经验方法书写。兰克确立档案批判与如实直书，使史学成为独立学科；马克思以唯物史观揭示经济根源，史学服务阶级分析。实证主义推动泰纳以科学治史，兰普雷希特倡文化史引发论战；年鉴学派以长时段与跨学科总体史超越政治叙事，汤因比比较文明。第二次世界大战后布罗代尔深化结构史，全球史观与后殖民史学解构西方中心，计量与多国档案研究令方法趋于多元。\n\n"}}</script>
+<script id="supp" type="application/json">{"地理大发现与早期殖民扩张":{"3":["航海进程：1488年迪亚士到达好望角，1492年哥伦布抵达美洲，1498年达·伽马到达印度，1519—1522年麦哲伦船队完成环球航行。","殖民竞争：葡萄牙建立印度洋商站体系，西班牙征服美洲；荷兰、英国和法国随后进入海洋贸易与殖民地争夺。"],"4":["中央集权：西班牙、葡萄牙王室直接资助航海并垄断殖民贸易；英国都铎王朝保留议会，法国波旁王朝走向绝对君主制。","尼德兰联省共和国：1581年北方七省宣布独立，建立联邦共和政体，成为早期资产阶级共和国。"],"5":["《托尔德西利亚斯条约》：西班牙和葡萄牙以教皇子午线划分殖民势力范围。","无敌舰队：1588年英国击败西班牙无敌舰队，西班牙海上霸权开始衰落。","三十年战争：1618—1648年宗教、王朝和领土冲突改变欧洲国际格局。"],"6":["商业革命：贸易中心从地中海转向大西洋，阿姆斯特丹、伦敦和安特卫普成为商业金融中心。","价格革命：美洲金银涌入欧洲，物价上涨，加速社会分化和资本原始积累。","重商主义与股份公司：国家扶植贸易，荷兰东印度公司和英国东印度公司垄断远洋贸易。"],"7":["殖民社会：西班牙在美洲建立总督区、委托监护制和种植园，原住民人口因战争、劳役和疫病急剧下降。","大西洋奴隶贸易：非洲奴隶被运往美洲种植园和矿山，形成欧洲—非洲—美洲三角贸易。"],"8":["文艺复兴：人文主义强调人的价值和现实生活，文学、艺术、政治学和科学获得发展。","宗教改革：1517年马丁·路德发起改革，加尔文派和英国国教相继形成，引发宗教战争。","科学革命：哥白尼、开普勒、伽利略和牛顿改变宇宙观和科学方法。"],"9":["美洲征服：科尔特斯灭阿兹特克，皮萨罗灭印加，西班牙建立拉美殖民帝国。","印度洋商站：葡萄牙以果阿、马六甲和澳门控制海上贸易节点，不直接占领广大内地。"],"10":["尼德兰革命：反抗西班牙统治并建立联省共和国，是早期资产阶级革命。","德国农民战争和宗教改革：社会下层借宗教改革提出社会平等诉求。"],"11":["地理学与制图：航海图、经纬度测量和新地图扩大欧洲世界知识。","科学与人文学术：培根、笛卡尔、马基雅维利、伊拉斯谟等推动近代思想与史学。"]},"革命时代与启蒙":{"3":["英国革命：1642年内战爆发，1649年查理一世被处死，1660年复辟，1688年光荣革命确立君主立宪。","启蒙与科学：洛克、牛顿、伏尔泰、孟德斯鸠和卢梭提出自然权利、分权、人民主权和理性批判。","七年战争：1756—1763年英法争夺全球殖民地，英国战后确立海上和殖民优势。"],"4":["英国君主立宪：1689年《权利法案》限制王权，内阁制和政党政治逐渐形成。","绝对君主制：路易十四强化法国王权，普鲁士、奥地利和俄国推行开明专制与行政军事改革。","启蒙政治学：洛克社会契约、孟德斯鸠三权分立、卢梭人民主权影响后世革命。"],"5":["路易十四战争：法国争夺欧洲霸权，西班牙王位继承战争后《乌得勒支和约》维持均势。","七年战争：欧洲战场与海外殖民地战场交织，英国取得加拿大和印度优势。","外交革命：奥地利、法国、俄国和普鲁士重新组合，传统联盟体系改变。"],"6":["农业革命：轮作、良种、圈地和农业工具改良提高产量，为工业革命提供粮食和劳动力。","大西洋经济：种植园、奴隶贸易和殖民贸易积累资本，英国和荷兰金融制度发展。"],"7":["等级社会：贵族、教士和第三等级构成法国旧制度；英国乡绅、商人、城市劳动者和农民分化明显。","公共领域：咖啡馆、报刊、沙龙和读书会传播启蒙思想，形成近代舆论空间。"],"8":["科学革命：牛顿力学、实验方法和自然法改变知识体系。","启蒙运动：理性、自由、平等、进步和宽容成为核心观念，百科全书派整理和传播知识。"],"9":["殖民竞争：英法在北美、加勒比和印度争霸，殖民地经济被纳入宗主国贸易体系。","奴隶贸易：18世纪大西洋奴隶贸易达到高峰，废奴思想开始兴起。"],"10":["英国内战与光荣革命：议会与王权冲突最终确立议会主权。","启蒙改革：开明专制者推行法典、教育和行政改革，但不放弃君主权力。"],"11":["科学史学与文化：伏尔泰、吉本、维柯推动世俗化和文明史写作。","艺术与文学：巴洛克、古典主义和启蒙文学反映理性与情感张力。"]},"工业与政治双元革命":{"3":["工业革命：1760年代以后蒸汽机、纺织机械和工厂制度在英国兴起，19世纪向欧美扩散。","美国独立：1776年宣布独立，1783年英国承认，建立联邦共和制度。","法国大革命：1789年爆发，经历君主立宪、共和国、恐怖统治和督政府；拿破仑1804年称帝，1815年滑铁卢战败。"],"4":["法国革命制度：1791年宪法、1793年共和宪法、《人权宣言》和拿破仑法典确立法律平等、财产权和中央集权。","维也纳会议：1814—1815年重建欧洲均势，建立会议外交和正统主义原则。"],"5":["美国独立战争：北美殖民地反抗英国税收与统治，法国援助促成美国独立。","法国革命战争与拿破仑战争：革命思想随军队传播，欧洲各国多次结盟反法。","维也纳体系：以均势、补偿和正统原则安排战后欧洲。"],"6":["工业化：蒸汽动力、纺织、煤铁、铁路和工厂制度提高生产力，英国成为“世界工厂”。","资本主义扩张：自由贸易、殖民市场和资本输出推动世界市场形成。","农业与商业：圈地、农业改良和银行信用为工业化提供资本与劳动力。"],"7":["阶级结构：工业资产阶级和无产阶级形成，城市人口迅速增长，童工、长工时和贫民窟问题突出。","工人抗争：卢德运动、工会和宪章运动争取工资、选举权与劳动条件。"],"8":["古典经济学：亚当·斯密、李嘉图和马尔萨斯讨论市场、人口和分配。","浪漫主义与民族主义：强调情感、民族文化和历史传统，与启蒙理性形成张力。","空想社会主义：圣西门、傅立叶和欧文提出改造社会的方案。"],"9":["废奴运动：英国1807年禁止奴隶贸易，1833年废除帝国奴隶制，美洲奴隶制逐步废止。","拉美独立：海地革命和西属拉美独立战争打破伊比利亚殖民统治。"],"10":["美国革命、法国革命和海地革命共同冲击旧制度，民族、自由和平等成为政治口号。","早期工人运动与社会主义思想开始结合。"],"11":["技术：蒸汽机、铁路、轮船、电报和机器制造改变交通和信息传播。","史学与经济思想：兰克史学、马克思唯物史观和古典政治经济学形成重要传统。"]},"维也纳体系与工业资本主义":{"3":["革命浪潮：1830年法国七月革命和比利时独立，1848年革命席卷欧洲，1860年代意大利和德国完成统一。","国际冲突：克里米亚战争打破维也纳均势，普法战争导致第二帝国崩溃和德意志帝国建立。","巴黎公社：1871年巴黎工人建立革命政权，两个月后被镇压。"],"4":["自由主义与民族主义：立宪、议会、选举权扩大和民族统一成为政治主题。","德国统一：俾斯麦以铁血政策完成德意志统一，1871年建立德意志帝国。","意大利统一：加富尔、马志尼和加里波第推动意大利王国建立。"],"5":["维也纳体系：大国会议协调欧洲事务，克里米亚战争后体系松动。","意大利和德国统一战争改变欧洲力量格局。","殖民竞争：英法俄在近东、中亚和亚洲展开争夺。"],"6":["第二次工业革命：电力、内燃机、钢铁和化学工业发展，1870年代后垄断组织出现。","世界市场：铁路、轮船、电报、金本位和自由贸易扩大全球经济联系。","殖民经济：原料、粮食和工业品形成国际分工，亚洲和拉美被卷入世界市场。"],"7":["城市化与劳工：工业城市扩张，工人阶级组织工会、政党和合作社。","移民与人口：欧洲人口增长并向美洲、澳洲和城市迁移。","妇女与家庭：工厂劳动、教育改革和选举权运动逐步发展。"],"8":["自由主义、社会主义和民族主义成为三大政治思潮。","马克思主义：1848年《共产党宣言》发表，1867年《资本论》第一卷出版，唯物史观和剩余价值理论形成。","现实主义与实证主义：文学、艺术和学术强调观察、事实和科学方法。"],"9":["亚洲殖民：两次鸦片战争、印度民族大起义、日本明治维新和伊朗改革构成亚洲回应。","非洲殖民：法国占领阿尔及利亚，英国扩大南非和西非据点，1884年柏林会议加速瓜分。","拉美依附：独立后拉美形成大地产、单一出口和外国资本支配。"],"10":["1848年革命与民族统一是自由主义、民族主义的集中实践。","第一国际和巴黎公社标志工人运动组织化。"],"11":["科学：达尔文进化论、巴斯德微生物学、门捷列夫元素周期表和麦克斯韦电磁学。","史学：兰克档案批判、马克思唯物史观和实证主义史学发展。"]},"当代世界":{"3":["1991年苏联解体后，美国一度形成一超优势，世界多极化和全球化加速。2001年“9·11”事件、2008年金融危机和2020年全球疫情重塑国际议程。","欧盟扩大、中国崛起、金砖国家合作、二十国集团机制和区域组织发展，推动国际力量重新分布。"],"4":["美国、欧盟、中国、俄罗斯、日本和新兴经济体形成复杂竞争合作关系。","全球治理依赖联合国、世贸组织、二十国集团等机制，但改革与协调困难增加。"],"5":["地区冲突：海湾战争、巴尔干战争、阿富汗战争、伊拉克战争、叙利亚战争和乌克兰危机持续影响安全。","反恐、核扩散、网络安全、气候变化和公共卫生成为全球安全议题。"],"6":["全球化：全球产业链、跨国公司、国际贸易和金融流动深化，数字经济和新科技革命加速。","逆全球化：贸易保护主义、供应链重组和地缘政治竞争增强。","区域一体化：欧盟、东盟、亚太经合组织和非洲联盟推进合作。"],"7":["全球中产阶层扩大，但贫富差距、青年失业、老龄化和人口迁移问题突出。","城市化继续推进，数字鸿沟和平台劳动成为新社会问题。"],"8":["身份政治、民族主义、宗教复兴、多元文化和后现代思潮并存。","社交媒体改变公共舆论，虚假信息和极端言论成为全球问题。","气候变化和可持续发展成为跨代际议题。"],"9":["殖民体系彻底终结，南非结束种族隔离，发展中国家集体议价。","南南合作、区域一体化和新兴国家崛起改变全球经济权力结构。","后殖民国家和拉美、非洲、亚洲国家在债务、资源和产业链中寻求自主发展。"],"10":["新自由主义、社会民主、民粹主义和社会主义道路竞争。","中国、越南等国推进市场化改革，东欧和前苏联国家经历转型。","反全球化和社会运动回应不平等、气候变化和劳工问题。"],"11":["科技：互联网、人工智能、移动通信、生物技术、新能源、航天和量子信息快速发展。","史学：全球史、跨国史、环境史、数字人文和后殖民研究成为重要方向。"]},"帝国主义、第一次世界大战与俄国革命":{"3":["帝国主义扩张：1870年代后列强瓜分非洲、争夺亚洲和中东，柏林会议确立“有效占领”规则。","一战：1914年萨拉热窝事件引爆大战，1918年停战，四大帝国解体。","俄国革命：1917年二月革命推翻沙皇，十月革命建立苏维埃政权，随后经历内战、战时共产主义和新经济政策。"],"4":["俄国革命：临时政府与苏维埃并存，列宁《四月提纲》提出向社会主义革命过渡，十月革命建立人民委员会。","苏维埃政权：废除旧制度，实行土地法令、工人监督、银行和铁路国有化。","共产国际：1919年成立第三国际，推动世界革命。"],"5":["同盟体系：三国同盟与三国协约形成，巴尔干成为火药桶。","一战进程：马恩河、凡尔登、索姆河、日德兰和坦能堡等战役造成巨大伤亡。","俄国退出：1918年《布列斯特—立陶夫斯克条约》后俄国退出战争，协约国武装干涉苏俄。"],"6":["垄断资本主义：钢铁、化工、电力和石油工业集中，银行资本与工业资本结合形成金融资本。","战争经济：国家动员工业、粮食、交通和劳动力，战争债务和通货膨胀加剧。","世界经济：资本输出和殖民地原料供应构成帝国主义经济基础。"],"7":["大众社会：工人运动、妇女选举权、城市群众和民族主义动员扩大。","殖民地兵员和劳工被卷入战争，战争加重殖民社会负担。","俄国革命后工农兵苏维埃成为新的政治组织形式。"],"8":["民族主义、社会达尔文主义和帝国主义宣传推动战争。","列宁主义：帝国主义论、先锋队政党和无产阶级专政理论形成。","现代主义：文学、艺术和哲学挑战传统秩序，尼采、弗洛伊德和爱因斯坦影响深远。"],"9":["瓜分非洲：1884—1885年柏林会议后，欧洲列强在二十余年间瓜分非洲。","亚洲觉醒：中国辛亥革命、印度自主自产运动、伊朗立宪革命和青年土耳其革命。","一战后民族自决传播，殖民地民族主义进一步发展。"],"10":["俄国1905年革命和1917年革命推动社会主义从理论走向政权。","德国十一月革命、匈牙利苏维埃共和国和共产国际体现战后革命浪潮。"],"11":["科技：电力、内燃机、飞机、无线电和化学工业改变战争与经济。","科学文化：爱因斯坦相对论、量子论、现代主义艺术和电影兴起。"]},"两战之间与第二次世界大战":{"3":["凡尔赛—华盛顿体系：巴黎和会、国际联盟、华盛顿会议安排战后秩序，但留下民族和殖民地矛盾。","大危机与法西斯：1929年经济危机冲击世界，德国纳粹、意大利法西斯和日本军部扩张。","第二次世界大战：1939年德国入侵波兰，1941年苏德战争和珍珠港事件使战争全球化，1945年轴心国战败。"],"4":["魏玛与纳粹：魏玛共和国在危机中崩溃，希特勒1933年建立独裁。","苏联模式：列宁逝世后斯大林推行五年计划、农业集体化和高度集中的计划经济。","美国新政：罗斯福以国家干预应对大萧条，建立社会保障和金融监管。"],"5":["凡尔赛—华盛顿体系：德国赔款、军备限制和亚太海军比例埋下冲突。","绥靖政策：英法纵容德国吞并奥地利和捷克斯洛伐克，1939年战争爆发。","反法西斯同盟：1942年《联合国家宣言》，开罗、德黑兰、雅尔塔和波茨坦会议安排战争与战后秩序。"],"6":["大萧条：生产过剩、股市崩溃、银行倒闭和失业造成全球经济危机。","战争经济：国家动员工业、实行配给、发展军工和核武器，战后经济重建。","布雷顿森林体系：美元与黄金挂钩，建立国际货币基金组织和世界银行。"],"7":["大萧条社会：失业、贫困、社会动荡和政治极端化。","法西斯与战争：种族主义、排犹、集中营和大规模屠杀造成人道灾难。","战后人口流动：难民、边界变更和城市破坏影响欧洲社会。"],"8":["法西斯主义、共产主义、自由主义和基督教民主等思想竞争。","宣传与文化：广播、电影和政治宣传动员大众，现代主义与流亡文化发展。","战后人权：《世界人权宣言》与联合国机制体现对战争反思。"],"9":["委任统治：国联将德国殖民地和奥斯曼属地交由英法管理。","民族运动：印度国大党、中国革命、阿拉伯民族主义和拉美反帝运动发展。","二战削弱欧洲殖民帝国，为战后去殖民化创造条件。"],"10":["苏联模式：五年计划、集体农庄和计划经济成为社会主义实践样板。","法西斯革命与新政改革体现危机中的不同制度选择。","抵抗运动与反法西斯联盟推动战后民主重建。"],"11":["科技：雷达、喷气机、火箭、计算机、青霉素和原子弹在战争中发展。","史学和艺术：二战史、极权主义研究和战争文学兴起。"]},"冷战、去殖民化与全球化":{"3":["冷战形成：1947年杜鲁门主义、马歇尔计划，1949年北约，1955年华约，德国分裂和柏林危机。","局部战争：朝鲜战争、越南战争、中东战争、阿富汗战争和拉美代理人冲突。","冷战终结：1989年东欧剧变，1991年苏联解体。"],"4":["两大阵营：美国、西欧、日本与苏联、东欧、中国形成对立阵营，非结盟国家另寻道路。","福利国家：西欧扩大社会保障和公共服务，美国形成战后消费社会。","第三世界：印度、印尼、埃及、南斯拉夫等国推动不结盟运动。"],"5":["核威慑：美苏核武库和古巴导弹危机使世界处于核战争边缘。","缓和与对抗：1960年代后期缓和，1970年代赫尔辛基进程，1980年代新冷战和军备竞赛。","联合国与区域组织：联合国、欧共体、东盟、非统和七十七国集团重塑国际关系。"],"6":["布雷顿森林体系：美元、国际货币基金组织、世界银行和关贸总协定建立战后经济秩序。","发展模式：进口替代、出口导向、绿色革命和国企工业化在不同地区展开。","石油危机：1973年石油价格上涨引发滞胀，全球化进入新阶段。"],"7":["消费社会：电视、汽车、郊区和大众文化改变生活方式。","社会运动：民权运动、学生运动、女权运动、环保运动和反战运动兴起。","移民与人口：战后劳动力迁移、城市化和人口增长改变社会结构。"],"8":["冷战意识形态：自由民主、社会主义、反殖民主义和民族主义竞争。","人权与解放神学：联合国人权体系、民权运动和拉美解放神学发展。","后现代主义：文化多元、消费主义和媒介社会挑战宏大叙事。"],"9":["去殖民化：印度、印尼、越南、阿尔及利亚和非洲各国独立。","第三世界：万隆会议、不结盟运动、七十七国集团和非洲统一组织推动南南合作。","新殖民主义：发展中国家在贸易、债务和外资方面仍受制约。"],"10":["社会主义阵营：苏联东欧模式、中国革命和改革、古巴革命影响全球左翼。","福利国家与社会民主：西欧社会民主党扩大福利和劳工权利。","1968年运动：学生、工人和反战力量挑战资本主义与官僚体制。"],"11":["科技：航天、核能、计算机、互联网、避孕药和绿色革命改变世界。","史学：年鉴学派、全球史、新社会史和后殖民研究发展。"]}}</script>
+<script>
+const DS = JSON.parse(document.getElementById('data').textContent);
+const SUPP = JSON.parse(document.getElementById('supp').textContent);
+const GROUPS = DS.groupOrder;
+const GKEY = {"历史主线":"pol","政治与革命":"fro","经济与社会":"eco","思想与外交":"tho","史学与成就":"cul"};
+const GCLS = {"历史主线":"g-pol","政治与革命":"g-fro","经济与社会":"g-eco","思想与外交":"g-tho","史学与成就":"g-cul"};
+const P = DS.periods, COLS = DS.cols;
+const GAPS = [{"cat":"一、来源覆盖核对","items":[{"t":"总表主干","lv":"h","tag":"已并入","merged":true,"d":"世界近现代史大表第2—8行对应前7个阶段，第9行进入历史脉络。"},{"t":"PPT补充","lv":"h","tag":"已完成","merged":true,"d":"第11—25节已按阶段核对，新增内容统一以“补”标记。"},{"t":"亚非拉分表","lv":"h","tag":"已并入","merged":true,"d":"亚非拉分表已按时间嵌入第4—7阶段，同时保留整体阶段特征与区域特征。"},{"t":"1991年以后","lv":"m","tag":"待补","merged":false,"d":"第8阶段主要依据第25节，缺少内容标“补充，待核对”。"}]},{"cat":"二、页面说明","items":[{"t":"分阶段精读","lv":"h","tag":"8阶段","merged":true,"d":"从大航海到当代世界，每阶段按九条主线阅读。"},{"t":"历史脉络","lv":"h","tag":"九张卡","merged":true,"d":"汇总现代史总表的跨阶段演变与逻辑。"}]}];
+const CN = ["一","二","三","四","五","六","七","八","九","十"];
+const N = P.length;
+
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const colByI = i => COLS.find(c => String(c.i)===String(i));
+
+function fmt(text){
+  const lines=(text||"").split("\n"); let html="",inList=false;
+  const close=()=>{ if(inList){html+="</ul>";inList=false;} };
+  for(const raw of lines){
+    const line=raw.trim(); if(!line) continue;
+    if(line.startsWith("【") && line.includes("】")){
+      close(); html+='<h4 class="sec">'+esc(line.slice(1,line.indexOf("】")))+'</h4>';
+      const rest=line.slice(line.indexOf("】")+1).trim(); if(rest) html+='<p class="para">'+esc(rest)+'</p>';
+    } else if(line.startsWith("•")||line.startsWith("·")){
+      if(!inList){ html+='<ul class="bullets">'; inList=true; }
+      let t=line.replace(/^[•·]\s*/,"");
+      const idx=Math.min(...["：",":"].map(c=>{const i=t.indexOf(c);return i<0?1e9:i;}));
+      t = idx<1e9 ? "<b>"+esc(t.slice(0,idx))+"</b>："+esc(t.slice(idx+1)) : esc(t);
+      html+="<li>"+t+"</li>";
+    } else if(line.startsWith("→")){ close(); html+='<div class="flow">'+esc(line.replace(/^→\s*/,""))+'</div>'; }
+    else { close(); html+='<p class="para">'+esc(line)+'</p>'; }
+  }
+  close(); return html;
+}
+function suppOf(pi,key){ const a=(SUPP[P[pi].name]||{})[String(key)]; return a||[]; }
+function fmtSupp(list){
+  if(!list.length) return "";
+  const items=list.map(s=>{
+    const i=s.indexOf("：");
+    const t=i>=0 ? "<b>"+esc(s.slice(0,i))+"</b>："+esc(s.slice(i+1)) : esc(s);
+    return "<li>"+t+"</li>";
+  }).join("");
+  return '<div class="supp"><div class="supp-h">补 充</div><ul>'+items+'</ul></div>';
+}
+
+const mask=document.getElementById("mask"), mt=document.getElementById("mtitle"),
+      mk=document.getElementById("mkicker"), mb=document.getElementById("mbody");
+function openModal(k,t,b){ mk.textContent=k; mt.textContent=t; mb.innerHTML=b; mask.classList.add("on"); mb.scrollTop=0; }
+function closeModal(){ mask.classList.remove("on"); }
+document.getElementById("mx").onclick=closeModal;
+mask.addEventListener("click",e=>{ if(e.target===mask) closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+
+function openNode(pi,ci){
+  const p=P[pi], col=colByI(ci);
+  let body='<div class="lead-in">'+fmt(p.feature)+'</div>'+fmt(p.cells[String(ci)]||"")+fmtSupp(suppOf(pi,ci));
+  openModal(p.name+" ｜ "+p.span, col.title, body);
+}
+function openTheme(ci){
+  const col=colByI(ci);
+  let body='<p class="note">按时间顺序看「'+esc(col.title)+'」的跨阶段演变。</p>';
+  body+=P.map((p,i)=>({p,i})).filter(x=>x.p.cells[String(ci)]||suppOf(x.i,ci).length)
+      .map(x=>'<div class="tl-item"><div class="when">'+esc(x.p.name)+'<span class="span">'+esc(x.p.span)+'</span></div>'
+             +fmt(x.p.cells[String(ci)]||"")+fmtSupp(suppOf(x.i,ci))+'</div>').join('');
+  if(DS.cross[String(ci)]) body+='<h4 class="sec">跨阶段脉络梳理</h4>'+fmt(DS.cross[String(ci)]);
+  openModal("专题 · 纵向演变", col.title, body);
+}
+function openMapGallery(p){
+  let body='<div class="mapgrid">'+p.maps.map(m=>'<section class="mapcard"><h4>'+esc(m.title)+'</h4><div class="map-time">'+esc(m.period)+'</div><a href="'+esc(m.src)+'" target="_blank"><img src="'+esc(m.src)+'" alt="'+esc(m.title)+'"></a><p>'+esc(m.note)+'</p></section>').join('')+'</div><p class="note">地图来自本页对应 PPT 原图；点击图片可单独放大查看。</p>';
+  openModal(p.name+' ｜ 历史地图',p.name+' · 地图',body);
+}
+function openPeriod(pi){
+  const p=P[pi];
+  let body='<div class="lead-in">'+fmt(p.feature)+'</div><h4 class="sec">阶段主线</h4>'+fmt(p.events)+fmtSupp(suppOf(pi,"events"));
+  body+='<h4 class="sec">本阶段各专题</h4><div class="jump">'+COLS.map(c=>'<span class="j" data-p="'+pi+'" data-c="'+c.i+'">'+esc(c.title)+'</span>').join('')+'</div>';
+  openModal(p.position+" ｜ "+p.sub, p.name, body);
+  mb.querySelectorAll('.j').forEach(el=>el.onclick=()=>openNode(+el.dataset.p,+el.dataset.c));
+}
+function openGaps(){
+  let body='<p class="note">这里是世界史项目的“来源核对”：总表、PPT 和补充页的覆盖情况都列在这里。带「已并入」的条目已经合并进正文，用“补”标记与原内容区分。</p>';
+  for(const sec of GAPS){
+    body+='<h4 class="sec">'+esc(sec.cat)+'</h4>';
+    for(const it of sec.items)
+      body+='<div class="gapcard"><h4>'+esc(it.t)+'<span class="lv '+it.lv+'">'+esc(it.tag)+'</span></h4><p>'+esc(it.d)+'</p></div>';
+  }
+  openModal("自查补充","可能缺漏的重要考点",body);
+}
+
+/* ======= TREE ======= */
+function buildTree(){
+  document.documentElement.style.setProperty('--ncols', P.length);
+  const tl=document.getElementById("tl");
+  tl.innerHTML='<div class="lead">时间轴</div>'+P.map((p,i)=>'<div class="chip'+(p.isNew?' new':'')+'" data-p="'+i+'"><div class="cn">'+esc(p.name.replace("（补充）",""))+'</div><div class="yr">'+esc(p.span)+'</div></div>').join('');
+  tl.querySelectorAll('.chip').forEach(el=>el.onclick=()=>openPeriod(+el.dataset.p));
+  const map=document.getElementById("map");
+  let m='<div class="row head"><div></div>'+P.map(p=>'<div class="tcell"><b>'+esc(p.name.replace("（补充）",""))+'</b>'+esc(p.span)+'</div>').join('')+'</div>';
+  let count=0;
+  GROUPS.forEach(g=>{
+    const cols=COLS.filter(c=>c.group===g);
+    m+='<div class="row grp '+GCLS[g]+'"><span class="bar"></span>'+esc(g)+'<span class="gi">'+cols.length+' 个专题</span></div>';
+    cols.forEach(c=>{
+      const hint=c.outer&&c.outer!==c.title?'<small>'+esc(c.outer)+'</small>':'';
+      m+='<div class="row trow" data-c="'+c.i+'"><div class="tlabel" data-c="'+c.i+'">'+esc(c.title)+hint+'</div>';
+      P.forEach((p,pi)=>{
+        const has=p.cells[String(c.i)]||suppOf(pi,c.i).length;
+        if(has) count++;
+        const cls='node '+GKEY[g]+(suppOf(pi,c.i).length?' '+'' : '');
+        const style=suppOf(pi,c.i).length?' style="box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--supp);"':'';
+        m+='<div class="ncell"><div class="'+cls+'" data-p="'+pi+'" data-c="'+c.i+'" title="'+esc(p.name+' · '+c.title)+'"'+style+'></div></div>';
+      });
+      m+='</div>';
+    });
+  });
+  map.innerHTML=m; document.getElementById("nCount").textContent=count;
+  map.querySelectorAll('.node').forEach(el=>el.onclick=()=>{
+    map.querySelectorAll('.node.sel').forEach(x=>x.classList.remove('sel'));
+    el.classList.add('sel'); openNode(+el.dataset.p,+el.dataset.c);
+  });
+  map.querySelectorAll('.tlabel').forEach(el=>el.onclick=()=>openTheme(+el.dataset.c));
+}
+
+/* ======= READER ======= */
+const RKEY='sjs-modern-read-v1';
+let readSet=new Set(JSON.parse(localStorage.getItem(RKEY)||"[]"));
+let cur=0, quiz=false;
+const saveRead=()=>localStorage.setItem(RKEY,JSON.stringify([...readSet]));
+
+function renderToc(){
+  const t=document.getElementById("toc");
+  let h='<div class="toc-h">阶段目录<span class="prog">'+readSet.size+' / '+N+' 已读</span></div>';
+  P.forEach((p,i)=>{
+    h+='<div class="item'+(i===cur?' active':'')+(readSet.has(i)?' read':'')+'" data-i="'+i+'">'
+      +'<span class="ck">'+(readSet.has(i)?'✓':'')+'</span><span><b>'+esc(p.name.replace("（补充）",""))
+      +(p.isNew?'<span class="newtag">补</span>':'')+'</b><em>'+esc(p.span)+'</em></span></div>';
+  });
+  h+='<div class="allbtn" id="allBtn">全部标记为已读 / 全部重置</div>';
+  t.innerHTML=h;
+  t.querySelectorAll('.item').forEach(el=>el.onclick=()=>go(+el.dataset.i));
+  document.getElementById("allBtn").onclick=()=>{
+    if(readSet.size===N) readSet.clear(); else P.forEach((_,i)=>readSet.add(i));
+    saveRead(); renderToc(); renderArt();
+  };
+}
+
+function renderArt(){
+  const p=P[cur], art=document.getElementById("art");
+  let h='<div class="art-head">'+(p.isNew?'<span class="ribbon">补充页</span>':'')
+      +'<div class="kicker">'+esc(p.position)+'</div><h2 class="art-title">'+esc(p.name.replace("（补充）",""))+'</h2>'
+      +'<div class="art-span">'+esc(p.span)+(p.sub?' ｜ '+esc(p.sub):'')+'</div>'+(p.note?'<div class="art-note">※ '+esc(p.note)+'</div>':'')+'</div>';
+  if(p.maps&&p.maps.length){h+='<div class="mapbar"><button class="pill" id="mapBtn">🗺 查看历史地图</button><span class="map-meta">'+p.maps.length+' 张地图 · 点击打开</span></div>';}
+  h+='<div class="q-wrap lead-in">'+fmt(p.feature)+'</div>';
+  h+='<div class="blk"><h3 class="blk-h">阶段主线</h3><div class="q-wrap">'+fmt(p.events)+fmtSupp(suppOf(cur,"events"))+'</div></div>';
+  GROUPS.forEach((g,gi)=>{
+    const cols=COLS.filter(c=>c.group===g);
+    const filled=cols.filter(c=>p.cells[String(c.i)]||suppOf(cur,c.i).length);
+    h+='<section class="bigsec '+GCLS[g]+'"><h3 class="bigsec-h"><span class="num">'+CN[gi]+'</span>'+esc(g)+'</h3>';
+    cols.forEach(c=>{
+      const sub=c.outer&&c.outer!==c.title?' <small>'+esc(c.outer)+'</small>':'';
+      if(filled.includes(c)){
+        h+='<div class="topic"><h4 class="topic-h" data-c="'+c.i+'">'+esc(c.title)+sub+'</h4>'
+          +'<div class="q-wrap">'+fmt(p.cells[String(c.i)]||"")+fmtSupp(suppOf(cur,c.i))+'</div></div>';
+      } else {
+        h+='<div class="topic empty"><h4 class="topic-h">'+esc(c.title)+sub+'</h4><p class="para">—</p></div>';
+      }
+    });
+    h+='</section>';
+  });
+  h='<div class="art-body">'+h+'</div>';
+  const done=readSet.has(cur);
+  h+='<div class="readnav">'
+    +(cur>0?'<button class="pill" id="prevBtn">← '+esc(P[cur-1].name.replace("（补充）",""))+'</button>':'<span></span>')
+    +'<div class="spacer"></div><button class="pill '+(done?'done':'')+'" id="doneBtn">'+(done?'✓ 已读':'标记为已读')+'</button><div class="spacer"></div>'
+    +(cur<N-1?'<button class="pill" id="nextBtn">'+esc(P[cur+1].name.replace("（补充）",""))+' →</button>':'<span></span>')+'</div>';
+  art.innerHTML=h;
+  const _v=VIEW()[p.name]; if(_v && art.querySelector('.art-body')) art.querySelector('.art-body').innerHTML=_v;
+  art.querySelectorAll('.topic-h').forEach(el=>el.onclick=()=>{ if(!editing) openTheme(+el.dataset.c); });
+  const mapBtn=document.getElementById('mapBtn'); if(mapBtn) mapBtn.onclick=()=>openMapGallery(p);
+  const pb=document.getElementById("prevBtn"); if(pb) pb.onclick=()=>go(cur-1);
+  const nb=document.getElementById("nextBtn"); if(nb) nb.onclick=()=>go(cur+1);
+  document.getElementById("doneBtn").onclick=()=>{ readSet.has(cur)?readSet.delete(cur):readSet.add(cur); saveRead(); renderToc(); renderArt(); };
+  document.getElementById("rbPos").textContent='第 '+(cur+1)+' / '+N+' 阶段';
+  document.getElementById("rbProg").textContent='已读 '+readSet.size+' / '+N;
+}
+
+/* quiz reveal */
+document.getElementById("art").addEventListener("click",e=>{
+  if(!quiz) return;
+  const w=e.target.closest(".q-wrap"); if(w) w.classList.toggle("revealed");
+});
+function setQuiz(on){
+  quiz=on;
+  document.getElementById("main").classList.toggle("quiz",on);
+  document.querySelectorAll("#modeSeg button").forEach(b=>b.classList.toggle("on",(b.dataset.m==='quiz')===on));
+  if(!on) document.querySelectorAll(".q-wrap.revealed").forEach(x=>x.classList.remove("revealed"));
+}
+document.querySelectorAll("#modeSeg button").forEach(b=>b.onclick=()=>setQuiz(b.dataset.m==='quiz'));
+document.getElementById("expandAll").onclick=()=>document.querySelectorAll(".q-wrap").forEach(x=>x.classList.add("revealed"));
+document.getElementById("collapseAll").onclick=()=>document.querySelectorAll(".q-wrap").forEach(x=>x.classList.remove("revealed"));
+
+const EKEY='sjs-modern-edit-v1';
+let EDIT=JSON.parse(localStorage.getItem(EKEY)||"{}");        /* 本机自己的改动 */
+const RKEY2='sjs-modern-remote-v1';
+let REMOTE=JSON.parse(localStorage.getItem(RKEY2)||"{}");      /* 云端最新快照 */
+const _st=document.getElementById('editstore');
+if(_st){ try{ REMOTE=Object.assign(REMOTE, JSON.parse(_st.textContent)); }catch(e){} }  /* 离线兜底 */
+function VIEW(){ return Object.assign({}, REMOTE, EDIT); }     /* 云端 + 本机，本机优先 */
+function setRemote(o){ if(!o) return; REMOTE=Object.assign(REMOTE, o); try{ localStorage.setItem(RKEY2, JSON.stringify(REMOTE)); }catch(e){} }
+let editing=false, saveT=null;
+function saveEdit(){
+  const b=document.querySelector('#art .art-body');
+  if(!b) return;
+  EDIT[P[cur].name]=b.innerHTML;
+  try{ localStorage.setItem(EKEY, JSON.stringify(EDIT)); }catch(e){}
+  pushToServer();
+}
+let pushT=null;
+function pushToServer(){
+  if(!/^https?:/.test(location.protocol)) return;
+  clearTimeout(pushT);
+  pushT=setTimeout(()=>{
+    fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(EDIT)})
+      .then(r=>{ const s=document.getElementById('saveState'); if(s) s.textContent = r.ok ? '已保存到本地文件 ✓' : '保存失败'; })
+      .catch(()=>{ const s=document.getElementById('saveState'); if(s) s.textContent='保存失败（已存浏览器）'; });
+  },300);
+}
+async function loadServerEdits(){
+  if(!/^https?:/.test(location.protocol)) return;
+  try{
+    const r=await fetch('/api/load');
+    if(!r.ok) return;
+    const o=await r.json();
+    if(o && Object.keys(o).length){
+      EDIT=Object.assign(EDIT,o);
+      document.getElementById('editHint').textContent='（已连接本地文件，改动会自动保存到磁盘）';
+      if(document.getElementById('readView').classList.contains('on')) renderArt();
+    } else {
+      document.getElementById('editHint').textContent='（已连接本地文件，改动会自动保存到磁盘）';
+    }
+  }catch(e){}
+}
+loadServerEdits();
+function setEdit(on){
+  editing=on;
+  if(on && quiz) setQuiz(false);
+  document.getElementById('main').classList.toggle('edit',on);
+  document.getElementById('editBtn').classList.toggle('primary',on);
+  const b=document.querySelector('#art .art-body');
+  if(b){ b.setAttribute('contenteditable', on?'true':'false'); }
+  if(on) b && b.focus();
+}
+document.getElementById('editBtn').onclick=()=>{ if(editing) saveEdit(); setEdit(!editing); };
+document.getElementById('saveBtn').onclick=()=>{ saveEdit(); setEdit(false); renderArt(); };
+document.getElementById('revertBtn').onclick=()=>{ delete EDIT[P[cur].name]; localStorage.setItem(EKEY, JSON.stringify(EDIT)); setEdit(false); renderArt(); };
+function buildExportHTML(){
+  saveEdit();
+  const clone=document.documentElement.cloneNode(true);
+  clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+  clone.querySelectorAll('.q-wrap.revealed').forEach(e=>e.classList.remove('revealed'));
+  let s=clone.querySelector('#editstore');
+  if(!s){ s=document.createElement('script'); s.id='editstore'; s.type='application/json';
+    const d=clone.querySelector('#data'); d.parentNode.insertBefore(s, d); }
+  s.textContent=JSON.stringify(EDIT).replace(/<\//g,'<\\/');
+  return '<!DOCTYPE html>\n'+clone.outerHTML;
+}
+function doExport(){
+  const html=buildExportHTML();
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
+  a.download='世界近现代史知识树-修改版.html';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+document.getElementById('exportBtn').onclick=doExport;
+document.getElementById('art').addEventListener('input',()=>{ if(editing){ clearTimeout(saveT); saveT=setTimeout(saveEdit,600); } });
+document.addEventListener('keydown',e=>{ if(editing && (e.ctrlKey||e.metaKey) && e.key==='s'){ e.preventDefault(); saveEdit(); setEdit(false); renderArt(); } });
+
+function go(i){ if(i<0||i>=N) return; cur=i; renderToc(); renderArt(); document.getElementById("readView").scrollIntoView({behavior:"smooth",block:"start"}); }
+document.addEventListener("keydown",e=>{
+  if(!document.getElementById("readView").classList.contains("on")) return;
+  if(mask.classList.contains("on")) return;
+  if(e.key==="ArrowRight") go(cur+1);
+  if(e.key==="ArrowLeft") go(cur-1);
+});
+
+
+function lineageSummary(text){
+  const lines=(text||"").split("\n").map(x=>x.trim()).filter(Boolean);
+  const arrows=lines.filter(x=>x.startsWith("→"));
+  if(arrows.length){
+    const shown=arrows.slice(0,4).map(x=>x.replace(/^→\s*/,"")).join(" → ");
+    return shown+(arrows.length>4?" → …":"");
+  }
+  const plain=lines.find(x=>!x.startsWith("【"));
+  return plain?plain.slice(0,150):"";
+}
+function buildLineage(){
+  const grid=document.getElementById("lineageGrid");
+  const color={pol:"var(--g-pol)",fro:"var(--g-fro)",eco:"var(--g-eco)",mil:"var(--g-mil)",tho:"var(--g-tho)",cul:"var(--g-cul)"};
+  grid.innerHTML=COLS.map(c=>{
+    const raw=DS.cross[String(c.i)]||"";
+    return '<button class="lineage-card" data-c="'+c.i+'" style="--accent:'+color[GKEY[c.group]]+'">'
+      +'<span class="lc-kicker">'+esc(c.group)+'</span><h3>'+esc(c.title)+'</h3>'
+      +'<p>'+esc(lineageSummary(raw))+'</p><span class="lc-more">查看完整脉络 →</span></button>';
+  }).join("");
+  grid.querySelectorAll(".lineage-card").forEach(el=>el.onclick=()=>openLineage(+el.dataset.c));
+}
+function openLineage(ci){
+  const col=colByI(ci), raw=DS.cross[String(ci)]||"";
+  let body='<p class="note">历史脉络：'+esc(col.title)+'」的演变与逻辑。</p>';
+  body+=fmt(raw);
+  openModal("历史脉络 · 跨阶段演变",col.title,body);
+}
+
+/* ======= SWITCH ======= */
+function switchView(v){
+  const tree=document.getElementById("treeView"), read=document.getElementById("readView"), lineage=document.getElementById("lineageView");
+  document.querySelectorAll("#seg button").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
+  const showRead=v==="read", showLineage=v==="lineage";
+  tree.classList.toggle("off", showRead||showLineage);
+  read.classList.toggle("on", showRead);
+  lineage.classList.toggle("on", showLineage);
+  document.getElementById("searchBox").style.display=(showRead||showLineage)?"none":"";
+  document.getElementById("resetBtn").style.display=(showRead||showLineage)?"none":"";
+  if(showRead){ renderToc(); renderArt(); }
+  if(showLineage){ buildLineage(); }
+}
+document.querySelectorAll("#seg button").forEach(b=>b.onclick=()=>switchView(b.dataset.v));
+
+/* ======= SEARCH ======= */
+const q=document.getElementById("q");
+q.addEventListener("input",()=>{
+  const term=q.value.trim(), map=document.getElementById("map");
+  map.querySelectorAll('.trow').forEach(r=>{ r.classList.remove('hit'); r.querySelectorAll('.node').forEach(n=>n.classList.remove('hl')); });
+  if(!term) return;
+  map.querySelectorAll('.trow').forEach(row=>{
+    const ci=row.dataset.c; let hit=false;
+    P.forEach((p,pi)=>{
+      const v=p.cells[String(ci)]||"";
+      if(v.includes(term)||suppOf(pi,ci).join("").includes(term)||colByI(ci).title.includes(term)||p.name.includes(term)){
+        hit=true; const n=row.querySelector('.node[data-p="'+pi+'"]'); if(n) n.classList.add('hl');
+      }
+    });
+    if(hit) row.classList.add('hit');
+  });
+});
+document.getElementById("resetBtn").onclick=()=>{ q.value=""; q.dispatchEvent(new Event('input')); };
+document.getElementById("gapsBtn").onclick=openGaps;
+
+/* ================= GitHub cloud sync ================= */
+/* 默认仓库：本地文件（file://）打开时也能从云端同步 */
+const DEFAULT_REPO = {owner:"1057u520", repo:"hist-notes-9f3k2", branch:"main", path:"world/edits-world-modern.json"};
+/* 从 GitHub Pages 网址自动认出 用户名/仓库名  */
+function detectRepo(){
+  const h=location.hostname||"";
+  const m=h.match(/^([^.]+)\.github\.io$/i);
+  if(m){
+    const seg=location.pathname.split('/').filter(Boolean);
+    if(seg.length) return {owner:m[1], repo:seg[0]};
+  }
+  return null;
+}
+/* 从各处尝试读取 edits.json */
+async function readRemoteEdits(){
+  const tries=[];
+  tries.push((async()=>{ const r=await fetchTO('./edits-world-modern.json',{cache:'no-store'},8000); if(!r.ok) throw 0; return await r.json(); })());
+  let d = (CLOUD.owner&&CLOUD.repo) ? {owner:CLOUD.owner,repo:CLOUD.repo,branch:CLOUD.branch||'main',path:CLOUD.path||DEFAULT_REPO.path} : (detectRepo()||DEFAULT_REPO);
+  if(d){
+    const br=d.branch||'main', pa=d.path||DEFAULT_REPO.path;
+    tries.push((async()=>{ const r=await fetchTO('https://api.github.com/repos/'+d.owner+'/'+d.repo+'/contents/'+pa+'?ref='+br,{headers:ghHead(),cache:'no-store'},9000); if(!r.ok) throw 0; const j=await r.json(); return JSON.parse(b64dec(j.content)||'{}'); })());
+    tries.push((async()=>{ const r=await fetchTO('https://raw.githubusercontent.com/'+d.owner+'/'+d.repo+'/'+br+'/'+pa,{cache:'no-store'},9000); if(!r.ok) throw 0; return await r.json(); })());
+  }
+  tries.push((async()=>{ const r=await fetchTO('/api/load',{cache:'no-store'},6000); if(!r.ok) throw 0; return await r.json(); })());
+  const res=await Promise.allSettled(tries);
+  let merged=null;
+  for(const x of res){ if(x.status==='fulfilled' && x.value && Object.keys(x.value).length){ merged=Object.assign(merged||{}, x.value); } }
+  return merged;
+}
+/* 打开页面就自动同步一次（不需要配置、不需要 Token） */
+async function autoLoadEdits(){
+  try{
+    const d=detectRepo();
+    if(d && !CLOUD.owner){ CLOUD.owner=d.owner; CLOUD.repo=d.repo; CLOUD.branch=CLOUD.branch||'main'; CLOUD.path=CLOUD.path||DEFAULT_REPO.path;
+      try{ localStorage.setItem(CKEY, JSON.stringify(CLOUD)); }catch(e){} }
+    const remote=await readRemoteEdits();
+    if(remote){
+      setRemote(remote);                        /* 云端快照，本机改动仍优先 */
+      if(document.getElementById('readView').classList.contains('on')) renderArt();
+      const s=document.getElementById('saveState'); if(s) s.textContent='已自动同步云端 '+Object.keys(remote).length+' 页 ✓';
+    }
+  }catch(e){}
+}
+
+const CKEY='sjs-modern-cloud-v1';
+let CLOUD=JSON.parse(localStorage.getItem(CKEY)||"{}");
+function cloudReady(){ return !!(CLOUD.owner && CLOUD.repo); }
+function ghHead(){ const h={'Accept':'application/vnd.github+json'}; if(CLOUD.token) h['Authorization']='Bearer '+CLOUD.token; return h; }
+function b64enc(str){ const b=new TextEncoder().encode(str); let s=''; b.forEach(x=>s+=String.fromCharCode(x)); return btoa(s); }
+function b64dec(b64){ const bin=atob((b64||'').replace(/\s/g,'')); const b=Uint8Array.from(bin,c=>c.charCodeAt(0)); return new TextDecoder().decode(b); }
+function cpath(){ return CLOUD.path || DEFAULT_REPO.path; }
+function fetchTO(url,opts,ms){ ms=ms||15000; const ac=new AbortController(); const id=setTimeout(()=>ac.abort(),ms);
+  return fetch(url,Object.assign({},opts||{},{signal:ac.signal})).finally(()=>clearTimeout(id)); }
+function cstate(msg,ok){ const s=document.getElementById('cState'); if(s){ s.textContent=msg; s.style.color = ok===false?'#c0392b':'#2c7a55'; } }
+async function cloudPull(silent){
+  if(!cloudReady()){ if(!silent) cstate('请先填写用户名与仓库名'); return false; }
+  try{
+    const r=await fetchTO('https://api.github.com/repos/'+CLOUD.owner+'/'+CLOUD.repo+'/contents/'+cpath()+'?ref='+(CLOUD.branch||'main'),{headers:ghHead()});
+    if(r.status===404){ cstate('云端还没有 '+cpath()+'（首次上传后会生成）'); return false; }
+    if(!r.ok){ cstate('拉取失败：HTTP '+r.status); return false; }
+    const j=await r.json();
+    const remote=JSON.parse(b64dec(j.content)||'{}');
+    const n=Object.keys(remote).length;
+    setRemote(remote);
+    if(document.getElementById('readView').classList.contains('on')) renderArt();
+    cstate('已从云端拉取，共 '+n+' 处修改', true);
+    return true;
+  }catch(e){ cstate('拉取失败：'+e.message, false); return false; }
+}
+async function cloudPush(){
+  if(!cloudReady()){ cstate('请先填写用户名与仓库名'); return false; }
+  if(!CLOUD.token){ cstate('上传需要 Token，请填写后保存'); return false; }
+  saveEditLocalOnly();
+  try{
+    const api='https://api.github.com/repos/'+CLOUD.owner+'/'+CLOUD.repo+'/contents/'+cpath();
+    let sha=null;
+    const g=await fetchTO(api+'?ref='+(CLOUD.branch||'main'),{headers:ghHead()});
+    if(g.ok){ const j=await g.json(); sha=j.sha; }
+    const body={ message:'update my edits '+new Date().toLocaleString('zh-CN'), content:b64enc(JSON.stringify(VIEW(),null,0)), branch:(CLOUD.branch||'main') };
+    if(sha) body.sha=sha;
+    const p=await fetchTO(api,{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghHead()),body:JSON.stringify(body)});
+    if(p.ok){ cstate('已上传到云端 ✓（其他电脑刷新即可看到）', true); return true; }
+    const e=await p.json().catch(()=>({}));
+    cstate('上传失败：HTTP '+p.status+' '+(e.message||''), false); return false;
+  }catch(e){ cstate('上传失败：'+e.message, false); return false; }
+}
+function saveEditLocalOnly(){
+  const b=document.querySelector('#art .art-body');
+  if(b) EDIT[P[cur].name]=b.innerHTML;
+  try{ localStorage.setItem(EKEY, JSON.stringify(EDIT)); }catch(e){}
+}
+function openCloud(){
+  const d=detectRepo()||{};
+  document.getElementById('cOwner').value=CLOUD.owner||d.owner||'';
+  document.getElementById('cRepo').value=CLOUD.repo||d.repo||'';
+  document.getElementById('cBranch').value=CLOUD.branch||'main';
+  document.getElementById('cPath').value=CLOUD.path||DEFAULT_REPO.path;
+  document.getElementById('cToken').value=CLOUD.token||'';
+  document.getElementById('cmask').classList.add('on');
+}
+document.getElementById('cloudBtn').onclick=openCloud;
+document.getElementById('cx').onclick=()=>document.getElementById('cmask').classList.remove('on');
+document.getElementById('cmask').addEventListener('click',e=>{ if(e.target.id==='cmask') document.getElementById('cmask').classList.remove('on'); });
+document.getElementById('cSave').onclick=()=>{
+  CLOUD={owner:document.getElementById('cOwner').value.trim(), repo:document.getElementById('cRepo').value.trim(),
+         branch:(document.getElementById('cBranch').value.trim()||'main'), path:(document.getElementById('cPath').value.trim()||DEFAULT_REPO.path),
+         token:document.getElementById('cToken').value.trim()};
+  localStorage.setItem(CKEY, JSON.stringify(CLOUD));
+  if(/^https?:/.test(location.protocol)){
+    fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(CLOUD)})
+      .then(()=>cstate('设置已保存（本机服务已记住，启动时会自动从云端同步）', true))
+      .catch(()=>cstate('设置已保存', true));
+  } else { cstate('设置已保存', true); }
+};
+document.getElementById('cPull').onclick=()=>cloudPull(false);
+document.getElementById('cPush').onclick=()=>cloudPush();
+
+buildTree();
+if(location.protocol !== "file:"){ autoLoadEdits(); }
+if(location.protocol !== "file:" && cloudReady() && CLOUD.token){ cloudPull(true); }
+</script>
+</body>
+</html>
