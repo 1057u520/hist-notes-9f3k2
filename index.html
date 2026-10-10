@@ -606,6 +606,48 @@ document.getElementById("resetBtn").onclick=()=>{ q.value=""; q.dispatchEvent(ne
 document.getElementById("gapsBtn").onclick=openGaps;
 
 /* ================= GitHub cloud sync ================= */
+/* 从 GitHub Pages 网址自动认出 用户名/仓库名  */
+function detectRepo(){
+  const h=location.hostname||"";
+  const m=h.match(/^([^.]+)\.github\.io$/i);
+  if(m){
+    const seg=location.pathname.split('/').filter(Boolean);
+    if(seg.length) return {owner:m[1], repo:seg[0]};
+  }
+  return null;
+}
+/* 从各处尝试读取 edits.json */
+async function readRemoteEdits(){
+  const tries=[];
+  tries.push((async()=>{ const r=await fetchTO('./edits.json',{cache:'no-store'},8000); if(!r.ok) throw 0; return await r.json(); })());
+  let d = (CLOUD.owner&&CLOUD.repo) ? {owner:CLOUD.owner,repo:CLOUD.repo,branch:CLOUD.branch||'main',path:CLOUD.path||'edits.json'} : detectRepo();
+  if(d){
+    const br=d.branch||'main', pa=d.path||'edits.json';
+    tries.push((async()=>{ const r=await fetchTO('https://api.github.com/repos/'+d.owner+'/'+d.repo+'/contents/'+pa+'?ref='+br,{headers:ghHead(),cache:'no-store'},9000); if(!r.ok) throw 0; const j=await r.json(); return JSON.parse(b64dec(j.content)||'{}'); })());
+    tries.push((async()=>{ const r=await fetchTO('https://raw.githubusercontent.com/'+d.owner+'/'+d.repo+'/'+br+'/'+pa,{cache:'no-store'},9000); if(!r.ok) throw 0; return await r.json(); })());
+  }
+  tries.push((async()=>{ const r=await fetchTO('/api/load',{cache:'no-store'},6000); if(!r.ok) throw 0; return await r.json(); })());
+  const res=await Promise.allSettled(tries);
+  let merged=null;
+  for(const x of res){ if(x.status==='fulfilled' && x.value && Object.keys(x.value).length){ merged=Object.assign(merged||{}, x.value); } }
+  return merged;
+}
+/* 打开页面就自动同步一次（不需要配置、不需要 Token） */
+async function autoLoadEdits(){
+  try{
+    const d=detectRepo();
+    if(d && !CLOUD.owner){ CLOUD.owner=d.owner; CLOUD.repo=d.repo; CLOUD.branch=CLOUD.branch||'main'; CLOUD.path=CLOUD.path||'edits.json';
+      try{ localStorage.setItem(CKEY, JSON.stringify(CLOUD)); }catch(e){} }
+    const remote=await readRemoteEdits();
+    if(remote){
+      EDIT=Object.assign({}, remote, EDIT);       /* 本地未上传的改动优先保留 */
+      try{ localStorage.setItem(EKEY, JSON.stringify(EDIT)); }catch(e){}
+      if(document.getElementById('readView').classList.contains('on')) renderArt();
+      const s=document.getElementById('saveState'); if(s) s.textContent='已自动同步云端 '+Object.keys(remote).length+' 页 ✓';
+    }
+  }catch(e){}
+}
+
 const CKEY='zgds-cloud-v1';
 let CLOUD=JSON.parse(localStorage.getItem(CKEY)||"{}");
 function cloudReady(){ return !!(CLOUD.owner && CLOUD.repo); }
@@ -655,8 +697,9 @@ function saveEditLocalOnly(){
   try{ localStorage.setItem(EKEY, JSON.stringify(EDIT)); }catch(e){}
 }
 function openCloud(){
-  document.getElementById('cOwner').value=CLOUD.owner||'';
-  document.getElementById('cRepo').value=CLOUD.repo||'';
+  const d=detectRepo()||{};
+  document.getElementById('cOwner').value=CLOUD.owner||d.owner||'';
+  document.getElementById('cRepo').value=CLOUD.repo||d.repo||'';
   document.getElementById('cBranch').value=CLOUD.branch||'main';
   document.getElementById('cPath').value=CLOUD.path||'edits.json';
   document.getElementById('cToken').value=CLOUD.token||'';
@@ -680,7 +723,8 @@ document.getElementById('cPull').onclick=()=>cloudPull(false);
 document.getElementById('cPush').onclick=()=>cloudPush();
 
 buildTree();
-if(cloudReady()){ cloudPull(true); }
+autoLoadEdits();
+if(cloudReady() && CLOUD.token){ cloudPull(true); }
 </script>
 </body>
 </html>
